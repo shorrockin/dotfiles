@@ -1,0 +1,11 @@
+#!/bin/bash  
+  
+while true  
+do  
+   $@  
+   if [ $? -ne 0 ]  
+   then  
+     echo "Command failed!"  
+     break  
+   fi  
+done

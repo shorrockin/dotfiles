@@ -1,0 +1,19 @@
+#!/bin/bash
+osascript -e 'tell application "Google Chrome"
+  set tabURLs to {}
+  set closedTabs to {}
+  set windowCount to count windows
+  repeat with wIndex from 1 to windowCount
+    set tabCount to count tabs of window wIndex
+    repeat with tIndex from tabCount to 1 by -1
+      set tabURL to URL of tab tIndex of window wIndex
+      if tabURL is in tabURLs then
+        close tab tIndex of window wIndex
+        set end of closedTabs to {wIndex, tIndex}
+      else
+        set end of tabURLs to tabURL
+      end if
+    end repeat
+  end repeat
+  return closedTabs
+end tell'

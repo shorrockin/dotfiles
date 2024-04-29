@@ -1,0 +1,51 @@
+""" sources
+""" - https://towardsdatascience.com/the-essential-ideavim-remaps-291d4cd3971b
+let mapleader=" "
+
+""" Standard
+nnoremap ZZ :q<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>w :action Save<CR>
+nnoremap <leader>so :source ~/.ideavimrc<CR>
+
+""" Code Shortcuts
+nnoremap <leader>ff :action GotoClass<CR>
+nnoremap <leader>fs :action FileStructurePopup<CR>
+nnoremap <leader>fa :action GotoAction<CR>
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+nnoremap <leader>rn :action RenameElement<CR>
+nnoremap <leader>fa :action GotoAction<CR>
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap H :action QuickJavaDoc<CR>
+nnoremap <C-o> :action Back<CR>
+nnoremap <C-i> :action Forward<CR>
+
+""" Harpoon Remaps
+nnoremap <C-e> :action ShowHarpoon<CR>
+nnoremap <leader>a :action AddToHarpoon<CR>
+nnoremap <C-f> :action GotoHarpoon1<CR>
+nnoremap <C-g> :action GotoHarpoon2<CR>
+nnoremap <C-c> :action GotoHarpoon3<CR>
+nnoremap <C-r> :action GotoHarpoon4<CR>
+nnoremap <C-l> :action GotoHarpoon5<CR>
+
+"""" Splits
+noremap <leader>_ :vsplit<CR>
+noremap <leader>- :split<CR>
+
+""" Movement
+noremap <C-h> <C-w>h
+noremap <C-l> <C-w>l
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+
+""" search options for /, ?, etc
+:set incsearch
+:set hlsearch
+:set ignorecase smartcase
+
+""" use the system clipboard
+set clipboard+=unnamed
+set clipboard+=ideaput
+
+

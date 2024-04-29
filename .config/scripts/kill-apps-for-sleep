@@ -1,0 +1,5 @@
+#!/bin/bash
+osascript -e 'quit app "IntelliJ IDEA"'
+osascript -e 'quit app "zoom.us"'
+osascript -e 'quit app "Camo Studio"'
+

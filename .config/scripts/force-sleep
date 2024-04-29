@@ -1,0 +1,24 @@
+#!/bin/bash  
+
+echo "Killing Problematic Apps"
+/Users/cs/personal/dot.zsh/scripts/kill-apps-for-sleep
+
+echo "$(date +"%H:%M:%S") preparing for sleep, tailing last 5 wake requests"
+pmset -g log | grep "Wake Requests" | tail -n 5
+sleep 5
+
+echo "$(date +"%H:%M:%S") cancelling everything scheduled"
+sudo pmset -b tcpkeepalive 0
+sudo pmset -a ttyskeepawake 0
+sudo pmset -a sleep 1 disablesleep 0
+sudo pmset schedule cancelall 
+
+echo "$(date +"%H:%M:%S") listing scheduled events, this should now be empty"
+pmset -g sched
+
+echo "$(date +"%H:%M:%S") putting computer to sleep, (press a button to continue, after waking)"
+pmset sleepnow
+
+read -n 1
+echo "$(date +"%H:%M:%S") computer awake, tailing last 5 wake requests"
+pmset -g log | grep "Wake Requests" | tail -n 5

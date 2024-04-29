@@ -1,0 +1,32 @@
+#!/bin/bash
+  
+# Store the command as a variable  
+command_to_run="$*"  
+  
+# Function to read user input  
+get_input() {  
+  while true; do  
+    read -sn 1 -p "Press anything to repeat command or 'q' to quit:" user_input  
+    echo ""
+    if [ "$user_input" == "q" ] || [ "$user-input" == "Q" ]; then
+        return 1;
+    fi
+    return 0;
+  done  
+}  
+
+# Main loop  
+while true; do  
+  # Execute the command  
+  clear
+  echo "Executing: $command_to_run"  
+  eval "$command_to_run"  
+  
+  # Get user input  
+  if get_input; then  
+    continue  
+  else  
+    echo "Exiting."  
+    break  
+  fi  
+done  
