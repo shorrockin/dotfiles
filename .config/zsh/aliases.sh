@@ -1,4 +1,7 @@
-## Command Aliases
+# on linux, use batcat instead of bat
+[[ ! -f /usr/bin/batcat ]] || alias bat='batcat'
+
+## other common aliases
 alias vim='nvim -p'
 alias vi='nvim -p'
 alias l='ls -lFh'     #size,show type,human readable
