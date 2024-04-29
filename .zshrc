@@ -30,12 +30,6 @@ do
     source "$file"
 done
 
-# https://github.com/ajeetdsouza/zoxide, need to cleanup how this is aliased
-if command -v z > /dev/null 2>&1; then
-    eval "$(zoxide init zsh)"
-    alias cd=z
-fi
-
 # This loads nvm if it exists and/is necessary
 [ -s $HOME/.nvm/nvm.sh ] && . $HOME/.nvm/nvm.sh 
 
