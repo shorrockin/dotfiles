@@ -27,6 +27,9 @@ lsp_zero.format_on_save({
     }
 })
 
+-- fix undefined global 'vim' when editing lua vim configs
+require('lspconfig').lua_ls.setup(lsp_zero.nvim_lua_ls())
+
 lsp_zero.configure("yamlls", {
     settings = {
         yaml = {
@@ -43,23 +46,13 @@ require('mason-lspconfig').setup({
     },
 })
 
+
 --[[
 local lsp = require('lsp-zero')
 
 lsp.preset("recommended")
 lsp.ensure_installed({
     'rust_analyzer'
-})
-
--- Fix Undefined global 'vim' when editing vim files
-lsp.configure('lua_ls', {
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
-        }
-    }
 })
 
 lsp.configure('rust_analyzer', {
