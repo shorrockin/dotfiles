@@ -127,5 +127,15 @@ local plugins = {
     'christoomey/vim-tmux-navigator',
 }
 
+-- conditionally try to load our private plugins allowing non-pulic modules
+-- to be bootstrapped if it's defined
+local ok, module = pcall(require, "private.plugins")
+if ok then
+    local private_plugins = module.plugins()
+    for idx, plugin in ipairs(private_plugins) do
+        table.insert(plugins, plugin)
+    end
+end
+
 local opts = {}
 require("lazy").setup(plugins, opts)
