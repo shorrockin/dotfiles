@@ -3,6 +3,23 @@ local map = function(keys, func, desc, mode)
     vim.keymap.set(mode, keys, func, { desc = 'Telescope: ' .. desc })
 end
 
+require("telescope").setup {
+    defaults = {
+        file_ignore_patterns = { "^.git/", "^node_modules/", "^vendor/" },
+    },
+    pickers = {
+        find_files = {
+            hidden = true
+        },
+        grep_string = {
+            additional_args = { "--hidden" }
+        },
+        live_grep = {
+            additional_args = { "--hidden" }
+        },
+    },
+}
+
 local telescope = require('telescope.builtin')
 map('<leader>ff', telescope.find_files, '[F]ind [f]iles in the project')
 map('<leader>fo', telescope.oldfiles, '[F]ind in [o]ld files')
