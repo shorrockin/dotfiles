@@ -24,7 +24,8 @@ require("telescope").setup {
 pcall(require("telescope").load_extension, "fzf")
 
 local telescope = require('telescope.builtin')
-map('<leader>ff', telescope.find_files, '[F]ind [f]iles in the project')
+-- map('<leader>ff', telescope.find_files, '[F]ind [f]iles in the project')
+map('<leader>ff', require('fzf-lua').files, '[F]ind [F]iles')
 map('<leader>fo', telescope.oldfiles, '[F]ind in [o]ld files')
 map('<leader>fg', telescope.live_grep, '[F]ind by [g]rep')
 map('<leader>fp', telescope.grep_string, '[F]ind string in [p]roject')
