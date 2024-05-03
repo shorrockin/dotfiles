@@ -1,4 +1,4 @@
-# Setup fzf
+# Setup fzf on osx
 # ---------
 if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
   PATH="${PATH:+${PATH}:}/opt/homebrew/opt/fzf/bin"
@@ -11,3 +11,10 @@ if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
   # ------------
   source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
 fi
+
+# Setup fzf on linux via git install
+if [[ ! "$PATH" == */home/$USER/.fzf/bin* ]]; then
+    PATH="${PATH:+${PATH}:}/home/$USER/.fzf/bin"
+    eval "$(fzf --zsh)"
+fi
+
