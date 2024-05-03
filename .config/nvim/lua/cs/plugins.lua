@@ -156,7 +156,7 @@ local plugins = {
 local ok, module = pcall(require, "private.plugins")
 if ok then
     local private_plugins = module.plugins()
-    for idx, plugin in ipairs(private_plugins) do
+    for _, plugin in ipairs(private_plugins) do
         table.insert(plugins, plugin)
     end
 end

@@ -10,7 +10,8 @@ vim.g.mapleader = ' '
 map('<leader>w', vim.cmd.write, '[W]rite')
 
 -- project view, opens upfile selection
-map('<leader>vp', vim.cmd.NvimTreeToggle, '[V]iew [P]rojet')
+map('<leader>tp', vim.cmd.NvimTreeToggle, '[T]oggle [P]rojet')
+map('<leader>tf', vim.cmd.NvimTreeFindFile, '[T]oggle Project [F]ile')
 
 -- half page jumping keeps cursor in the middle, less dissorienting
 map('<C-d>', '<C-d>zz', 'Page [D]own')
@@ -47,7 +48,7 @@ map('<leader>sc', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], '[S]ub
 map('<leader>x', '<cmd>!chmod +x %<CR>', 'Make File E[x]ecutable')
 
 -- toggles trouble buffer at the bottom of the screen
-map('<leader>tt', vim.cmd.TroubleToggle, '[T]rouble [T]oggle Drawer')
+map('<leader>tt', vim.cmd.TroubleToggle, '[T]oggle [T]rouble Drawer')
 
 -- toggles spell check on/off
 map('<leader>ts', function() vim.opt.spell = not (vim.opt.spell:get()) end, 'Toggle [T]oggle [S]pell')
