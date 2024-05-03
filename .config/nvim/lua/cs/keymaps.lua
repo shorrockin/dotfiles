@@ -62,11 +62,4 @@ map('<leader>p', [['_dP]], 'Paste Over Selection', 'x')
 
 -- redetects a file type for the open file, little bit of a hack but new files often go undetected,
 -- unsure why
--- map('<leader>d', ":filetype detect<CR>", '[D]etect filetype')
-
--- This sets up <leader>es to evaluate the currently selection lua code
-map('<leader>es', function()
-    local lines = vim.api.nvim_buf_get_lines(0, vim.fn.line("'<") - 1, vim.fn.line("'>"), false)
-    local code = table.concat(lines, '\n')
-    loadstring(code)()
-end, '[E]valuate Lua [S]election', { 'n', 'v' })
+-- map('<leader>d'cc> ":filetype detect<CR>", '[D]etect filetype')
