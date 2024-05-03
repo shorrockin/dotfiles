@@ -60,6 +60,9 @@ map('K', ":m '<-2<CR>gv=gv", 'Move Selection Up', 'v')
 -- while maintaining the contents on that register
 map('<leader>p', [['_dP]], 'Paste Over Selection', 'x')
 
+-- closes the current buffer, and window, and opens the previous buffer
+map('<leader>q', '<cmd>bp<bar>bd #<CR>', '[Q]uit Buffer')
+
 -- redetects a file type for the open file, little bit of a hack but new files often go undetected,
 -- unsure why
 -- map('<leader>d'cc> ":filetype detect<CR>", '[D]etect filetype')
