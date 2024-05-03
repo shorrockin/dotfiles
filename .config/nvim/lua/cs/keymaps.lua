@@ -10,7 +10,7 @@ vim.g.mapleader = ' '
 map('<leader>w', vim.cmd.write, '[W]rite')
 
 -- project view, opens upfile selection
-map('<leader>pv', vim.cmd.NvimTreeToggle, '[P]roject [V]iew')
+map('<leader>vp', vim.cmd.NvimTreeToggle, '[V]iew [P]rojet')
 
 -- half page jumping keeps cursor in the middle, less dissorienting
 map('<C-d>', '<C-d>zz', 'Page [D]own')
@@ -64,6 +64,7 @@ map('<leader>p', [['_dP]], 'Paste Over Selection', 'x')
 map('<leader>q', '<cmd>bp<bar>bd #<CR>', '[Q]uit Buffer')
 map('<leader>n', '<cmd>bn<CR>', '[N]ext Buffer')
 map('<leader>p', '<cmd>bp<CR>', '[P]revious Buffer')
+map('<leader>P', '<cmd>b#<CR>', '[P]revious Buffer Opened')
 
 -- redetects a file type for the open file, little bit of a hack but new files often go undetected,
 -- unsure why
