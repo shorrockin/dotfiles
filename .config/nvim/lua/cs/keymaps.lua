@@ -62,6 +62,8 @@ map('<leader>p', [['_dP]], 'Paste Over Selection', 'x')
 
 -- closes the current buffer, and window, and opens the previous buffer
 map('<leader>q', '<cmd>bp<bar>bd #<CR>', '[Q]uit Buffer')
+map('<leader>n', '<cmd>bn<CR>', '[N]ext Buffer')
+map('<leader>p', '<cmd>bp<CR>', '[P]revious Buffer')
 
 -- redetects a file type for the open file, little bit of a hack but new files often go undetected,
 -- unsure why
