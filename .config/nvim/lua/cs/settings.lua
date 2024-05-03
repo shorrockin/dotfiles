@@ -21,14 +21,38 @@ vim.opt.undofile = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
+-- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
--- faster responsiveness
-vim.opt.updatetime = 50
+-- decreases update time which is time to write to swap
+vim.opt.updatetime = 250
+
+-- decrease mapped sequence wait time, displays which-key popup sooner
+vim.opt.timeoutlen = 300
+
+-- enable mouse mode, useful for resizing
+vim.opt.mouse = 'a'
+
+-- don't show the mode, since it's already in the status line
+vim.opt.showmode = false
+
+-- Sync clipboard between OS and Neovim.
+--  Remove this option if you want your OS clipboard to remain independent.
+--  See `:help 'clipboard'`
+vim.opt.clipboard = 'unnamedplus'
+
+-- preview substitutions live as you type
+vim.opt.inccommand = 'split'
+
+-- show which line your cursor is on
+vim.opt.cursorline = true
 
 -- displays a colored bar at 80 characters
 -- vim.opt.colorcolumn = "80"

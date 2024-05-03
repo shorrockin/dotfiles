@@ -6,5 +6,10 @@ vim.opt.termguicolors = true
 
 -- empty setup using defaults
 require("nvim-tree").setup({
-    filters = { custom = { "^.git$" } }
+    filters = { custom = { "^.git$" } },
+    update_focused_file = {
+        enable = true,
+        update_cwd = true,
+        ignore_list = {},
+    }
 })

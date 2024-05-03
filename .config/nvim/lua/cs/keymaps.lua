@@ -12,6 +12,7 @@ map('<leader>w', vim.cmd.write, '[W]rite')
 -- project view, opens upfile selection
 map('<leader>tp', vim.cmd.NvimTreeToggle, '[T]oggle [P]rojet')
 map('<leader>tf', vim.cmd.NvimTreeFindFile, '[T]oggle Project [F]ile')
+map('<leader>ct', vim.cmd.NvimTreeCollapse, '[C]ollapse [T]ree')
 
 -- half page jumping keeps cursor in the middle, less dissorienting
 map('<C-d>', '<C-d>zz', 'Page [D]own')
