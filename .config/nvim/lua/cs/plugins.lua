@@ -204,9 +204,6 @@ local plugins = {
     -- Tree view: https://github.com/nvim-tree/nvim-tree.lua
     'nvim-tree/nvim-tree.lua',
 
-    -- Harpoon: markers, quickly jump between files
-    'theprimeagen/harpoon',
-
     -- Undotree: visually see history of a file, branch, etc, bound to leader-u
     'mbbill/undotree',
 
@@ -222,6 +219,8 @@ local plugins = {
     -- Slueth: https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
     -- adjusts tab widths etc based on file heuristics
     'tpope/vim-sleuth',
+
+    { import = 'plugins' },
 }
 
 -- conditionally try to load our private plugins allowing non-pulic modules
