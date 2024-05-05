@@ -34,7 +34,11 @@ vim.opt.isfname:append("@-@")
 -- decreases update time which is time to write to swap
 vim.opt.updatetime = 250
 
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
+
 -- decrease mapped sequence wait time, displays which-key popup sooner
+vim.o.timeout = true
 vim.opt.timeoutlen = 300
 
 -- enable mouse mode, useful for resizing

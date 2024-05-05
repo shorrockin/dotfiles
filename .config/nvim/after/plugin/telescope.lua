@@ -22,6 +22,7 @@ require("telescope").setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
+pcall(require('telescope').load_extension, 'ui-select')
 
 local telescope = require('telescope.builtin')
 -- map('<leader>ff', telescope.find_files, '[F]ind [f]iles in the project')
@@ -38,3 +39,19 @@ map('<leader>fa', telescope.commands, '[F]ind command [a]action')
 map('<leader>fm', telescope.marks, '[F]ind by [m]arks')
 map('<leader>fj', telescope.jumplist, '[F]ind by [j]umplist')
 map('<leader>sp', telescope.spell_suggest, '[S]pell [c]heck')
+map('<leader>fd', telescope.diagnostics, '[F]ind [d]iagnostics')
+
+-- fuzzy search current buffer using telescope with customized ui
+map('<leader>/', function()
+    -- You can pass additional configuration to Telescope to change the theme, layout, etc.
+    telescope.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        winblend = 10,
+        previewer = false,
+    })
+end, '[/] Fuzzily search in current buffer')
+
+-- shortcut for searching your Neovim configuration files, handy for quick changes
+-- or looking up to see how things are configured from a separate project
+map('<leader>fn', function()
+    telescope.find_files { cwd = vim.fn.stdpath 'config' }
+end, '[F]ind [N]eovim files')

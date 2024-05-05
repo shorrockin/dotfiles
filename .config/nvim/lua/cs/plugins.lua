@@ -15,11 +15,22 @@ local plugins = {
     -- Telescope: fuzzy finder: https://github.com/nvim-telescope/telescope.nvim
     {
         'nvim-telescope/telescope.nvim',
+        event = 'VimEnter',
         tag = '0.1.4',
         dependencies = {
             { 'nvim-lua/plenary.nvim' },
+
             -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-            { "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
+                cond = vim.fn.executable("make") == 1
+            },
+            -- allows neovim core to use telescope picker
+            { 'nvim-telescope/telescope-ui-select.nvim' },
+
+            -- Useful for getting pretty icons, but requires a Nerd Font.
+            { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
         }
     },
 
@@ -91,17 +102,22 @@ local plugins = {
     -- Gitsigns: https://github.com/lewis6991/gitsigns.nvim - visual git indicators
     {
         'lewis6991/gitsigns.nvim',
-        config = function()
-            require('gitsigns').setup()
-        end
+        opts = {
+            signs = {
+                add = { text = '+' },
+                change = { text = '~' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~' },
+            },
+        }
     },
 
     -- Whichkey: https://github.com/folke/which-key.nvim - autocomplete key suggestions
     {
         "folke/which-key.nvim",
+        event = 'VimEnter', -- load after vim has started, speeds up load times
         config = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
             require("which-key").setup {
                 -- your configuration comes here
                 -- or leave it empty to use the default settings
@@ -127,6 +143,17 @@ local plugins = {
         opts = {},
     },
 
+    -- Comment: https://github.com/numToStr/Comment.nvim
+    -- comment out lines with gcc, or visual selection with gc
+    -- gcc: comment out line
+    -- gc: comment out visual selection
+    {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end,
+    },
+
     -- Tree view: https://github.com/nvim-tree/nvim-tree.lua
     'nvim-tree/nvim-tree.lua',
 
@@ -150,6 +177,10 @@ local plugins = {
 
     -- Allows for tmux and vim panes to use ctrl-[direction] keys interchangably
     'christoomey/vim-tmux-navigator',
+
+    -- Slueth: https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+    -- adjusts tab widths etc based on file heuristics
+    'tpope/vim-sleuth',
 }
 
 -- conditionally try to load our private plugins allowing non-pulic modules
