@@ -37,8 +37,8 @@ local plugins = {
         }
     },
 
+    -- Fuzzy finder for files: https://github.com/ibhagwan/fzf-lua
     {
-        -- Fuzzy finder for files: https://github.com/ibhagwan/fzf-lua
         "ibhagwan/fzf-lua",
         opts = {
             files = { previewer = false },
@@ -60,6 +60,7 @@ local plugins = {
     -- Color Scheme: https://github.com/catppuccin/nvim
     {
         'catppuccin/nvim',
+        priority = 1000, -- load this before all the other start plugins
         name = 'catppuccin',
         config = function()
             vim.cmd('colorscheme catppuccin')
@@ -211,9 +212,6 @@ local plugins = {
 
     -- Fugitive: git client, bind to gs (git-status): https://github.com/tpope/vim-fugitive
     'tpope/vim-fugitive',
-
-    -- Sneak: easy motion with s key. Maybe remove in the future, not used much
-    'justinmk/vim-sneak',
 
     -- Google copilot
     'github/copilot.vim',
