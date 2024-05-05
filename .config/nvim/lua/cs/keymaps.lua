@@ -68,6 +68,8 @@ map('<leader>n', '<cmd>bn<CR>', '[N]ext Buffer')
 map('<leader>p', '<cmd>bp<CR>', '[P]revious Buffer')
 map('<leader>P', '<cmd>b#<CR>', '[P]revious Buffer Opened')
 
--- redetects a file type for the open file, little bit of a hack but new files often go undetected,
--- unsure why
--- map('<leader>d'cc> ":filetype detect<CR>", '[D]etect filetype')
+-- disables arrow keys in normal mode, form better habits
+map('<left>', '<cmd>echo "Use h to move!!"<CR>', '<left> Arrow Key Warning')
+map('<right>', '<cmd>echo "Use l to move!!"<CR>', '<right> Arrow Key Warning')
+map('<up>', '<cmd>echo "Use k to move!!"<CR>', '<up> Arrow Key Warning')
+map('<down>', '<cmd>echo "Use j to move!!"<CR>', '<down> Arrow Key Warning')
