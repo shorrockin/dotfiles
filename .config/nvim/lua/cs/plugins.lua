@@ -182,9 +182,6 @@ local plugins = {
     -- Undotree: visually see history of a file, branch, etc, bound to leader-u
     'mbbill/undotree',
 
-    -- Fugitive: git client, bind to gs (git-status): https://github.com/tpope/vim-fugitive
-    'tpope/vim-fugitive',
-
     -- Google copilot
     'github/copilot.vim',
 
