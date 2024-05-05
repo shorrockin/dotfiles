@@ -42,15 +42,6 @@ local plugins = {
         end
     },
 
-    -- Treesitter: language parsing, highlighting, etc
-    {
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate'
-    },
-
-    -- Treesitter: context of current method
-    'nvim-treesitter/nvim-treesitter-context',
-
     -- LSP Zero: easy lsp setup: https://github.com/VonHeikemen/lsp-zero.nvim
     {
         'VonHeikemen/lsp-zero.nvim',
@@ -171,9 +162,6 @@ local plugins = {
 
     -- Tree view: https://github.com/nvim-tree/nvim-tree.lua
     'nvim-tree/nvim-tree.lua',
-
-    -- Undotree: visually see history of a file, branch, etc, bound to leader-u
-    'mbbill/undotree',
 
     -- Google copilot
     'github/copilot.vim',
