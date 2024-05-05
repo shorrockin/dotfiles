@@ -12,31 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-    -- Telescope: fuzzy finder: https://github.com/nvim-telescope/telescope.nvim
-    {
-        'nvim-telescope/telescope.nvim',
-        event = 'VimEnter',
-        tag = '0.1.4',
-        dependencies = {
-            { 'nvim-lua/plenary.nvim' },
-
-            -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "make",
-                cond = vim.fn.executable("make") == 1
-            },
-            -- allows neovim core to use telescope picker
-            { 'nvim-telescope/telescope-ui-select.nvim' },
-
-            -- Useful for getting pretty icons, but requires a Nerd Font.
-            {
-                'nvim-tree/nvim-web-devicons',
-                enabled = vim.g.have_nerd_font
-            },
-        }
-    },
-
     -- Fuzzy finder for files: https://github.com/ibhagwan/fzf-lua
     {
         "ibhagwan/fzf-lua",
