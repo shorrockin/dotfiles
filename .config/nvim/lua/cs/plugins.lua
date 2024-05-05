@@ -171,7 +171,6 @@ local plugins = {
         'echasnovski/mini.nvim',
         config = function()
             -- Better Around/Inside textobjects
-            --
             -- Examples:
             --  - va)  - [V]isually select [A]round [)]paren
             --  - yinq - [Y]ank [I]nside [N]ext [']quote
@@ -179,19 +178,30 @@ local plugins = {
             require('mini.ai').setup { n_lines = 500 }
 
             -- Add/delete/replace surroundings (brackets, quotes, etc.)
-            --
-            -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-            -- - sd'   - [S]urround [D]elete [']quotes
-            -- - sr)'  - [S]urround [R]eplace [)] [']
+            -- Examples:
+            --  - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+            --  - sd'   - [S]urround [D]elete [']quotes
+            --  - sr)'  - [S]urround [R]eplace [)] [']
             require('mini.surround').setup()
         end,
     },
 
+    -- LuaLine: https://github.com/nvim-lualine/lualine.nvim - status line
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            require('lualine').setup {
+                options = {
+                    theme = "catppuccin"
+                    -- ... the rest of your lualine config
+                }
+            }
+        end
+    },
+
     -- Tree view: https://github.com/nvim-tree/nvim-tree.lua
     'nvim-tree/nvim-tree.lua',
-
-    -- Feline: status bar: https://github.com/famiu/feline.nvim
-    'feline-nvim/feline.nvim',
 
     -- Harpoon: markers, quickly jump between files
     'theprimeagen/harpoon',
