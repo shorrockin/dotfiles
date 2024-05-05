@@ -115,13 +115,6 @@ local plugins = {
         end,
     },
 
-    -- Indentation Guides: https://github.com/lukas-reineke/indent-blankline.nvim
-    {
-        'lukas-reineke/indent-blankline.nvim',
-        main = 'ibl',
-        opts = {},
-    },
-
     -- Comment: https://github.com/numToStr/Comment.nvim
     -- comment out lines with gcc, or visual selection with gc
     -- gcc: comment out line
