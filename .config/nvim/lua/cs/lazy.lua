@@ -42,20 +42,6 @@ local plugins = {
         end
     },
 
-    -- LSP Zero: easy lsp setup: https://github.com/VonHeikemen/lsp-zero.nvim
-    {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v3.x',
-        dependencies = {
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'neovim/nvim-lspconfig' },
-            { 'hrsh7th/cmp-nvim-lsp' },
-            { 'hrsh7th/nvim-cmp' },
-            { 'L3MON4D3/LuaSnip' },
-        }
-    },
-
     -- Trouble: show error messages in gutter https://github.com/folke/trouble.nvim
     {
         "folke/trouble.nvim",
