@@ -3,7 +3,6 @@ return {
     -- marks in the gutter
     "kshenoy/vim-signature",
     config = function()
-        -- binds <leader>cam to clear all marks
         vim.keymap.set('n', '<leader>tm', vim.cmd.SignatureToggle, { desc = 'Signature: [T]oggle All [M]arks' })
         vim.keymap.set('n', '<leader>dam', ":delmarks!<CR>", { desc = 'Signature: [D]elete [A]ll [M]arks' })
     end
