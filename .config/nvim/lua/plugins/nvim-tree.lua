@@ -10,6 +10,9 @@ return {
 
         -- empty setup using defaults
         require("nvim-tree").setup({
+            view = {
+                side = "right",
+            },
             filters = { custom = { "^.git$" } },
             update_focused_file = {
                 enable = true,
