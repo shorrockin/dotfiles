@@ -21,5 +21,10 @@ return {
                 ignore_list = {},
             }
         })
+
+        -- keymaps
+        vim.keymap.set('n', '<leader>tp', vim.cmd.NvimTreeToggle, { desc = 'NvimTree: [T]oggle [P]roject' })
+        vim.keymap.set('n', '<leader>tf', vim.cmd.NvimTreeFindFile, { desc = 'NvimTree: [T]oggle [F]ile' })
+        vim.keymap.set('n', '<leader>ct', vim.cmd.NvimTreeCollapse, { desc = 'NvimTree: [C]ollapse [T]ree' })
     end
 }
