@@ -11,8 +11,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- conditionally try to load our private module allowing non-pulic modules
--- to be bootstrapped if it's defined
-pcall(require, "private")
+-- monkey patch spawn lazy command to avoid system level git config,
+-- useful when the system might be configured in a way where we cannot
+-- access public git repos
+local lazy = require("lazy") -- first require lazy to ensure the vim.uv shim is applied
 
-require("lazy").setup("plugins", {})
+local spawn = require("lazy.manage.process").spawn
+require("lazy.manage.process").spawn = function(cmd, opts)
+    opts = opts or {}
+    opts.env = vim.tbl_extend("force", opts.env or {}, { GIT_CONFIG_NOSYSTEM = "1" })
+    return spawn(cmd, opts)
+end
+
+lazy.setup("plugins", {})
