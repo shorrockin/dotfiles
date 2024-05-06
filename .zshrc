@@ -42,6 +42,9 @@ done
 # directory containing custom scripts across our different git stow'd repos
 export PATH="$PATH:$HOME/.config/scripts"
 
+# enables vim-esque bindings for editing the current command
+bindkey -v
+
 # START - Managed by chef cookbook stripe_cpe_bin
 alias tc='/usr/local/stripe/bin/test_cookbook'
 alias cz='/usr/local/stripe/bin/chef-zero'

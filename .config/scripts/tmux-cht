@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
+
 selected=`cat ~/.tmux-cht-languages ~/.tmux-cht-command | fzf`
 if [[ -z $selected ]]; then
     exit 0
 fi
 
-read -p "Enter Query: " query
+echo "For the context of '$selected'..."
+read -p "Enter your query: " query
 query=`echo $query | tr ' ' '+'`
 
-if grep -qs "$selected" ~/.tmux-cht-languages; then
-    url="cht.sh/$selected/$query"
+if [ "$selected" == "other" ]; then
+    url="http://cht.sh/$query"
+elif grep -qs "$selected" ~/.tmux-cht-languages; then
+    url="http://cht.sh/$selected/$query"
 else
-    url="cht.sh/$selected~$query"
+    url="http://cht.sh/$selected~$query"
 fi
 
-result=`curl -s $url`
-tmux neww -n $url bash -c "echo \"$result\" | less & while [ : ]; do sleep 1; done"
+tmux neww -n $url bash -c "printf \"url: $url\\n\\n\"; curl -s $url | less; while [ : ]; do sleep 1; done"
