@@ -11,7 +11,8 @@ return {
         -- empty setup using defaults
         require("nvim-tree").setup({
             view = {
-                side = "right",
+                side = "left",
+                width = {max = "30%"}, -- indicates dynamically sized
             },
             filters = { custom = { "^.git$" } },
             update_focused_file = {
