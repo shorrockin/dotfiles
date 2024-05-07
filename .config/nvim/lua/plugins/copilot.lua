@@ -1,4 +1,4 @@
 return {
-    -- Google copilot
-    'github/copilot.vim',
+	-- Google copilot
+	"github/copilot.vim",
 }

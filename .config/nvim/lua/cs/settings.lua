@@ -42,7 +42,7 @@ vim.o.timeout = true
 vim.opt.timeoutlen = 300
 
 -- enable mouse mode, useful for resizing
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 -- don't show the mode, since it's already in the status line
 vim.opt.showmode = false
@@ -54,7 +54,7 @@ vim.opt.showmode = false
 -- vim.opt.clipboard = 'unnamedplus'
 
 -- preview substitutions live as you type
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- show which line your cursor is on
 vim.opt.cursorline = true
