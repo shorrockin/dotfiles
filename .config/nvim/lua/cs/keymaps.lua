@@ -20,13 +20,14 @@ map("N", "Nzzzv", "Previous")
 -- yank into the system clipboard
 map("<leader>y", [["+y]], "[Y]ank To System Clipboard", { "n", "v" })
 map("<leader>Y", [["+Y]], "[Y]ank To System Clipboard")
+map("<leader>crp", ":let @+=expand('%')<CR>", "[C]opy [R]elative [P]ath To System Clipboard")
 
 -- don't use it, normally enters command mode
-map("Q", "<nop>", "Noop")
+map("q", "<nop>", "noop")
 
 -- set up our leader keys to split horizontally and vertically, similar to tmux
-map("<leader>-", "<C-w>s", "[H]orizontal Split")
-map("<leader>_", "<C-w>v", "[V]ertical Split")
+map("<leader>-", "<c-w>s", "[h]orizontal split")
+map("<leader>_", "<c-w>v", "[v]ertical split")
 
 -- easy navigation of quick suggestions
 map("<leader>qn", "<cmd>cnext<CR>zz", "[Q]uickfix [N]ext")

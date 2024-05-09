@@ -4,6 +4,12 @@ return {
 		local mark = require("harpoon.mark")
 		local ui = require("harpoon.ui")
 
+		require("harpoon").setup({
+			menu = {
+				width = vim.api.nvim_win_get_width(0) - 4,
+			},
+		})
+
 		local map = function(keys, func, desc, mode)
 			mode = mode or "n"
 			vim.keymap.set(mode, keys, func, { desc = "Harpoon: " .. desc })
