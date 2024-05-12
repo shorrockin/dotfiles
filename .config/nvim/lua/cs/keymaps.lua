@@ -42,7 +42,7 @@ map("<leader>so", vim.cmd.source, "[S]ource [O]ptions")
 map("<leader>sc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "[S]ubstitute [c]urrent word")
 
 -- makes the current file executable
-map("<leader>x", "<cmd>!chmod +x %<CR>", "Make File E[x]ecutable")
+map("<leader>mx", "<cmd>!chmod +x %<CR>", "[M]ake File E[x]ecutable")
 
 -- toggles spell check on/off
 map("<leader>ts", function()

@@ -3,13 +3,34 @@ return {
 	"folke/trouble.nvim",
 	dependencies = "nvim-tree/nvim-web-devicons",
 	config = function()
-		require("trouble").setup({
+		local trouble = require("trouble")
+		trouble.setup({
 			-- your configuration comes here
 			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
 		})
 
-		-- keymaps
-		vim.keymap.set("n", "<leader>tt", vim.cmd.TroubleToggle, { desc = "Trouble: [T]oggle [T]rouble Drawer" })
+		vim.keymap.set("n", "<leader>tt", function()
+			trouble.toggle("document_diagnostics")
+		end, { desc = "Trouble: [T]oggle [T]rouble Drawer" })
+
+		vim.keymap.set("n", "<leader>xq", function()
+			trouble.toggle("quickfix")
+		end, { desc = "Trouble: Trouble Toggle [Q]uickfix" })
+
+		vim.keymap.set("n", "<leader>xl", function()
+			trouble.toggle("loclist")
+		end, { desc = "Trouble: Trouble Toggle [L]oclist" })
+
+		vim.keymap.set("n", "<leader>xw", function()
+			trouble.toggle("workspace_diagnostics")
+		end, { desc = "Trouble: Trouble Toggle [W]orkspace Diagnostics" })
+
+		vim.keymap.set("n", "<leader>xn", function()
+			trouble.next({ skip_groups = true, jump = true })
+		end, { desc = "Trouble: Trouble [N]ext" })
+
+		vim.keymap.set("n", "<leader>xp", function()
+			trouble.previous({ skip_groups = true, jump = true })
+		end, { desc = "Trouble: Trouble [P]revious" })
 	end,
 }

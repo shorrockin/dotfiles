@@ -27,6 +27,7 @@ return {
 			vim.keymap.set(mode, keys, func, { desc = "Telescope: " .. desc })
 		end
 
+		local trouble = require("trouble.providers.telescope")
 		require("telescope").setup({
 			defaults = {
 				file_ignore_patterns = { "^.git/", "^node_modules/", "^vendor/" },
@@ -41,6 +42,14 @@ return {
 				live_grep = {
 					additional_args = { "--hidden" },
 				},
+				buffers = {
+					sort_lastused = true,
+					ignore_current_buffer = true,
+				},
+			},
+			mappings = {
+				i = { ["<C-t>"] = trouble.open_with_trouble },
+				n = { ["<C-t>"] = trouble.open_with_trouble },
 			},
 		})
 
@@ -76,8 +85,12 @@ return {
 
 		-- shortcut for searching your Neovim configuration files, handy for quick changes
 		-- or looking up to see how things are configured from a separate project
+		-- TODO: this doesn't seem to work, need to investigate
 		map("<leader>fn", function()
 			telescope.find_files({ cwd = vim.fn.stdpath("config") })
 		end, "[F]ind [N]eovim files")
+
+		-- maps <C-d> to close the selected buffer when you are using telescope to navigate
+		-- them.
 	end,
 }
