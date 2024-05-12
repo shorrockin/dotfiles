@@ -19,8 +19,10 @@ return {
 					"javascript",
 					"html",
 					"luadoc",
-					"markdown",
+					-- "markdown",
+					"markdown_inline",
 					"vim",
+					"regex",
 				},
 
 				-- Install parsers synchronously (only applied to `ensure_installed`)
