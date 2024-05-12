@@ -53,9 +53,10 @@ return {
 			},
 		})
 
-		-- Enable telescope fzf native, if installed
+		-- enable telescope fzf native, if installed, other extensions are loaded normally
 		pcall(require("telescope").load_extension, "fzf")
 		pcall(require("telescope").load_extension, "ui-select")
+		require("telescope").load_extension("notify")
 
 		local telescope = require("telescope.builtin")
 		-- map('<leader>ff', telescope.find_files, '[F]ind [f]iles in the project')
@@ -73,6 +74,9 @@ return {
 		map("<leader>fj", telescope.jumplist, "[F]ind by [j]umplist")
 		map("<leader>sp", telescope.spell_suggest, "[S]pell [c]heck")
 		map("<leader>fd", telescope.diagnostics, "[F]ind [d]iagnostics")
+		map("<leader>fn", function()
+			require("telescope").extensions.notify.notify()
+		end, "[F]ind [n]otifications")
 
 		-- fuzzy search current buffer using telescope with customized ui
 		map("<leader>/", function()
@@ -86,9 +90,9 @@ return {
 		-- shortcut for searching your Neovim configuration files, handy for quick changes
 		-- or looking up to see how things are configured from a separate project
 		-- TODO: this doesn't seem to work, need to investigate
-		map("<leader>fn", function()
+		map("<leader>fv", function()
 			telescope.find_files({ cwd = vim.fn.stdpath("config") })
-		end, "[F]ind [N]eovim files")
+		end, "[F]ind Neo[v]im files")
 
 		-- maps <C-d> to close the selected buffer when you are using telescope to navigate
 		-- them.
