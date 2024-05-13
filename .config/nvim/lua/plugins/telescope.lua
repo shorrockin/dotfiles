@@ -35,6 +35,7 @@ return {
 			pickers = {
 				find_files = {
 					hidden = true,
+					follow = true,
 				},
 				grep_string = {
 					additional_args = { "--hidden" },
@@ -55,7 +56,7 @@ return {
 
 		-- enable telescope fzf native, if installed, other extensions are loaded normally
 		pcall(require("telescope").load_extension, "fzf")
-		pcall(require("telescope").load_extension, "ui-select")
+		require("telescope").load_extension("ui-select")
 		require("telescope").load_extension("notify")
 
 		local telescope = require("telescope.builtin")
@@ -89,12 +90,8 @@ return {
 
 		-- shortcut for searching your Neovim configuration files, handy for quick changes
 		-- or looking up to see how things are configured from a separate project
-		-- TODO: this doesn't seem to work, need to investigate
 		map("<leader>fv", function()
 			telescope.find_files({ cwd = vim.fn.stdpath("config") })
 		end, "[F]ind Neo[v]im files")
-
-		-- maps <C-d> to close the selected buffer when you are using telescope to navigate
-		-- them.
 	end,
 }

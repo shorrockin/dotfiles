@@ -56,6 +56,9 @@ vim.opt.showmode = false
 -- preview substitutions live as you type
 vim.opt.inccommand = "split"
 
+-- makes the cursor flash
+vim.opt.guicursor = "a:blinkon500"
+
 -- show which line your cursor is on
 vim.opt.cursorline = true
 
