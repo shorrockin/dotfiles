@@ -2,6 +2,7 @@ return {
 	-- Indentation Guides: https://github.com/lukas-reineke/indent-blankline.nvim
 	"lukas-reineke/indent-blankline.nvim",
 	main = "ibl",
+	enabled = false, -- currently too much visual noise, may re-add?
 	opts = {},
 	config = function()
 		require("ibl").setup({
