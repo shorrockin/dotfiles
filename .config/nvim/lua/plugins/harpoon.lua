@@ -1,4 +1,7 @@
 return {
+	-- Harpoon: https://github.com/ThePrimeagen/harpoon
+	-- allows you to store a list of frequently accessed files then quick
+	-- navigate between them.
 	"theprimeagen/harpoon",
 	config = function()
 		local mark = require("harpoon.mark")

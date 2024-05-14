@@ -1,6 +1,6 @@
 return {
 	-- Conform: https://github.com/stevearc/conform.nvim
-	-- lightweight formatter
+	-- lightweight syntax formatter
 	"stevearc/conform.nvim",
 	lazy = false,
 	keys = {

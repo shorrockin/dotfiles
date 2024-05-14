@@ -1,4 +1,7 @@
 return {
+	-- Bufferline: https://github.com/akinsho/bufferline.nvim
+	-- A snazzy bufferline for neovim, effectively looks like tabs at the top of
+	-- the neovim window, integrates with the lsp, git, etc.
 	"akinsho/bufferline.nvim",
 	dependencies = "nvim-tree/nvim-web-devicons",
 	opts = {

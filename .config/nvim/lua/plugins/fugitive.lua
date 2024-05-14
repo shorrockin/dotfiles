@@ -1,5 +1,6 @@
 return {
-	-- Fugitive: git client, bind to gs (git-status): https://github.com/tpope/vim-fugitive
+	-- Fugitive: https://github.com/tpope/vim-fugitive
+	-- git client, bind to gs (git-status)
 	"tpope/vim-fugitive",
 	config = function()
 		vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Fugitive: [G]it [s]tatus" })

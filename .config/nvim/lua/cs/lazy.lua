@@ -23,4 +23,8 @@ require("lazy.manage.process").spawn = function(cmd, opts)
 	return spawn(cmd, opts)
 end
 
-lazy.setup("plugins", {})
+lazy.setup("plugins", {
+	change_detection = {
+		notify = false,
+	},
+})

@@ -62,7 +62,7 @@ vim.opt.guicursor = "a:blinkon500"
 -- show which line your cursor is on
 vim.opt.cursorline = true
 
--- Set to true if you have a Nerd Font installed and selected in the terminal
+-- set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
 -- displays a colored bar at 80 characters
