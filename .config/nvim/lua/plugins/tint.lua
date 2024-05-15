@@ -4,6 +4,11 @@ return {
 	-- is currently active.
 	"levouh/tint.nvim",
 	config = function()
-		require("tint").setup()
+		require("tint").setup({
+			focus_change_events = {
+				focus = { "FocusGained", "WinEnter" },
+				unfocus = { "FocusLost", "WinLeave" },
+			},
+		})
 	end,
 }
