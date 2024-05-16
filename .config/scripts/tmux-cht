@@ -17,4 +17,5 @@ else
     url="http://cht.sh/$selected~$query"
 fi
 
+# tmux neww -n $url bash -c "printf \"url: $url\\n\\n\"; curl -s $url | less; while [ : ]; do sleep 1; done"
 tmux neww -n $url bash -c "printf \"url: $url\\n\\n\"; curl -s $url | less; while [ : ]; do sleep 1; done"
