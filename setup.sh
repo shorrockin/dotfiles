@@ -13,3 +13,4 @@ echo " - Creating ~/.config/nvim/ directories for lua scripts, so that we don't 
 mkdir -p ~/.config/nvim/lua
 mkdir -p ~/.config/nvim/lua/plugins
 mkdir -p ~/.config/nvim/after/plugin
+mkdir -p ~/.config/nvim/after/ftplugin

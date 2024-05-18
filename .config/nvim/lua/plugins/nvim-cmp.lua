@@ -5,6 +5,7 @@ return {
 	event = "InsertEnter",
 	dependencies = {
 		-- Snippet Engine & its associated nvim-cmp source
+		-- https://github.com/L3MON4D3/LuaSnip
 		{
 			"L3MON4D3/LuaSnip",
 			build = (function()
@@ -28,6 +29,8 @@ return {
 				},
 			},
 		},
+		-- https://github.com/saadparwaiz1/cmp_luasnip
+		-- luasnip completion for cmp
 		"saadparwaiz1/cmp_luasnip",
 
 		-- Adds other completion capabilities.

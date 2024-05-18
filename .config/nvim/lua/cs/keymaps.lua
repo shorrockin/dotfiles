@@ -22,9 +22,6 @@ map("<leader>y", [["+y]], "[Y]ank To System Clipboard", { "n", "v" })
 map("<leader>Y", [["+Y]], "[Y]ank To System Clipboard")
 map("<leader>crp", ":let @+=expand('%')<CR>", "[C]opy [R]elative [P]ath To System Clipboard")
 
--- don't use it, normally enters command mode
-map("q", "<nop>", "noop")
-
 -- set up our leader keys to split horizontally and vertically, similar to tmux
 map("<leader>-", "<c-w>s", "[h]orizontal split")
 map("<leader>_", "<c-w>v", "[v]ertical split")
