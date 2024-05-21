@@ -30,11 +30,12 @@ return {
 		map("<C-e>", function()
 			ui.nav_file(3)
 		end, "Navigate to third file")
-		map("<C-u>", function()
-			ui.nav_file(4)
-		end, "Navigate to fourth file")
-		map("<C-i>", function()
-			ui.nav_file(5)
-		end, "Navigate to firfth file")
+		-- hmmm - C-u collides with page up, maybe find some different harpoon bindings?
+		-- map("<C-u>", function()
+		-- 	ui.nav_file(4)
+		-- end, "Navigate to fourth file")
+		-- map("<C-i>", function()
+		-- 	ui.nav_file(5)
+		-- end, "Navigate to firfth file")
 	end,
 }

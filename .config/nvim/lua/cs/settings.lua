@@ -47,6 +47,17 @@ vim.opt.mouse = "a"
 -- don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
+-- setting determines how automatic formatting such as text wrapping will operate.
+-- t: Auto-wrap text using the 'textwidth' setting
+-- c: Auto-wrap comments using 'textwidth', inserting commentstring
+-- q: Allow formatting of comments using gq
+-- r: Automatically insert the comment leader when hitting <Enter> in Insert mode
+-- n: Recognize numbered lists
+-- 1: When formatting a paragraph, keep one space between sentences (interpreted
+--    as a colon/period/semi-colon/question mark/exclamation mark followed by a
+--    closing bracket or quote, space and capital letter).
+vim.opt.formatoptions = "tcqrn1"
+
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`

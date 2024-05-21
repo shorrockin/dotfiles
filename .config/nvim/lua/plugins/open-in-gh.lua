@@ -1,4 +1,7 @@
 return {
+	-- https://github.com/Almo7aya/openingh.nvim
+	-- Open a file in github based on the current selection seems to have some problems
+	-- if you don't open from project root.
 	"almo7aya/openingh.nvim",
 	config = function()
 		vim.keymap.set(
