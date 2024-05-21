@@ -1,3 +1,6 @@
+" Most vim config is in .config/nvim, this file exists to provide sensible
+" defaults for situations where nvim is not installed.
+"
 " =====================================================
 " Plugins 
 " - Requires https://github.com/junegunn/vim-plug
