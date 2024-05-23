@@ -48,8 +48,8 @@ ls.add_snippets("markdown", {
 	-- normal link
 	ls.parser.parse_snippet(name("nl", "Normal Link", "Inserts a normal mardown link"), "[${1}](${2})"),
 
-	-- stripe link
-	snippet(name("ln", "Stripe Link", "Inserts a Stripe formatted link"), {
+	-- easy link
+	snippet(name("el", "Easy Link", "Inserts a generating the name based on the url suffix"), {
 		text("["),
 		dynamic(2, extract_path_for_markdown_text, { 1 }),
 		text("]("),
