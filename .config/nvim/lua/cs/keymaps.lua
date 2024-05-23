@@ -43,7 +43,8 @@ map("<leader>mx", "<cmd>!chmod +x %<CR>", "[M]ake File E[x]ecutable")
 
 -- toggles spell check on/off
 map("<leader>ts", function()
-	vim.opt.spell = not (vim.opt.spell:get())
+	local current_spell_setting = vim.opt.spell:get()
+	vim.opt.spell = not current_spell_setting
 end, "[T]oggle [S]pell")
 
 -- allows you to select a bunch of text and move it around uing J and K
@@ -61,7 +62,8 @@ map("<leader>p", "<cmd>bp<CR>", "[P]revious Buffer")
 map("<leader>P", "<cmd>b#<CR>", "[P]revious Buffer Opened")
 
 -- disables arrow keys in normal mode, form better habits
-map("<left>", '<cmd>echo "Use h to move!!"<CR>', "<left> Arrow Key Warning")
-map("<right>", '<cmd>echo "Use l to move!!"<CR>', "<right> Arrow Key Warning")
-map("<up>", '<cmd>echo "Use k to move!!"<CR>', "<up> Arrow Key Warning")
-map("<down>", '<cmd>echo "Use j to move!!"<CR>', "<down> Arrow Key Warning")
+-- disabled in favor of delaytrain for now. perhaps more useful?
+-- map("<left>", '<cmd>echo "Use h to move!!"<CR>', "<left> Arrow Key Warning")
+-- map("<right>", '<cmd>echo "Use l to move!!"<CR>', "<right> Arrow Key Warning")
+-- map("<up>", '<cmd>echo "Use k to move!!"<CR>', "<up> Arrow Key Warning")
+-- map("<down>", '<cmd>echo "Use j to move!!"<CR>', "<down> Arrow Key Warning")

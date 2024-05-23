@@ -19,7 +19,7 @@ return {
 					"javascript",
 					"html",
 					"luadoc",
-					-- "markdown",
+					"markdown",
 					"markdown_inline",
 					"vim",
 					"regex",

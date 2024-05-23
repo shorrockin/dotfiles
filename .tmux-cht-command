@@ -1,7 +1,8 @@
 curl
-xargs
+nvim
+other
 tmux
 vim
-zsh
+xargs
 yaml
-other
+zsh
