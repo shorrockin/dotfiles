@@ -26,6 +26,14 @@ local insert = ls.insert_node
 local dynamic = ls.dynamic_node
 -- local fn = ls.function_node
 
+local name = function(trigger, name, description)
+	return {
+		trig = trigger,
+		name = name,
+		dscr = description,
+	}
+end
+
 local extract_path_for_markdown_text = function(args)
 	local url = args[1][1] or ""
 	-- Match any character sequence after the last /
@@ -34,14 +42,6 @@ local extract_path_for_markdown_text = function(args)
 	local clean_path = path:gsub("%?.*$", "")
 
 	return snippet_node(nil, { text(clean_path) })
-end
-
-local name = function(trigger, name, description)
-	return {
-		trig = trigger,
-		name = name,
-		dscr = description,
-	}
 end
 
 ls.add_snippets("markdown", {

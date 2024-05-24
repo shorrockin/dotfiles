@@ -15,27 +15,23 @@ return {
 
 		local map = function(keys, func, desc, mode)
 			mode = mode or "n"
-			vim.keymap.set(mode, keys, func, { desc = "Harpoon: " .. desc })
+			vim.keymap.set(mode, keys, func, { desc = "Harpoon: " .. desc, noremap = true, silent = true })
 		end
 
 		map("<leader>ha", mark.add_file, "[A]dd file")
 		map("<leader>he", ui.toggle_quick_menu, "[E]dit file(s)")
 
-		map("<C-a>", function()
-			ui.nav_file(1)
-		end, "Navigate to first file")
-		map("<C-o>", function()
-			ui.nav_file(2)
-		end, "Navigate to second file")
-		map("<C-e>", function()
-			ui.nav_file(3)
-		end, "Navigate to third file")
-		-- hmmm - C-u collides with page up, maybe find some different harpoon bindings?
-		-- map("<C-u>", function()
-		-- 	ui.nav_file(4)
-		-- end, "Navigate to fourth file")
-		-- map("<C-i>", function()
-		-- 	ui.nav_file(5)
-		-- end, "Navigate to firfth file")
+		local tab = function(index)
+			return function()
+				ui.nav_file(index)
+			end
+		end
+
+		map("<C-a>", tab(1), "Navigate to first file")
+		map("<C-o>", tab(2), "Navigate to second file")
+		map("<C-e>", tab(3), "Navigate to third file")
+		map("<C-;>", tab(4), "Navigate to fourth file")
+		map("<C-q>", tab(5), "Navigate to fifth file")
+		map("<C-j>", tab(6), "Navigate to sixth file")
 	end,
 }
