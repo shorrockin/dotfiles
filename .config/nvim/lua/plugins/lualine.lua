@@ -6,7 +6,7 @@ return {
 		local macro_recording = function(str)
 			local recording_register = vim.fn.reg_recording()
 			if recording_register ~= "" then
-				return str .. " (MACRO)"
+				return str .. " (MACRO: " .. recording_register .. ")"
 			else
 				return str
 			end
