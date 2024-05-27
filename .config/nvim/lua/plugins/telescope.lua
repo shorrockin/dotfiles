@@ -22,6 +22,9 @@ return {
 		},
 	},
 	config = function()
+		local builtin = require("telescope.builtin")
+		local action_state = require("telescope.actions.state")
+
 		local map = function(keys, func, desc, mode)
 			mode = mode or "n"
 			vim.keymap.set(mode, keys, func, { desc = "Telescope: " .. desc })
@@ -45,12 +48,18 @@ return {
 				},
 				buffers = {
 					sort_lastused = true,
+					sort_mru = true,
+					theme = "dropdown",
 					ignore_current_buffer = true,
 				},
 			},
-			mappings = {
-				i = { ["<C-t>"] = trouble.open_with_trouble },
-				n = { ["<C-t>"] = trouble.open_with_trouble },
+			attach_mappings = {
+				i = {
+					["<C-t>"] = trouble.open_with_trouble,
+				},
+				n = {
+					["<C-t>"] = trouble.open_with_trouble,
+				},
 			},
 		})
 
@@ -59,22 +68,20 @@ return {
 		require("telescope").load_extension("ui-select")
 		require("telescope").load_extension("notify")
 
-		local telescope = require("telescope.builtin")
 		-- map('<leader>ff', telescope.find_files, '[F]ind [f]iles in the project')
 		map("<leader>ff", require("fzf-lua").files, "[F]ind [F]iles")
-		map("<leader>fo", telescope.oldfiles, "[F]ind in [o]ld files")
-		map("<leader>fg", telescope.live_grep, "[F]ind by [g]rep")
-		map("<leader>fp", telescope.grep_string, "[F]ind string in [p]roject")
-		map("<leader>fb", telescope.buffers, "[F]ind by [b]uffers")
-		map("<leader>b", telescope.buffers, "Find by [b]uffers")
-		map("<leader>fh", telescope.help_tags, "[F]ind by [h]elp")
-		map("<leader>fs", telescope.lsp_document_symbols, "[F]ind by [s]ymbol")
-		map("<leader>fk", telescope.keymaps, "[F]ind in [k]eymaps")
-		map("<leader>fa", telescope.commands, "[F]ind command [a]action")
-		map("<leader>fm", telescope.marks, "[F]ind by [m]arks")
-		map("<leader>fj", telescope.jumplist, "[F]ind by [j]umplist")
-		map("<leader>sp", telescope.spell_suggest, "[S]pell [c]heck")
-		map("<leader>fd", telescope.diagnostics, "[F]ind [d]iagnostics")
+		map("<leader>fo", builtin.oldfiles, "[F]ind in [o]ld files")
+		map("<leader>fg", builtin.live_grep, "[F]ind by [g]rep")
+		map("<leader>fp", builtin.grep_string, "[F]ind string in [p]roject")
+		map("<leader>fb", builtin.buffers, "[F]ind by [b]uffers")
+		map("<leader>fh", builtin.help_tags, "[F]ind by [h]elp")
+		map("<leader>fs", builtin.lsp_document_symbols, "[F]ind by [s]ymbol")
+		map("<leader>fk", builtin.keymaps, "[F]ind in [k]eymaps")
+		map("<leader>fa", builtin.commands, "[F]ind command [a]action")
+		map("<leader>fm", builtin.marks, "[F]ind by [m]arks")
+		map("<leader>fj", builtin.jumplist, "[F]ind by [j]umplist")
+		map("<leader>sp", builtin.spell_suggest, "[S]pell [c]heck")
+		map("<leader>fd", builtin.diagnostics, "[F]ind [d]iagnostics")
 		map("<leader>fn", function()
 			require("telescope").extensions.notify.notify()
 		end, "[F]ind [n]otifications")
@@ -82,16 +89,25 @@ return {
 		-- fuzzy search current buffer using telescope with customized ui
 		map("<leader>/", function()
 			-- You can pass additional configuration to Telescope to change the theme, layout, etc.
-			telescope.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+			builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 				winblend = 10,
 				previewer = false,
 			}))
 		end, "[/] Fuzzily search in current buffer")
 
+		-- TODO figure out how to bind this, without page down taking over
+		-- local delete_buffer = function(prompt_bufnr)
+		-- 	local current_picker = action_state.get_current_picker(prompt_bufnr)
+		-- 	current_picker:delete_selection(function(selection)
+		-- 		vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+		-- 	end)
+		-- end
+		map("<leader>b", builtin.buffers, "Find by [b]uffers")
+
 		-- shortcut for searching your Neovim configuration files, handy for quick changes
 		-- or looking up to see how things are configured from a separate project
 		map("<leader>fv", function()
-			telescope.find_files({ cwd = vim.fn.stdpath("config") })
+			builtin.find_files({ cwd = vim.fn.stdpath("config") })
 		end, "[F]ind Neo[v]im files")
 	end,
 }
