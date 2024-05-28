@@ -39,9 +39,13 @@ return {
 				find_files = {
 					hidden = true,
 					follow = true,
+					sort_lastused = true,
+					sort_mru = true,
 				},
 				grep_string = {
 					additional_args = { "--hidden" },
+					sort_lastused = true,
+					sort_mru = true,
 				},
 				live_grep = {
 					additional_args = { "--hidden" },
@@ -51,9 +55,10 @@ return {
 					sort_mru = true,
 					theme = "dropdown",
 					ignore_current_buffer = true,
+					-- previewer = false,
 				},
 			},
-			attach_mappings = {
+			mappings = {
 				i = {
 					["<C-t>"] = trouble.open_with_trouble,
 				},
@@ -95,14 +100,23 @@ return {
 			}))
 		end, "[/] Fuzzily search in current buffer")
 
-		-- TODO figure out how to bind this, without page down taking over
-		-- local delete_buffer = function(prompt_bufnr)
-		-- 	local current_picker = action_state.get_current_picker(prompt_bufnr)
-		-- 	current_picker:delete_selection(function(selection)
-		-- 		vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-		-- 	end)
-		-- end
-		map("<leader>b", builtin.buffers, "Find by [b]uffers")
+		map("<leader>b", function()
+			-- TODO figure out how to bind this, without page down taking over
+			-- local delete_buffer = function(prompt_bufnr)
+			-- 	local current_picker = action_state.get_current_picker(prompt_bufnr)
+			-- 	current_picker:delete_selection(function(selection)
+			-- 		vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+			-- 	end)
+			-- end
+
+			builtin.buffers({
+				-- attach_mappings = function(_, mapping)
+				-- 	mapping("i", "<C-o>", delete_buffer)
+				-- 	mapping("n", "<C-o>", delete_buffer)
+				-- 	return true
+				-- end,
+			})
+		end, "Find by [b]uffers")
 
 		-- shortcut for searching your Neovim configuration files, handy for quick changes
 		-- or looking up to see how things are configured from a separate project
