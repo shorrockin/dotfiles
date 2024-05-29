@@ -2,6 +2,9 @@ return {
 	-- Fuzzy finder for files: https://github.com/ibhagwan/fzf-lua
 	"ibhagwan/fzf-lua",
 	config = function()
-		require("fzf-lua").setup({ { "telescope", "fzf-native" }, winopts = { preview = { default = "bat" } } })
+		require("fzf-lua").setup({
+			{ "telescope", "fzf-native" },
+			winopts = { preview = { default = "bat" } },
+		})
 	end,
 }

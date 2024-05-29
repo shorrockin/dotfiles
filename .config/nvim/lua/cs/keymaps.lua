@@ -47,6 +47,12 @@ map("<leader>ts", function()
 	vim.opt.spell = not current_spell_setting
 end, "[T]oggle [S]pell")
 
+-- toggles line wrapping on/off
+map("<leader>tw", function()
+	local current_wrap = vim.opt.wrap:get()
+	vim.opt.wrap = not current_wrap
+end, "[T]oggle Line [W]rap")
+
 -- allows you to select a bunch of text and move it around uing J and K
 map("J", ":m '>+1<CR>gv=gv", "Move Selection Down", "v")
 map("K", ":m '<-2<CR>gv=gv", "Move Selection Up", "v")

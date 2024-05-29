@@ -5,6 +5,8 @@ local document = function(keys, desc, mode)
 	vim.api.nvim_set_keymap(mode, keys, keys, { noremap = true, silent = true, desc = desc })
 end
 
+document("J", "Join lines")
+
 document("za", "Toggle Fold")
 document("zM", "Close all folds")
 document("zR", "Open all folds")
