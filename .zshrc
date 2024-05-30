@@ -26,7 +26,7 @@ compinit
 # enables vim-esque bindings for editing the current command
 # must be before the fzf bindings for the ** completions to work on
 # things like kil, cd, etc
-bindkey -v
+set -o vi
 
 # load everything in this directory, we git stow a bunch of different .sh files here 
 # for both work and personal projects (separate git repos)
