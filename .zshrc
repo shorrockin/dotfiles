@@ -23,6 +23,11 @@ compinit
 # only if we have a .bash_profile, then load it up
 [[ ! -f ~/.bash_profile ]] || source ~/.bash_profile
 
+# enables vim-esque bindings for editing the current command
+# must be before the fzf bindings for the ** completions to work on
+# things like kil, cd, etc
+bindkey -v
+
 # load everything in this directory, we git stow a bunch of different .sh files here 
 # for both work and personal projects (separate git repos)
 for file in ~/.config/zsh/*.sh
@@ -36,14 +41,14 @@ done
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# set's up fzf
-[ -f ~/.fzf.zsh ] || source ~/.fzf.zsh
+# set's up fzf with default keybinds
+# 1. ctrl-t - paste the selected file path into the command line
+# 2. ctrl-r - paste the selected command into the command line
+# 3. alt-c - cd into the selected directory
+source <(fzf --zsh) 
 
 # directory containing custom scripts across our different git stow'd repos
 export PATH="$PATH:$HOME/.config/scripts"
-
-# enables vim-esque bindings for editing the current command
-bindkey -v
 
 # START - Managed by chef cookbook stripe_cpe_bin
 alias tc='/usr/local/stripe/bin/test_cookbook'
