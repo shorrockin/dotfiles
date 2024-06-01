@@ -36,6 +36,12 @@ return {
 				file_ignore_patterns = { "^.git/", "^node_modules/", "^vendor/" },
 			},
 			pickers = {
+				oldfiles = {
+					theme = "dropdown",
+				},
+				marks = {
+					theme = "dropdown",
+				},
 				find_files = {
 					hidden = true,
 					follow = true,
