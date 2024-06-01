@@ -4,6 +4,8 @@ return {
 	-- develop better vim habbits.
 	"ja-ford/delaytrain.nvim",
 	config = function()
-		require("delaytrain").setup({})
+		require("delaytrain").setup({
+			grace_period = 3,
+		})
 	end,
 }
