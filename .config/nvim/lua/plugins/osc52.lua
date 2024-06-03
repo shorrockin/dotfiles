@@ -9,7 +9,6 @@ return {
 			silent = true, -- Disable message on successful copy
 			tmux_passthrough = true, -- Use tmux passthrough (requires tmux: set -g allow-passthrough on)
 		})
-
 		vim.api.nvim_create_autocmd("TextYankPost", {
 			callback = function()
 				if vim.v.event.operator == "y" and vim.v.event.regname == "+" then
