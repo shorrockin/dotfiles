@@ -1,8 +1,9 @@
 return {
 	-- https://github.com/ojroques/nvim-osc52
 	-- copy to clipboard locally when connected to a remote box, will not
-	-- be needed in nvim 10
+	-- be needed in nvim 10, doesn't seem to work, disabled for now
 	"ojroques/nvim-osc52",
+	enabled = false,
 	config = function()
 		require("osc52").setup({
 			max_length = 0, -- Maximum length of selection (0 for no limit)
