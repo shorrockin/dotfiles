@@ -75,10 +75,10 @@ return {
 			},
 			mappings = {
 				i = {
-					["<C-t>"] = trouble.open_with_trouble,
+					["<C-t>"] = require("trouble.sources.telescope").open,
 				},
 				n = {
-					["<C-t>"] = trouble.open_with_trouble,
+					["<C-t>"] = require("trouble.sources.telescope").open,
 				},
 			},
 		})

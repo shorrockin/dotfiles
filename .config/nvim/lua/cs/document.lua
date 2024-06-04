@@ -12,7 +12,7 @@ document("zM", "Close all folds")
 document("zR", "Open all folds")
 document("zA", "Open/closs all folds recursively")
 
-document("gx", "[G]oto E[x]ternal URL/Other under cursor")
+--document("gx", "[G]oto E[x]ternal URL/Other under cursor")
 document("gf", "[G]oto [F]ile at cursor in vim")
 
 document("gg", "[G]oto top of file")
