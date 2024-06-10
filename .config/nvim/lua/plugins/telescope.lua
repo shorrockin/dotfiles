@@ -93,7 +93,6 @@ return {
 		map("<leader>fo", builtin.oldfiles, "[F]ind in [o]ld files")
 		map("<leader>fg", builtin.live_grep, "[F]ind by [g]rep")
 		map("<leader>fp", builtin.grep_string, "[F]ind string in [p]roject")
-		map("<leader>fb", builtin.buffers, "[F]ind by [b]uffers")
 		map("<leader>fh", builtin.help_tags, "[F]ind by [h]elp")
 		map("<leader>fs", builtin.lsp_document_symbols, "[F]ind by [s]ymbol")
 		map("<leader>fk", builtin.keymaps, "[F]ind in [k]eymaps")
@@ -116,23 +115,25 @@ return {
 			}))
 		end, "[/] Fuzzily search in current buffer")
 
-		map("<leader>b", function()
-			-- TODO figure out why this isn't working
-			local delete_buffer = function(prompt_bufnr)
-				local current_picker = action_state.get_current_picker(prompt_bufnr)
-				current_picker:delete_selection(function(selection)
-					vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-				end)
-			end
-
+		local open_buffers = function()
 			builtin.buffers({
-				attach_mappings = function(_, mapping)
-					mapping("i", "<C-k>", delete_buffer)
-					mapping("n", "<C-k>", delete_buffer)
+				attach_mappings = function(_, am)
+					local delete_buffer = function(prompt_bufnr)
+						local current_picker = action_state.get_current_picker(prompt_bufnr)
+						current_picker:delete_selection(function(selection)
+							vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+						end)
+					end
+
+					am("i", "<C-d>", delete_buffer)
+					am("n", "<C-d>", delete_buffer)
 					return true
 				end,
 			})
-		end, "Find by [b]uffers")
+		end
+
+		map("<leader>b", open_buffers, "Find by [b]uffers")
+		map("<leader>fb", open_buffers, "[F]ind by [b]uffers")
 
 		-- shortcut for searching your Neovim configuration files, handy for quick changes
 		-- or looking up to see how things are configured from a separate project

@@ -58,7 +58,7 @@ return {
 
 				-- Fuzzy find all the symbols in your current workspace.
 				--  Similar to document symbols, except searches over your entire project.
-				-- TODO better keybinds? conflicts with <leader>w, not used a ton, disabled for now
+				-- TODO: better keybinds? conflicts with <leader>w, not used a ton, disabled for now
 				-- map(
 				-- 	"<leader>ws",
 				-- 	theme_wrapper(require("telescope.builtin").lsp_dynamic_workspace_symbols),
