@@ -33,7 +33,8 @@ map("<leader>k", "<cmd>lnext<CR>zz", "Location List Next")
 map("<leader>j", "<cmd>lprev<CR>zz", "Location List Previous")
 
 -- binds re-source as leader-so
-map("<leader>so", vim.cmd.source, "[S]ource [O]ptions")
+-- doesn't work, maybe :so % would be a better binding, but also maybe unecessary
+-- map("<leader>so", vim.cmd.source, "[S]ource [O]ptions")
 
 -- effectively a rename, changes the word you were on with
 map("<leader>sc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "[S]ubstitute [c]urrent word")

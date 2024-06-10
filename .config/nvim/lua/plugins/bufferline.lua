@@ -4,6 +4,7 @@ return {
 	-- the neovim window, integrates with the lsp, git, etc.
 	"akinsho/bufferline.nvim",
 	dependencies = "nvim-tree/nvim-web-devicons",
+	enabled = false, -- maybe too much visial noise?
 	opts = {
 		options = {
 			diagnostics = "nvim_lsp",

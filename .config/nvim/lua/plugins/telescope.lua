@@ -67,7 +67,7 @@ return {
 				buffers = {
 					sort_lastused = true,
 					sort_mru = true,
-					ignore_current_buffer = true,
+					ignore_current_buffer = false,
 					theme = "dropdown",
 					layout_config = { width = 0.8 },
 					-- previewer = false,
@@ -102,6 +102,7 @@ return {
 		map("<leader>fj", builtin.jumplist, "[F]ind by [j]umplist")
 		map("<leader>sp", builtin.spell_suggest, "[S]pell [c]heck")
 		map("<leader>fd", builtin.diagnostics, "[F]ind [d]iagnostics")
+		map("<leader>fq", builtin.quickfix, "[F]ind in [Q]uickfix")
 		map("<leader>fn", function()
 			require("telescope").extensions.notify.notify()
 		end, "[F]ind [n]otifications")
@@ -116,20 +117,20 @@ return {
 		end, "[/] Fuzzily search in current buffer")
 
 		map("<leader>b", function()
-			-- TODO figure out how to bind this, without page down taking over
-			-- local delete_buffer = function(prompt_bufnr)
-			-- 	local current_picker = action_state.get_current_picker(prompt_bufnr)
-			-- 	current_picker:delete_selection(function(selection)
-			-- 		vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-			-- 	end)
-			-- end
+			-- TODO figure out why this isn't working
+			local delete_buffer = function(prompt_bufnr)
+				local current_picker = action_state.get_current_picker(prompt_bufnr)
+				current_picker:delete_selection(function(selection)
+					vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+				end)
+			end
 
 			builtin.buffers({
-				-- attach_mappings = function(_, mapping)
-				-- 	mapping("i", "<C-o>", delete_buffer)
-				-- 	mapping("n", "<C-o>", delete_buffer)
-				-- 	return true
-				-- end,
+				attach_mappings = function(_, mapping)
+					mapping("i", "<C-k>", delete_buffer)
+					mapping("n", "<C-k>", delete_buffer)
+					return true
+				end,
 			})
 		end, "Find by [b]uffers")
 

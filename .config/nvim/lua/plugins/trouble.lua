@@ -13,9 +13,9 @@ return {
 			trouble.toggle("document_diagnostics")
 		end, { desc = "Trouble: [T]oggle [T]rouble Drawer" })
 
-		vim.keymap.set("n", "<leader>xq", function()
+		vim.keymap.set("n", "<leader>tq", function()
 			trouble.toggle("quickfix")
-		end, { desc = "Trouble: Trouble Toggle [Q]uickfix" })
+		end, { desc = "Trouble: [T]rouble Toggle [Q]uickfix" })
 
 		vim.keymap.set("n", "<leader>xl", function()
 			trouble.toggle("loclist")
