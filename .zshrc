@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # "autoload" is a zsh built-in command which marks functions or scripts to be loaded and executed later when they are first used.
 # The "-U" flag ensures that there is only one copy of the function, regardless of how often it is autoloaded.
 # The "+X" flag allows loading functions from the FPATH even if they do not have the execute permission.
@@ -40,6 +33,7 @@ done
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
 
 # set's up fzf with default keybinds
 # 1. ctrl-t - paste the selected file path into the command line

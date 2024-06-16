@@ -1,13 +1,17 @@
 # on linux, use batcat instead of bat
 [[ ! -f /usr/bin/batcat ]] || alias bat='batcat'
 
+# alias ls to eza, which is a nicer ls. 
+# https://github.com/eza-community/eza
+if command -v /opt/homebrew/bin/eza >/dev/null 2>&1; then
+  alias ls="eza --icons=always"
+fi
+
 ## other common aliases
 alias vim='nvim -p'
 alias vi='nvim -p'
-alias l='ls -lFh'     #size,show type,human readable
-alias ll='ls -lFha'
-alias la='ls -lAFh'   #long list,show almost all,show type,human readable
-alias lt='ls -ltFh'   #long list,sorted by date,show type,human readable
+alias l='ls -lh'     #size,show type,human readable
+alias ll='ls -lha'
 alias ts='tmux-sessionizer'
 alias e='emacs'
 alias cat='bat'
@@ -17,7 +21,7 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
 alias slack-format="pbpaste | ~/.zsh/scripts/slack-thread-format | pbcopy"
- 
+
 gsub() {
  ack -l ${1} | xargs sed -i '' "s/${1}/${2}/g"
 }
@@ -34,6 +38,7 @@ tags-generate() {
 tags-ruby-generate() {
   find . -name "*.rb" -print | etags -
 }
+
 tags-ruby-regenerate() {
   ripper-tags -R -f TAGS
 }

@@ -1,0 +1,44 @@
+import = [
+    # uncomment the flavour you want below:
+    # "~/.config/alacritty/catppuccin-latte.toml"
+    # "~/.config/alacritty/catppuccin-frappe.toml",
+    "~/.config/alacritty/catppuccin-macchiato.toml",
+    # "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+padding.x = 10
+padding.y = 10
+
+decorations = "Buttonless"
+
+opacity = 0.9
+blur = true
+
+# option_as_alt = "Both"
+
+[colors]
+transparent_background_colors = true
+
+[keyboard]
+bindings = [
+    { key = "Key1", mods = "Command", chars = "\u001b1" },
+    { key = "Key2", mods = "Command", chars = "\u001b2" },
+    { key = "Key3", mods = "Command", chars = "\u001b3" },
+    { key = "Key4", mods = "Command", chars = "\u001b4" },
+    { key = "Key5", mods = "Command", chars = "\u001b5" },
+]
+
+[font]
+# normal.family = "Hack Nerd Font Mono"
+normal.family = "MesloLGS Nerd Font Mono"
+size = 14
+
+[selection]
+save_to_clipboard = true
+
+[terminal]
+osc52 = "CopyPaste"
