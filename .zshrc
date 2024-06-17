@@ -28,18 +28,8 @@ do
     source "$file"
 done
 
-# This loads nvm if it exists and/is necessary
+# loads nvm if it exists and/is necessary
 [ -s $HOME/.nvm/nvm.sh ] && . $HOME/.nvm/nvm.sh 
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
-
-# set's up fzf with default keybinds
-# 1. ctrl-t - paste the selected file path into the command line
-# 2. ctrl-r - paste the selected command into the command line
-# 3. alt-c - cd into the selected directory
-source <(fzf --zsh) 
 
 # directory containing custom scripts across our different git stow'd repos
 export PATH="$PATH:$HOME/.config/scripts"
