@@ -1,0 +1,44 @@
+#!/bin/bash
+
+BASE_TITLE=$1
+
+# shifts the parameters such that $@ is everything else
+shift
+
+set_tmux_title() {
+    window_id="$1"
+    new_title="$2"
+    tmux rename-window -t "$window_id" "$new_title"
+}
+
+if [ -z "$TMUX" ]; then
+    $@
+    exit 1
+fi
+
+
+# Capture the current window identifier
+WINDOW_ID=$(tmux display-message -p '#I')
+
+# Change the title to a loading icon
+set_tmux_title $WINDOW_ID "⏳$BASE_TITLE"
+
+# Create a temporary file to capture the output, ensure
+# it's deleted on exit
+TEMP_FILE=$(mktemp)
+trap 'rm -f "$TEMP_FILE"' EXIT
+
+# Run the test command, display output, and capture it
+# Using script command to preserve colors and dynamic updates
+script -q "$TEMP_FILE" $@
+result=$?
+
+# Change the title based on the result
+if [ $result -eq 0 ]; then
+    set_tmux_title $WINDOW_ID "✅ $BASE_TITLE"
+else
+    set_tmux_title $WINDOW_ID "❌ $BASE_TITLE"
+fi
+
+# Exit with the same exit code as the test
+exit $result
