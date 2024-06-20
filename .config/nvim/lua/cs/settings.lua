@@ -1,4 +1,5 @@
-vim.verbose = 15
+-- vim.verbose = 15
+
 -- relative line number setup
 vim.opt.nu = true
 vim.opt.relativenumber = true

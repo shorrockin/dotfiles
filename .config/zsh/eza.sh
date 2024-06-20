@@ -3,5 +3,6 @@
 if command -v /opt/homebrew/bin/eza >/dev/null 2>&1; then
   alias ls="eza --icons=always"
   alias llt='ls --long --tree --level=3'
+  alias lst='ls --long --tree --level=3'
 fi
 

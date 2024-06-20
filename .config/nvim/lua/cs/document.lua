@@ -30,3 +30,4 @@ document("gu", "Convert to lowercase")
 document("gU", "Convert to uppercase")
 
 document("g&", "Reruns the last substitue command across the file")
+document("<C-g>", "File information for the cursor position")

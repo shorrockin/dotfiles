@@ -25,6 +25,8 @@ transparent_background_colors = true
 
 [keyboard]
 bindings = [
+    # binds command-# to M-1, which is interpreted in our tmux.conf
+    # to switch the active window
     { key = "Key1", mods = "Command", chars = "\u001b1" },
     { key = "Key2", mods = "Command", chars = "\u001b2" },
     { key = "Key3", mods = "Command", chars = "\u001b3" },

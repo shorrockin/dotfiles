@@ -1,6 +1,7 @@
 return {
 	-- Tree view: https://github.com/nvim-tree/nvim-tree.lua
 	"nvim-tree/nvim-tree.lua",
+	enabled = false,
 	config = function()
 		vim.g.loaded_netrw = 1
 		vim.g.loaded_netrwPlugin = 1
