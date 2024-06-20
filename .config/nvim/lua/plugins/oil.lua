@@ -1,7 +1,6 @@
 return {
 	"stevearc/oil.nvim",
 	opts = {},
-	-- Optional dependencies
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local oil = require("oil")
@@ -10,17 +9,23 @@ return {
 				show_hidden = true,
 			},
 
-			float = {
-				padding = 10,
-			},
-
 			keymaps = {
 				["<ESC>"] = "actions.close",
+				["<C-v>"] = {
+					"actions.select",
+					opts = { vertical = true },
+					desc = "Oil: Open the entry in a [v]ertical split",
+				},
+				["<C-r>"] = "actions.refresh",
+				-- disable: conflicts with our split navigation
+				["<C-h>"] = false,
+				["<C-l>"] = false,
+				-- disable: conflicts with our tmux session navigator
+				["<C-s>"] = false,
 			},
 		})
 
-		-- "Toggle Project" doesn't _really_ make sense for oil, but old habbits
-		-- die hard, and this is just what we're used to
-		vim.keymap.set("n", "<leader>tp", oil.open_float, { desc = "Oil: [T]oggle [P]roject" })
+		vim.keymap.set("n", "-", vim.cmd.Oil, { desc = "Oil: Open parent directory" })
+		vim.keymap.set("n", "<space>-", oil.toggle_float, { desc = "Oil: Open parent directory in float" })
 	end,
 }
