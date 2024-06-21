@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# this script runs a command, and updates the tmux window title based 
+# on the results on that command. you can run something like:
+# > tmux-exec-with-status "window name" run-the-test.sh arg1 arg2
+
 BASE_TITLE=$1
 
 # shifts the parameters such that $@ is everything else
@@ -11,34 +15,35 @@ set_tmux_title() {
     tmux rename-window -t "$window_id" "$new_title"
 }
 
+# if not running in a tmux session, then just run normally
 if [ -z "$TMUX" ]; then
     $@
     exit 1
 fi
 
 
-# Capture the current window identifier
+# capture the current window identifier
 WINDOW_ID=$(tmux display-message -p '#I')
 
-# Change the title to a loading icon
+# change the title to a loading icon
 set_tmux_title $WINDOW_ID "⏳$BASE_TITLE"
 
-# Create a temporary file to capture the output, ensure
+# create a temporary file to capture the output, ensure
 # it's deleted on exit
 TEMP_FILE=$(mktemp)
 trap 'rm -f "$TEMP_FILE"' EXIT
 
-# Run the test command, display output, and capture it
+# run the test command, display output, and capture it
 # Using script command to preserve colors and dynamic updates
 script -q "$TEMP_FILE" $@
 result=$?
 
-# Change the title based on the result
+# change the title based on the result
 if [ $result -eq 0 ]; then
     set_tmux_title $WINDOW_ID "✅ $BASE_TITLE"
 else
     set_tmux_title $WINDOW_ID "❌ $BASE_TITLE"
 fi
 
-# Exit with the same exit code as the test
+# exit with the same exit code as the test
 exit $result
