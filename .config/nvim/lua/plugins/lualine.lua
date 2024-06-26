@@ -21,6 +21,11 @@ return {
 						end,
 					},
 				},
+				lualine_b = { "diff", "diagnostics" },
+				lualine_c = { "filename" },
+				lualine_x = { "filetype" },
+				lualine_y = { "progress" },
+				lualine_z = { "location" },
 			},
 			options = {
 				theme = "catppuccin",

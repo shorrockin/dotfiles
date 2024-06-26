@@ -26,6 +26,5 @@ return {
 		})
 
 		vim.keymap.set("n", "-", vim.cmd.Oil, { desc = "Oil: Open parent directory" })
-		vim.keymap.set("n", "<space>-", oil.toggle_float, { desc = "Oil: Open parent directory in float" })
 	end,
 }
