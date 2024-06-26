@@ -5,6 +5,9 @@ import = [
     "~/.config/alacritty/catppuccin-macchiato.toml",
     # "~/.config/alacritty/catppuccin-mocha.toml"
 ]
+[shell]
+program = "/bin/zsh"
+
 
 [env]
 TERM = "xterm-256color"
@@ -45,7 +48,7 @@ bindings = [
 [font]
 # normal.family = "Hack Nerd Font Mono"
 normal.family = "MesloLGS Nerd Font Mono"
-size = 14
+size = 13
 
 [selection]
 save_to_clipboard = true

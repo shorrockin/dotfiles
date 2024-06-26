@@ -33,6 +33,7 @@ done
 
 # directory containing custom scripts across our different git stow'd repos
 export PATH="$PATH:$HOME/.config/scripts"
+export XDG_CONFIG_HOME=~/.config
 
 # START - Managed by chef cookbook stripe_cpe_bin
 alias tc='/usr/local/stripe/bin/test_cookbook'
