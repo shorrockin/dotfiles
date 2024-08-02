@@ -14,6 +14,12 @@ vim.diagnostic.config({
 -- vim.opt_local.foldlevelstart = 99 -- Start with all folds open
 -- vim.opt_local.foldnestmax = 10 -- Maximum fold levels
 
+-- set's markdown indentation to 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
 -- folds things like urls, etc
 vim.opt_local.conceallevel = 2
 
@@ -24,7 +30,22 @@ local snippet_node = ls.snippet_node
 local text = ls.text_node
 local insert = ls.insert_node
 local dynamic = ls.dynamic_node
--- local fn = ls.function_node
+
+-- some common macros across a variety of markdown files
+vim.api.nvim_exec2(
+	[[
+  let @d = "0f i ✅\x1b"
+  let @s = "0f i 😴\x1b"
+  let @m = "0f i ↪️\x1b"
+  let @r = "0f i 🔄\x1b"
+  let @c = "0f[lrx<80><fd>5$"
+]],
+	{ output = false }
+)
+
+vim.keymap.set("n", "<leader>id", function()
+	vim.api.nvim_put({ os.date("%Y-%m-%d") }, "c", true, true)
+end, { desc = "Markdown: [I]nsert [D]ate" })
 
 local name = function(trigger, name, description)
 	return {

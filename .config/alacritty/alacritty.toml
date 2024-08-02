@@ -8,7 +8,6 @@ import = [
 [shell]
 program = "/bin/zsh"
 
-
 [env]
 TERM = "xterm-256color"
 
@@ -46,9 +45,8 @@ bindings = [
 ]
 
 [font]
-# normal.family = "Hack Nerd Font Mono"
 normal.family = "MesloLGS Nerd Font Mono"
-size = 13
+size = 15
 
 [selection]
 save_to_clipboard = true
