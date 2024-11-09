@@ -9,10 +9,13 @@ return {
 			-- or leave it empty to use the default settings
 		})
 
-		vim.keymap.set("n", "<leader>tt", function()
-			trouble.toggle("document_diagnostics")
-		end, { desc = "Trouble: [T]oggle [T]rouble Drawer" })
-
+		vim.keymap.set(
+			"n",
+			"<leader>tt",
+			"<cmd>Trouble diagnostics toggle<cr>",
+			{ desc = "Trouble: [T]oggle [T]rouble Drawer" }
+		)
+		--[[
 		vim.keymap.set("n", "<leader>tq", function()
 			trouble.toggle("quickfix")
 		end, { desc = "Trouble: [T]rouble Toggle [Q]uickfix" })
@@ -20,11 +23,7 @@ return {
 		vim.keymap.set("n", "<leader>xl", function()
 			trouble.toggle("loclist")
 		end, { desc = "Trouble: Trouble Toggle [L]oclist" })
-
-		vim.keymap.set("n", "<leader>xw", function()
-			trouble.toggle("workspace_diagnostics")
-		end, { desc = "Trouble: Trouble Toggle [W]orkspace Diagnostics" })
-
+]]
 		vim.keymap.set("n", "<leader>xn", function()
 			trouble.next({ skip_groups = true, jump = true })
 		end, { desc = "Trouble: Trouble [N]ext" })
