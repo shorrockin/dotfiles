@@ -4,7 +4,7 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
     # don't pipe to sort, this way we get existing sessions at the front
-    selected=$((tmux ls | awk -F':' '{print $1}'; find ~/stripe ~/personal -mindepth 1 -maxdepth 1 -type d) | uniq | fzf --print-query | awk 'END {print}')
+    selected=$((tmux ls | awk -F':' '{print $1}'; find ~/stripe ~/personal ~/Code ~/ -mindepth 1 -maxdepth 1 -type d) | uniq | fzf --print-query | awk 'END {print}')
 fi
 
 if [[ -z $selected ]]; then
