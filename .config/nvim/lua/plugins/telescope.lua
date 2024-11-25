@@ -73,6 +73,9 @@ return {
 					-- previewer = false,
 				},
 			},
+			extensions = {
+				
+			}
 			mappings = {
 				i = {
 					["<C-t>"] = require("trouble.sources.telescope").open,

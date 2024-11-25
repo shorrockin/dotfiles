@@ -28,6 +28,7 @@ document("~", "Toggle case for single letter")
 document("g~", "Toggle case on motion")
 document("gu", "Convert to lowercase")
 document("gU", "Convert to uppercase")
+document("gq", "Format text to fit within textwidth, good for comment wrapping")
 
 document("g&", "Reruns the last substitue command across the file")
 document("<C-g>", "File information for the cursor position")

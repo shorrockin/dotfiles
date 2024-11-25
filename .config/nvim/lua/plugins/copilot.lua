@@ -1,7 +1,7 @@
 return {
 	-- Google copilot: https://github.com/github/copilot.vim
 	"github/copilot.vim",
-	enabled = false,
+	enabled = true,
 	setup = function()
 		vim.keymap.set("i", "<C-i>", 'copilot#Accept("\\<CR>")', {
 			expr = true,

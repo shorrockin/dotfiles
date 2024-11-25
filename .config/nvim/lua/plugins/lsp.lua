@@ -176,6 +176,21 @@ return {
 					},
 				},
 			},
+
+			gopls = {
+				settings = {
+					gopls = {
+						completeUnimported = true,
+						-- usePlaceholders = true,
+						analyses = {
+							-- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
+							unusedparams = true,
+							unusedvariable = true,
+							unreachable = true,
+						},
+					},
+				},
+			},
 		}
 
 		-- Ensure the servers and tools above are installed
