@@ -2,6 +2,4 @@
 
 # could also try this to help with sleep issues, unsure if 
 # this needs to be set on each reboot?
-sudo kernelstub -a mem_sleep_default=deep
-
 sudo xset -dpms
