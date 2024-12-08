@@ -21,18 +21,36 @@ return {
 			function()
 				Snacks.scratch()
 			end,
-			desc = "Toggle Scratch Buffer",
+			desc = "Snack: Toggle Scratch Buffer",
 		},
 		-- { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-		-- { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
+		{
+			"<leader>fn",
+			function()
+				Snacks.notifier.show_history()
+			end,
+			desc = "Snack: [F]ind [N]notification",
+		},
 		-- { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
 		-- { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
-		-- { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse" },
+		{
+			"<leader>gB",
+			function()
+				Snacks.gitbrowse()
+			end,
+			desc = "Snack: [G]it [B]rowse",
+		},
 		-- { "<leader>gb", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
 		-- { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
 		-- { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
 		-- { "<leader>gl", function() Snacks.lazygit.log() end, desc = "Lazygit Log (cwd)" },
-		-- { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+		{
+			"<leader>un",
+			function()
+				Snacks.notifier.hide()
+			end,
+			desc = "Snack: [U]ndo / Dismiss All [N]otifications",
+		},
 		-- { "<c-/>",      function() Snacks.terminal() end, desc = "Toggle Terminal" },
 		-- { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
 		-- { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },

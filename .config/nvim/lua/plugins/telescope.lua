@@ -102,6 +102,7 @@ return {
 		map("<leader>sp", builtin.spell_suggest, "[S]pell [c]heck")
 		map("<leader>fd", builtin.diagnostics, "[F]ind [d]iagnostics")
 		map("<leader>fq", builtin.quickfix, "[F]ind in [Q]uickfix")
+		-- replaced by snack.nvim binding
 		map("<leader>fn", function()
 			require("telescope").extensions.notify.notify()
 		end, "[F]ind [n]otifications")
