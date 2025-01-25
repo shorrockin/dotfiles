@@ -30,8 +30,8 @@ return {
 		map("<C-a>", tab(1), "Navigate to first file")
 		map("<C-o>", tab(2), "Navigate to second file")
 		map("<C-e>", tab(3), "Navigate to third file")
-		map("<C-;>", tab(4), "Navigate to fourth file")
-		-- map("<C-q>", tab(5), "Navigate to fifth file")
-		-- map("<C-j>", tab(6), "Navigate to sixth file")
+		-- map("<M-a>", tab(4), "Navigate to fourth file")
+		-- map("<M-o>", tab(5), "Navigate to fifth file")
+		-- map("<M-e>", tab(6), "Navigate to sixth file")
 	end,
 }
