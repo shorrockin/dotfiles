@@ -24,6 +24,11 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/mnt/nas" =
+    { device = "systemd-1";
+      fsType = "autofs";
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/d6a1141c-e84b-458b-ad11-43b3ed2ca037"; }
     ];

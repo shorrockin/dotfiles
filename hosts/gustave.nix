@@ -16,6 +16,7 @@
     ../modules/users.nix
     ../modules/hyprland.nix
     ../modules/suspend-and-hibernate.nix
+    ../modules/synology.nix
   ];
 
   # This value determines the NixOS release from which the default
