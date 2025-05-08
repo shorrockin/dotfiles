@@ -25,6 +25,7 @@
     kitty # backup to alacritty
     python3Minimal # needed for vim
     go
+    nodejs_22
 
     # hyprland specific
     kdePackages.dolphin # file manager
