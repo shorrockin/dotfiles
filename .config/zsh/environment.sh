@@ -2,6 +2,8 @@
 # Set up the Environment
 # -----------------------------------------------
 EDITOR=nvim
+VISUAL=nvim
+BROWSER=firefox
 PAGER=less
 RSYNC_RSH=/usr/bin/ssh
 PATH=./bin:./node_modules/.bin:.:$PATH:~/.zsh/scripts

@@ -23,5 +23,10 @@ _darcs
 ^/COPYING
 
 \.DS_Store
-setup.sh
+stow_setup.sh
 check.sh
+nix_rebuild.sh
+flake.lock
+flake.nix
+hosts
+modules

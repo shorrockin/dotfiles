@@ -395,7 +395,7 @@
   "scalingPriority": "gdk",
   "theme.osd.enable": true,
   "notifications.position": "top right",
-  "menus.dashboard.powermenu.avatar.image": "/home/chris/Pictures/profiles/prinny.jpg",
+  "menus.dashboard.powermenu.avatar.image": "~/.config/assets/profiles/prinny.jpg",
   "menus.dashboard.controls.enabled": false,
   "theme.bar.buttons.modules.ram.enableBorder": false,
   "bar.customModules.ram.labelType": "percentage",
