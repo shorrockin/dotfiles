@@ -45,6 +45,7 @@
     discord
     obsidian
     mangohud # game overlap for fps
+    google-chrome
     # protonup # https://www.youtube.com/watch?v=qlfm3MEbqYA&t=392s
   ];
 

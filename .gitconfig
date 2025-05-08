@@ -9,7 +9,7 @@
   preloadindex = true
   editor = nvim
 [color]
-  ui = true
+	ui = true
   deltabasecachelimit = 4g
 [help]
   autocorrect = 50
