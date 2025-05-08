@@ -1,6 +1,6 @@
 { config, pkgs, ... }: {
   fileSystems."/mnt/nas" = {
-    device = "//192.168.7.107/shared"; # adjust IP/share
+    device = "//192.168.7.107/Upload"; # adjust IP/share
     fsType = "cifs";
     options = [
       "rw"

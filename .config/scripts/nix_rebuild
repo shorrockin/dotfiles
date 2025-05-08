@@ -6,7 +6,7 @@ DOTFILES="/home/$USER_HOME/dotfiles"
 HOSTNAME=$(hostname)
 
 # Run nixos-generate-config command
-sudo nixos-generate-config --show-hardware-config > "$DOTFILES/modules/hardware-configuration.nix" || { echo "Failed to generate hardware configuration"; exit 1; }
+# sudo nixos-generate-config --show-hardware-config > "$DOTFILES/modules/hardware-configuration.nix" || { echo "Failed to generate hardware configuration"; exit 1; }
 
 # navigate to the dotfiles dir
 cd "$DOTFILES" || { echo "Failed to cd to $DOTFILES"; exit 1; }
