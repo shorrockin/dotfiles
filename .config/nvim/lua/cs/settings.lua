@@ -64,7 +64,7 @@ vim.opt.formatoptions = "tcqrn1"
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 --  Does not play well with neoclip
--- vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = 'unnamedplus'
 
 -- preview substitutions live as you type
 vim.opt.inccommand = "split"
