@@ -18,6 +18,7 @@
     zoxide
     ripgrep
     jq
+    unzip
 
     # general development
     neovim
@@ -26,6 +27,7 @@
     python3Minimal # needed for vim
     go
     nodejs_22
+    rustc
 
     # hyprland specific
     kdePackages.dolphin # file manager
