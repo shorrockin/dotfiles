@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # simple script to check to make sure that we have everything
 # we want installed, generally useful on a new setup to checklist

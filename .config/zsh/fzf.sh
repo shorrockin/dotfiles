@@ -14,7 +14,7 @@ if command -v fzf &> /dev/null; then
     # 3. alt-c - cd into the selected directory
     source <(fzf --zsh)
   else
-    echo "fzf version is less than 0.44, skipping fzf keybinding setup"
+    echo "fzf version is less than 0.48, skipping fzf keybinding setup"
   fi
 else
   echo "fzf is not installed, skipping fzf keybinding setup"

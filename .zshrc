@@ -31,10 +31,13 @@ done
 # loads nvm if it exists and/is necessary
 [ -s $HOME/.nvm/nvm.sh ] && . $HOME/.nvm/nvm.sh 
 
+# only ad go the path if it exists
+if command -v go >/dev/null 2>&1; then
+  export PATH="${PATH}:$(go env GOPATH)/bin"
+fi
+
 # directory containing custom scripts across our different git stow'd repos
 export PATH="$PATH:$HOME/.config/scripts"
-export PATH=$PATH:/usr/local/go/bin
-export PATH=${PATH}:`go env GOPATH`/bin
 export XDG_CONFIG_HOME=~/.config
 
 # START - Managed by chef cookbook stripe_cpe_bin

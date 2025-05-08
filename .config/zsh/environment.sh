@@ -1,13 +1,14 @@
 # -----------------------------------------------
 # Set up the Environment
 # -----------------------------------------------
-EDITOR=vim
+EDITOR=nvim
 PAGER=less
 RSYNC_RSH=/usr/bin/ssh
 PATH=./bin:./node_modules/.bin:.:$PATH:~/.zsh/scripts
 HISTFILE=~/.zshhistory
 HISTSIZE=3000
 SAVEHIST=3000
+DISABLE_AUTO_TITLE=true
 
 # Enable vi mode
 bindkey -v
