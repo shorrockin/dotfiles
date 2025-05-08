@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "Setting up system so stow works"
 
 echo " - Creating the ~/.config directory for nvim, scripts, etc"

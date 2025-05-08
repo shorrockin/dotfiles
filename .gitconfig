@@ -1,0 +1,76 @@
+[user]
+  name = Chris Shorrock
+  email = chris.shorrock@gmail.com
+[fetch]
+  prune = true
+[push]
+  default = simple
+[core]
+  preloadindex = true
+  editor = nvim
+[color]
+  ui = true
+  deltabasecachelimit = 4g
+[help]
+  autocorrect = 50
+[feature]
+  manyfiles = true
+[alias]
+  # commit everything with a message
+  c = !git add --all . && git add -u . && git commit -am
+  cz = !git add --all . && git add -u . && git restore --staged intellij/. && git commit -am
+
+  # cleans up old branches
+  sp = !git superprune
+
+  # shortcut
+  d = diff
+
+  # commit everything with a message (and dont verify)
+  cnv = !git add --all . && git add -u . && git commit --no-verify -am
+
+  # quick status
+  s = status -u
+
+  # quick pull
+  p = !git pull
+
+  # list branches
+  # b = !git branch
+  b = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'
+
+  # shortcut
+  co = checkout
+
+  # nice log
+  l = !git log --graph --pretty=format:'%an: %s - %Cred%h%Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+
+  # logs the changes on the current branch
+  lb = !git log --reverse --pretty=format:'%an: %s - %Cred%h%Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $(git rev-parse --abbrev-ref HEAD)...master-passing-tests --author=Shorrock
+ 
+  # log my changes
+  lm = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -n 5 --author=Shorrock
+
+  # resets the last commit
+  undo = !git reset --soft HEAD^ && git restore --staged .
+
+  # push to origin
+  psh = !git push origin $(git rev-parse --abbrev-ref HEAD)
+
+  # force push to origin
+  pshf = !git push origin $(git rev-parse --abbrev-ref HEAD) --force
+
+  # rebase against origin  
+  rb = !git fetch origin && git rebase origin/master-passing-tests
+  rbm = !git fetch origin && git rebase origin/master
+
+  # create a new branch
+  nb = !git checkout -b $1 && sleep 3 && git push --set-upstream origin $1
+ 
+  # changes the last commit message
+  amend = !git commit --amend
+
+  # deletes old branches
+  dob = !git branch | grep -v master | grep -v '*' | xargs -L 1 -p git branch -D
+[credential]
+  helper = store

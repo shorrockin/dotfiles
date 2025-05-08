@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # sort a "du" listing by directory size
 # usage:  du | dusort

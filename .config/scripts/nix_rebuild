@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+clear && sudo nixos-rebuild switch --flake ~/dotfiles/#gustave

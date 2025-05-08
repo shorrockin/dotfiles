@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 PID=`pgrep -f "IntelliJ IDEA"`
 if [[ $PID != "" ]]; then
     kill -9 $PID
