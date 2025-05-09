@@ -4,10 +4,8 @@ import = [
     # "~/.config/alacritty/catppuccin-latte.toml"
     # "~/.config/alacritty/catppuccin-frappe.toml",
     # "~/.config/alacritty/catppuccin-macchiato.toml",
-     "~/.config/alacritty/catppuccin-mocha.toml"
+    "~/.config/alacritty/catppuccin-mocha.toml",
 ]
-# program = "/bin/zsh"
-
 [env]
 TERM = "xterm-256color"
 
@@ -53,3 +51,4 @@ save_to_clipboard = true
 
 [terminal]
 osc52 = "CopyPaste"
+shell = { program = "/bin/zsh", args = ["-l"] }

@@ -15,10 +15,20 @@ nnoremap <leader>fa :action GotoAction<CR>
 nnoremap <leader>ca :action ShowIntentionActions<CR>
 nnoremap <leader>rn :action RenameElement<CR>
 nnoremap <leader>fa :action GotoAction<CR>
+nnoremap <leader>fb :action RecentFiles<CR>
+nnoremap <leader>b :action RecentFiles<CR>
+nnoremap <leader>gu :action Github.Open.In.Browser<CR>
 nnoremap gd :action GotoDeclaration<CR>
 nnoremap H :action QuickJavaDoc<CR>
 nnoremap <C-o> :action Back<CR>
 nnoremap <C-i> :action Forward<CR>
+map gc :action CommentByLineComment<CR>
+nnoremap gq :action ReformatCode<CR>
+
+""" Idea Specific
+nnoremap <leader>rr :action Rerun<CR>
+nnoremap <leader>rc :action RunClass<CR>
+nnoremap <leader>ft :action GotoTest<CR>
 
 """ Harpoon Remaps
 nnoremap <C-e> :action ShowHarpoon<CR>
@@ -43,6 +53,10 @@ noremap <C-k> <C-w>k
 :set incsearch
 :set hlsearch
 :set ignorecase smartcase
+
+""" https://github.com/AlexPl292/IdeaVim-EasyMotion
+set easymotion
+nmap s <Plug>(easymotion-s)
 
 """ use the system clipboard
 set clipboard+=unnamed
