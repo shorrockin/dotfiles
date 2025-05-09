@@ -16,18 +16,21 @@
     eza
     bat
     zoxide
+    neofetch
+
+    # general development
+    alacritty
+    kitty # backup to alacritty
+    go
+    rustc
+
+    # neovim & plugin dependencies
+    neovim
     ripgrep
     jq
     unzip
-
-    # general development
-    neovim
-    alacritty
-    kitty # backup to alacritty
-    python3Minimal # needed for vim
-    go
+    python3Minimal
     nodejs_22
-    rustc
 
     # hyprland specific
     kdePackages.dolphin # file manager
