@@ -16,8 +16,9 @@
     ../modules/packages.nix
     ../modules/users.nix
     ../modules/hyprland.nix
-    ../modules/hibernate.nix
     ../modules/synology.nix
+    # hibernate seems to be a bit broken
+    # ../modules/hibernate.nix
   ];
 
   # This value determines the NixOS release from which the default
