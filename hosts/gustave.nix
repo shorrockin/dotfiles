@@ -16,7 +16,7 @@
     ../modules/packages.nix
     ../modules/users.nix
     ../modules/hyprland.nix
-    ../modules/suspend-and-hibernate.nix
+    ../modules/hibernate.nix
     ../modules/synology.nix
   ];
 
