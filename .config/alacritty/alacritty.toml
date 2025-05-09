@@ -51,4 +51,3 @@ save_to_clipboard = true
 
 [terminal]
 osc52 = "CopyPaste"
-shell = { program = "/bin/zsh", args = ["-l"] }
