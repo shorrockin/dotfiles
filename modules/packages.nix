@@ -2,7 +2,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # core os level utils
+    # terminal 
     zsh
     tmux
     git
@@ -20,7 +20,7 @@
 
     # general development
     alacritty
-    kitty # backup to alacritty
+    kitty
     go
     rustc
 
@@ -32,7 +32,7 @@
     python3Minimal
     nodejs_22
 
-    # hyprland specific
+    # wayland / hyprland 
     kdePackages.dolphin # file manager
     rofi-wayland # app launcher
     wl-clipboard # system clipboard
@@ -52,10 +52,7 @@
     # protonup # https://www.youtube.com/watch?v=qlfm3MEbqYA&t=392s
   ];
 
-  # Needed so we can add it as a shell below
   programs.zsh.enable = true;
-
-  # Install firefox.
   programs.firefox.enable = true;
 
   # Install steam with wrapper commands for better experience
