@@ -17,6 +17,7 @@
     bat
     zoxide
     neofetch
+    jtbl
 
     # general development
     alacritty
