@@ -12,6 +12,7 @@
   imports = [ # Include the results of the hardware scan.
     ../modules/hardware-configuration.nix
     ../modules/system.nix
+    ../modules/nvidia.nix
     ../modules/packages.nix
     ../modules/users.nix
     ../modules/hyprland.nix

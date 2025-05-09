@@ -1,5 +1,4 @@
 { config, pkgs, ... }: {
-  # enable display manager
   services.displayManager.enable = true;
 
   services.displayManager.sddm = {
