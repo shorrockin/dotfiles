@@ -1,6 +1,11 @@
 { config, pkgs, ... }: {
   services.displayManager.enable = true;
 
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
