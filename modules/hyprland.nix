@@ -1,6 +1,8 @@
 { config, pkgs, ... }: {
   services.displayManager.enable = true;
 
+  # seems like this shouldn't be needed, at least as i understand
+  # sddm, but ui seems to be reliant on this
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;

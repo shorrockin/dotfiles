@@ -8,6 +8,7 @@ alias ts='tmux-sessionizer'
 alias slack-format="pbpaste | ~/.zsh/scripts/slack-thread-format | pbcopy"
 
 alias ..='cd ../'
+alias dots='cd ~/dotfiles'
 
 gsub() {
   ack -l ${1} | xargs sed -i '' "s/${1}/${2}/g"
