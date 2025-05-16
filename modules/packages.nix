@@ -17,6 +17,7 @@
     bat
     zoxide
     neofetch
+    cmatrix
     jtbl
 
     # general development

@@ -17,6 +17,7 @@
     ../modules/users.nix
     ../modules/hyprland.nix
     ../modules/synology.nix
+    ../modules/random-wallpaper.nix
     # hibernate seems to be a bit broken
     # ../modules/hibernate.nix
   ];
