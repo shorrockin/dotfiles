@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+APP_CLASS="$1"
+COMMAND="$2"
+
+if [ -z "$APP_CLASS" ] || [ -z "$COMMAND" ]; then
+  echo "Usage: $0 <WindowClass> <Command>"
+  exit 1
+fi
+
+# Look for an existing window with the given class
+WINDOW_ADDRESS=$(hyprctl clients -j | jq -r --arg class "$APP_CLASS" \
+  '.[] | select(.class == $class) | .address' | head -n 1)
+
+if [ -n "$WINDOW_ADDRESS" ]; then
+  hyprctl dispatch focuswindow "address:$WINDOW_ADDRESS"
+else
+  eval "$COMMAND" &
+fi
