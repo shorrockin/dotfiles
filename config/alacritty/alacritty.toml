@@ -15,8 +15,8 @@ padding.y = 10
 
 decorations = "None"
 
-opacity = 0.93
-blur = true
+opacity = 0.90
+blur = false
 
 [colors]
 transparent_background_colors = true
