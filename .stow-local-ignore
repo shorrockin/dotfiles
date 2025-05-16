@@ -23,8 +23,6 @@ _darcs
 ^/COPYING
 
 \.DS_Store
-stow_setup.sh
-check.sh
 nix_rebuild.sh
 flake.lock
 flake.nix

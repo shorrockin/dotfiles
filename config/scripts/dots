@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Configurable base directory
+DOTFILES_DIR=~/dotfiles
+
+# Default action is "stow"
+USER_ACTION=${1:-stow}  # Accepts: stow, restow, delete
+
+case "$USER_ACTION" in
+  stow|restow|delete)
+    echo "Action is valid: $USER_ACTION"
+    ;;
+  *)
+    echo "Usage: $0 [stow|restow|delete]"
+    exit 1
+    ;;
+esac
+
+# Creating the ~/.config directory for nvim, scripts, etc
+mkdir -p ~/.config
+
+# Creating ~/.config/scripts directory so we can link directory to the script, not the directory
+mkdir -p ~/.config/scripts
+
+# Creating ~/.config/zsh directory which we will auto-load as part of zshrc
+mkdir -p ~/.config/zsh
+
+# Creating ~/.config/nvim/ directories for lua scripts, so that we don't link nvim wholesale, allowing private modules"
+mkdir -p ~/.config/nvim/lua
+mkdir -p ~/.config/nvim/lua/plugins
+mkdir -p ~/.config/nvim/after/plugin
+mkdir -p ~/.config/nvim/after/ftplugin
+
+echo "Running '$USER_ACTION' for dotfiles..."
+
+# 1. Stow dots/ to home (~)
+if [ -d "$DOTFILES_DIR/dots" ]; then
+  echo "  $USER_ACTION: dots → $HOME"
+  stow --dir="$DOTFILES_DIR" --target="$HOME" --$USER_ACTION dots
+else
+  echo "Warning: $DOTFILES_DIR/dots does not exist."
+fi
+
+# 2. Stow .config/ to home (~) so it links ~/.config/ properly
+if [ -d "$DOTFILES_DIR/config" ]; then
+  echo "  $USER_ACTION: .config → $HOME"
+  stow --dir="$DOTFILES_DIR" --target="$HOME/.config" --$USER_ACTION config
+else
+  echo "Warning: $DOTFILES_DIR/.config does not exist."
+fi
