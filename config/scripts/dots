@@ -38,7 +38,7 @@ echo "Running '$USER_ACTION' for dotfiles..."
 # 1. Stow dots/ to home (~)
 if [ -d "$DOTFILES_DIR/dots" ]; then
   echo "  $USER_ACTION: dots → $HOME"
-  stow --dir="$DOTFILES_DIR" --target="$HOME" --$USER_ACTION dots
+  stow --dotfiles --dir="$DOTFILES_DIR" --target="$HOME" --$USER_ACTION dots
 else
   echo "Warning: $DOTFILES_DIR/dots does not exist."
 fi

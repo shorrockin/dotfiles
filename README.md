@@ -31,3 +31,4 @@ Once you get this on nix you can rebuild the normal way or through the nix-rebui
 A few other things to note:
 - `bat` requires a `bat cache --build`
 - `tmux` needs it's plugins installed with `I
+- when running `git stow` you can ignore files with `--ignore=.gitconfig`
