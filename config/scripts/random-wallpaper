@@ -3,8 +3,12 @@
 WALLPAPER_DIR="$HOME/.config/assets/wallpapers/"
 CURRENT_WALL=$(hyprctl hyprpaper listloaded)
 
+export DISPLAY=:0
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export WAYLAND_DISPLAY=wayland-1  # or whatever matches your session
+
 # Get a random wallpaper that is not the current one
 WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
 
 # Apply the selected wallpaper
-hyprctl hyprpaper reload ,"$WALLPAPER"
+/run/current-system/sw/bin/hyprctl hyprpaper reload ,"$WALLPAPER"

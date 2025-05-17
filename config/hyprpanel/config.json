@@ -11,7 +11,7 @@
   "theme.bar.floating": true,
   "theme.bar.location": "top",
   "bar.autoHide": "fullscreen",
-  "theme.bar.buttons.enableBorders": false,
+  "theme.bar.buttons.enableBorders": true,
   "theme.bar.border.width": "0.1.5em",
   "theme.bar.outer_spacing": "0.2em",
   "menus.media.hideAuthor": false,

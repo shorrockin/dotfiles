@@ -6,6 +6,7 @@ alias vi='nvim -p'
 
 alias ts='tmux-sessionizer'
 alias slack-format="pbpaste | ~/.zsh/scripts/slack-thread-format | pbcopy"
+alias matrix='cmatrix -s -r'
 
 alias ..='cd ../'
 
