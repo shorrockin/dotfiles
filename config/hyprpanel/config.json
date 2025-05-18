@@ -403,13 +403,13 @@
   "bar.layouts": {
     "*": {
       "left": [
-        "systray",
         "media",
         "microphone",
         "volume"
       ],
       "middle": [
         "workspaces",
+        "clock",
         "notifications"
       ],
       "right": [
@@ -417,7 +417,6 @@
         "ram",
         "cpu",
         "bluetooth",
-        "clock",
         "dashboard"
       ]
     }
