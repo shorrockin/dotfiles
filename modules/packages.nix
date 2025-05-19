@@ -19,6 +19,7 @@
     neofetch
     cmatrix
     jtbl
+    libqalculate
 
     # general development
     alacritty
@@ -43,6 +44,8 @@
     hyprpaper # wallpaper
     hypridle # idle management
     hyprshot # screenshots
+    mpv # used to show wallpaper fullscreen
+    # hyprlock # lock screen
 
     # general aps
     _1password-cli

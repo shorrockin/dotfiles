@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+WALLPAPER=$(<~/.cache/current_wallpaper)
+
+mpv "$WALLPAPER" \
+    --fullscreen \
+    --no-border \
+    --no-input-default-bindings \
+    --input-conf=/dev/null \
+    --force-window=yes \
+    --ontop \
+    --image-display-duration=9999 \
+    --loop-file=inf \
+    --no-osc \
+    --idle=yes 
+
+

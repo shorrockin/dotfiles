@@ -10,5 +10,9 @@ export WAYLAND_DISPLAY=wayland-1  # or whatever matches your session
 # Get a random wallpaper that is not the current one
 WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
 
+# save the selected wallpaper path, used to show the current wallpaper
+# fullscreen when idle
+echo  "$WALLPAPER" > ~/.cache/current_wallpaper
+
 # Apply the selected wallpaper
 /run/current-system/sw/bin/hyprctl hyprpaper reload ,"$WALLPAPER"
