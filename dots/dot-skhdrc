@@ -1,0 +1,57 @@
+# ~/.skhdrc
+
+# NOTE: you do not need to restart skhd after changing this file, it should
+# pick up the changes automatically.
+
+# cmd + shift - enter : open -a Alacritty
+# cmd + shift - b : open -a Chrome
+# cmd + shift - o : open -a Obsidian
+# cmd + shift - s : open -a Slack
+# cmd - e : open -a Finder
+
+# Toggle fullscreen
+cmd + shift - f : yabai -m window --toggle zoom-fullscreen
+
+# Focus windows
+cmd - h : yabai -m window --focus west
+cmd - j : yabai -m window --focus south
+# conflicts with slack default bindings :eyeroll:
+# cmd - k : yabai -m window --focus north
+cmd - l : yabai -m window --focus east
+
+# Move windows
+cmd + shift - h : yabai -m window --swap west
+cmd + shift - j : yabai -m window --swap south
+cmd + shift - k : yabai -m window --swap north
+cmd + shift - l : yabai -m window --swap east
+
+# Resize windows
+cmd + ctrl - h : yabai -m window --resize left:-50:0
+cmd + ctrl - j : yabai -m window --resize bottom:0:50
+cmd + ctrl - k : yabai -m window --resize top:0:-50
+cmd + ctrl - l : yabai -m window --resize right:50:0
+
+# Switch workspaces (spaces)
+# Configured at the OS level in settings
+# cmd - 1 : yabai -m space --focus 1
+# cmd - 2 : yabai -m space --focus 2
+# cmd - 3 : yabai -m space --focus 3
+# cmd - 4 : yabai -m space --focus 4
+# cmd - 5 : yabai -m space --focus 5
+# cmd - 6 : yabai -m space --focus 6
+# cmd - 7 : yabai -m space --focus 7
+# cmd - 8 : yabai -m space --focus 8
+# cmd - 9 : yabai -m space --focus 9
+
+# Move windows to workspaces
+# Not working in Sonoma https://github.com/koekeishiya/yabai/issues/2240
+# cmd + shift - 1 : yabai -m window --space 1
+# cmd + shift - 2 : yabai -m window --space 2
+# cmd + shift - 3 : yabai -m window --space 3
+# cmd + shift - 4 : yabai -m window --space 4
+# cmd + shift - 5 : yabai -m window --space 5
+# cmd + shift - 6 : yabai -m window --space 6
+# cmd + shift - 7 : yabai -m window --space 7
+# cmd + shift - 8 : yabai -m window --space 8
+# cmd + shift - 9 : yabai -m window --space 9
+

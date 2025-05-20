@@ -1,0 +1,11 @@
+#!/bin/bash
+
+app_name="$1"
+launch_command="$2"
+
+if yabai -m query --windows | jq -e ".[] | select(.app == \"$app_name\")" > /dev/null; then
+    yabai -m window --focus "$(yabai -m query --windows | jq -r ".[] | select(.app == \"$app_name\") | .id")"
+else
+    eval "$launch_command"
+fi
+
