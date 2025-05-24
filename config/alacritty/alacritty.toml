@@ -44,7 +44,7 @@ bindings = [
 
 [font]
 normal.family = "MesloLGS Nerd Font Mono"
-size = 16
+size = 18
 
 [selection]
 save_to_clipboard = true
