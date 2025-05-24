@@ -31,6 +31,7 @@
     jtbl # json in the terminal
     libqalculate # qalc: calculator
     yazi # terminal file manager
+    hyperfine # terminal benchmarking
 
     # general development
     alacritty
