@@ -1,0 +1,30 @@
+# This is the configuration file for Ghostty.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+
+window-padding-x = 13,13
+window-padding-y = 13,13
+window-decoration = "none"
+background-opacity = 0.925
+
+font-family = "MesloLGS Nerd Font Mono"
+font-size = 16
+
+clipboard-read = allow
+clipboard-write = allow
+
+# keybind = ctrl+one=text:\x1b[49;5u
+# keybind = ctrl+two=text:\x1b[22~
+# keybind = ctrl+three=text:\x1b[23~
+# keybind = ctrl+four=text:\x1b[24~
+# keybind = ctrl+five=text:\x1b[25~
+
+# keybind = ctrl+one=unbind
+# keybind = ctrl+two=unbind
+# keybind = ctrl+three=unbind
+# keybind = ctrl+four=unbind
+# keybind = ctrl+five=unbind

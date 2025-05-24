@@ -5,6 +5,8 @@
     # terminal 
     zsh
     tmux
+    fish
+    starship
     git
     tig
     wget
@@ -24,8 +26,10 @@
     # general development
     alacritty
     kitty
+    ghostty
     go
     rustc
+    delta
 
     # neovim & plugin dependencies
     neovim
@@ -69,7 +73,8 @@
     # protonup # https://www.youtube.com/watch?v=qlfm3MEbqYA&t=392s
   ];
 
-  programs.zsh.enable = true;
+  # programs.zsh.enable = true;
+  programs.fish.enable = true;
   programs.firefox.enable = true;
 
   # Install steam with wrapper commands for better experience

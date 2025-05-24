@@ -3,7 +3,7 @@
   users.users.chris = {
     isNormalUser = true;
     description = "Chris";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs;
       [
