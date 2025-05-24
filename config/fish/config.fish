@@ -41,7 +41,6 @@ function git-fix
   git rebase -i --autosquash $AUTOSQUASH_AT
 end
 
-
 # function git-clean 
 #     # Make sure we're working with the most up-to-date version of master.
 #     git fetch

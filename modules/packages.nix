@@ -2,26 +2,34 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # terminal 
+    # terminal zsh
     zsh
-    tmux
+    zoxide # quick cd
+
+    # terminal fish
     fish
     starship
+
+    # terminal git
     git
-    tig
+    delta # better git diffs
+    tig # show git history
+
+    # terminal 
+    tmux
     wget
     stow
     fzf
     gcc
     btop
-    most
-    eza
-    bat
-    zoxide
+    most # most > less > more
+    eza # better ls
+    bat # more cat
     neofetch
-    cmatrix
-    jtbl
-    libqalculate
+    cmatrix # terminal matrix
+    jtbl # json in the terminal
+    libqalculate # qalc: calculator
+    yazi # terminal file manager
 
     # general development
     alacritty
@@ -29,7 +37,6 @@
     ghostty
     go
     rustc
-    delta
 
     # neovim & plugin dependencies
     neovim
