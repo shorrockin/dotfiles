@@ -20,6 +20,7 @@ abbr --add gpsh git push
 abbr --add gpshf git push -force
 abbr --add gpr git pull --rebase origin HEAD
 abbr --add glog "git log --graph --pretty=format:'%an: %s - %Cred%h%Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+abbr --add gc git add --all . && git add -u . && git commit -am \" 
 
 # OTHER ABBREVIATIONS
 abbr --add vim nvim
