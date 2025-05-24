@@ -14,6 +14,7 @@
     git
     delta # better git diffs
     tig # show git history
+    lazygit # git history in a tui
 
     # terminal 
     tmux
