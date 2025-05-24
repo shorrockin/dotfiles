@@ -19,12 +19,18 @@ abbr --add g git
 abbr --add gpsh git push
 abbr --add gpshf git push -force
 abbr --add gpr git pull --rebase origin HEAD
-abbr --add glog "git log --graph --pretty=format:'%an: %s - %Cred%h%Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-abbr --add gc git add --all . && git add -u . && git commit -am \" 
+abbr --add gl "git log --graph --pretty=format:'%an: %s - %Cred%h%Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+abbr --add gc "git add --all . && git add -u . && git commit -am"
+abbr --add gcnv "git add --all . && git add -u . && git commit --no-verify -am"
+abbr --add gp git pull
+abbr --add gb "git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[\$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr(\$2, 1, length(\$2)-1), \$1)}'"
+abbr --add gundo git reset --soft HEAD && git restore --staged .
+abbr --add gamend git commit --amend
 
 # OTHER ABBREVIATIONS
 abbr --add vim nvim
 abbr --add vi nvim
+abbr --add v nvim
 abbr --add ts tmux-sessionizer
 abbr --add l eza
 abbr --add ll eza -lha

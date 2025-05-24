@@ -28,23 +28,12 @@
 [merge]
     conflictstyle = zdiff3
 [alias]
-  # commit everything with a message
-  c = !git add --all . && git add -u . && git commit -am
-
   # cleans up old branches
   sp = !git superprune
 
-  # shortcut
-  d = diff
-
   # commit everything with a message (and dont verify)
-  cnv = !git add --all . && git add -u . && git commit --no-verify -am
-
   # quick status
   s = status -u
-
-  # quick pull
-  p = !git pull
 
   # list branches
   # b = !git branch
