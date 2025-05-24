@@ -9,7 +9,7 @@
   preloadindex = true
   editor = nvim
 [color]
-	ui = true
+  ui = true
   deltabasecachelimit = 4g
 [help]
   autocorrect = 50
@@ -21,13 +21,15 @@
     diffFilter = delta --color-only
 [delta]
     navigate = true  # use n and N to move between diff sections
-    dark = true      # or light = true, or omit for auto-detection
+[include]
+	path = ~/.config/delta/themes/catppuccin.gitconfig
+[delta]
+	features = catppuccin-mocha
 [merge]
     conflictstyle = zdiff3
 [alias]
   # commit everything with a message
   c = !git add --all . && git add -u . && git commit -am
-  cz = !git add --all . && git add -u . && git restore --staged intellij/. && git commit -am
 
   # cleans up old branches
   sp = !git superprune

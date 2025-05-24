@@ -28,6 +28,7 @@ abbr --add ts tmux-sessionizer
 abbr --add l eza
 abbr --add ll eza -lha
 abbr --add matrix cmatrix -s -r
+abbr --add stow dots stow
 
 # FUNCTIONS
 function git-branch
