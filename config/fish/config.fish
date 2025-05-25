@@ -50,6 +50,12 @@ function git-fix
   git rebase -i --autosquash $AUTOSQUASH_AT
 end
 
+# from the fish docs, .. goes back one, ... goes back two, etc
+function multicd
+    echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)
+end
+abbr --add dotdot --regex '^\.\.+$' --function multicd
+
 # function git-clean 
 #     # Make sure we're working with the most up-to-date version of master.
 #     git fetch
