@@ -6,5 +6,10 @@ end
 function fish_greeting
 end
 
+# allows us to source a custom work script, checked in seperately
+if test -e ~/.work.fish
+    source ~/.work.fish
+end
+
 # https://starship.rs/
 starship init fish | source

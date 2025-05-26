@@ -19,14 +19,8 @@ font-size = 16
 clipboard-read = allow
 clipboard-write = allow
 
-# keybind = ctrl+one=text:\x1b[49;5u
-# keybind = ctrl+two=text:\x1b[22~
-# keybind = ctrl+three=text:\x1b[23~
-# keybind = ctrl+four=text:\x1b[24~
-# keybind = ctrl+five=text:\x1b[25~
-
-# keybind = ctrl+one=unbind
-# keybind = ctrl+two=unbind
-# keybind = ctrl+three=unbind
-# keybind = ctrl+four=unbind
-# keybind = ctrl+five=unbind
+keybind = ctrl+1=text:\x1b[49;5u
+keybind = ctrl+2=text:\x1b[50;5u
+keybind = ctrl+3=text:\x1b[51;5u
+keybind = ctrl+4=text:\x1b[52;5u
+keybind = ctrl+5=text:\x1b[53;5u
