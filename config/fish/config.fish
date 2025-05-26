@@ -33,10 +33,11 @@ abbr --add vi nvim
 abbr --add v nvim
 abbr --add ts tmux-sessionizer
 abbr --add l eza
-abbr --add ll eza -lha
-abbr --add lt eza --tree --level 3
+abbr --add ll eza -lha --icons --git
+abbr --add lt eza --tree --level 3 --long --icons --git
 abbr --add matrix cmatrix -s -r
 abbr --add stow dots stow
+abbr --add lg lazygit 
 
 # FUNCTIONS
 function git-branch

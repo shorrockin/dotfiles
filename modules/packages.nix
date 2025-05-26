@@ -32,7 +32,7 @@
     yazi # terminal file manager
     hyperfine # terminal benchmarking
     tldr # succinct man pages
-    dust # better du
+    dust # better du / df
 
     # general development
     alacritty
