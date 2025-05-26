@@ -16,13 +16,13 @@ abbr --add gamend "git commit --amend"
 abbr --add info neofetch
 # EZA
 abbr --add l eza
-abbr --add ll eza --all --long --icons --git --no-permissions
-abbr --add lt eza --tree --level 3 --long --icons --git --no-permissions
+abbr --add ll eza --all --long --icons --no-permissions
+abbr --add lt eza --tree --level 3 --long --icons --no-permissions
 
 # EZA
 abbr --add l eza
-abbr --add ll eza --all --long --icons --git --no-permissions
-abbr --add lt eza --tree --level 3 --long --icons --git --no-permissions
+abbr --add ll eza --all --long --icons --no-permissions
+abbr --add lt eza --tree --level 3 --long --icons --no-permissions
 
 # OTHER 
 abbr --add vim nvim
