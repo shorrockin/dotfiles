@@ -5,6 +5,8 @@
 #
 # Additionally, each config option is also explained in detail
 # on Ghostty's website, at https://ghostty.org/docs/config.
+#
+theme = catppuccin-mocha.conf
 
 window-padding-x = 13,13
 window-padding-y = 13,13
