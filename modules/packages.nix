@@ -8,7 +8,7 @@
 
     # terminal fish
     fish
-    starship
+    starship # prompt
 
     # terminal git
     git
@@ -17,21 +17,22 @@
     lazygit # git history in a tui
 
     # terminal 
-    tmux
-    wget
-    stow
-    fzf
-    gcc
-    btop
+    tmux # multiplexer
+    wget # http fetcher
+    stow # symlink manager
+    fzf # fuzzy finder
+    btop # better top
     most # most > less > more
     eza # better ls
     bat # more cat
-    neofetch
+    neofetch # computer info
     cmatrix # terminal matrix
     jtbl # json in the terminal
     libqalculate # qalc: calculator
     yazi # terminal file manager
     hyperfine # terminal benchmarking
+    tldr # succinct man pages
+    dust # better du
 
     # general development
     alacritty
@@ -39,6 +40,7 @@
     ghostty
     go
     rustc
+    gcc
 
     # neovim & plugin dependencies
     neovim
