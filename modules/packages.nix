@@ -35,9 +35,9 @@
     dust # better du / df
 
     # general development
+    ghostty
     alacritty
     kitty
-    ghostty
     go
     rustc
     gcc
