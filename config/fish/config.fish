@@ -1,5 +1,7 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
+    # Set the SHELL environment variable to fish path
+    set -gx SHELL (which fish)
 end
 
 
