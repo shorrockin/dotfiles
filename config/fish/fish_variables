@@ -40,4 +40,4 @@ SETUVAR fish_pager_color_selected_background:\x1d
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/Users/cs/\x2epyenv/shims\x1e/Users/cs/\x2enodenv/shims\x1e/Users/cs/\x2erbenv/shims\x1e/Users/cs/go/bin\x1e/Users/cs/\x2elocal/bin\x1e/opt/homebrew/sbin\x1e/opt/homebrew/bin\x1e/Users/cs/\x2econfig/scripts\x1e/home/chris/\x2econfig/scripts
+SETUVAR fish_user_paths:/Applications/Cursor\x2eapp/Contents/Resources/app/bin\x1e/Users/cs/\x2epyenv/shims\x1e/Users/cs/\x2enodenv/shims\x1e/Users/cs/\x2erbenv/shims\x1e/Users/cs/go/bin\x1e/Users/cs/\x2elocal/bin\x1e/opt/homebrew/sbin\x1e/opt/homebrew/bin\x1e/Users/cs/\x2econfig/scripts\x1e/home/chris/\x2econfig/scripts

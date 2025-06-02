@@ -1,10 +1,35 @@
 #!/usr/bin/env bash
 
+# Define an array of directories to search
+directories=(
+    "$HOME/stripe"
+    "$HOME/personal"
+    "$HOME/work"
+    "$HOME/projects"
+    "$HOME/dev"
+    "$HOME/code"
+    "$HOME"  # Keep home directory as a fallback
+)
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    # don't pipe to sort, this way we get existing sessions at the front
-    selected=$((tmux ls | awk -F':' '{print $1}'; find ~/stripe ~/personal ~/Code ~/ -mindepth 1 -maxdepth 1 -type d) | uniq | fzf --print-query | awk 'END {print}')
+    # Build the find command with existing directories
+    find_cmd=""
+    for dir in "${directories[@]}"; do
+        if [[ -d "$dir" ]]; then
+            find_cmd="$find_cmd $dir"
+        fi
+    done
+
+    # Only execute find if we have valid directories
+    if [[ -n "$find_cmd" ]]; then
+        # don't pipe to sort, this way we get existing sessions at the front
+        selected=$( (tmux ls 2>/dev/null | awk -F':' '{print $1}'; find $find_cmd -mindepth 1 -maxdepth 1 -type d) | uniq | fzf --print-query | awk 'END {print}')
+    else
+        # Fallback to just showing tmux sessions if no valid directories
+        selected=$(tmux ls 2>/dev/null | awk -F':' '{print $1}' | fzf --print-query | awk 'END {print}')
+    fi
 fi
 
 if [[ -z $selected ]]; then
@@ -15,7 +40,7 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 dir_option=""
 
-# check if the selected directory exists, omit the -c parameter if it dose
+# check if the selected directory exists, omit the -c parameter if it doesn't
 if [[ -d $selected ]]; then
     dir_option="-c $selected"
 fi

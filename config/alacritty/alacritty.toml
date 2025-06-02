@@ -15,7 +15,7 @@ padding.y = 20
 
 decorations = "None"
 
-opacity = 0.95
+opacity = 0.90
 blur = false
 
 [colors]
