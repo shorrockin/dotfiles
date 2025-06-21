@@ -71,15 +71,15 @@
     mangohud # game overlap for fps
     google-chrome
 
-    (bambu-studio.overrideAttrs (previousAttrs: {
-      version = "01.00.01.50";
-      src = fetchFromGitHub {
-        owner = "bambulab";
-        repo = "BambuStudio";
-        rev = "v01.00.01.50";
-        hash = "sha256-7mkrPl2CQSfc1lRjl1ilwxdYcK5iRU//QGKmdCicK30=";
-      };
-    }))
+    # (bambu-studio.overrideAttrs (previousAttrs: {
+    #   version = "01.00.01.50";
+    #   src = fetchFromGitHub {
+    #     owner = "bambulab";
+    #     repo = "BambuStudio";
+    #     rev = "v01.00.01.50";
+    #     hash = "sha256-7mkrPl2CQSfc1lRjl1ilwxdYcK5iRU//QGKmdCicK30=";
+    #   };
+    # }))
 
     # protonup # https://www.youtube.com/watch?v=qlfm3MEbqYA&t=392s
   ];
