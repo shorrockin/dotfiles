@@ -426,7 +426,7 @@
   "menus.dashboard.powermenu.confirmation": true,
   "menus.dashboard.stats.enable_gpu": false,
   "menus.dashboard.stats.enabled": true,
-  "menus.dashboard.shortcuts.enabled": false,
+  "menus.dashboard.shortcuts.enabled": true,
   "theme.bar.buttons.modules.storage.enableBorder": false,
   "theme.bar.buttons.modules.power.enableBorder": false,
   "theme.bar.transparent": false,
