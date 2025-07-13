@@ -48,12 +48,15 @@ in {
   environment.systemPackages = [ bambu-studio ];
 
   # Optional: install desktop entry globally
-  environment.etc."xdg/applications/bambustudio.desktop".text = ''
+  # environment.etc."xdg/applications/bambustudio.desktop".text = ''
+  # TODO: fix me this isn't installing the desktop app right, you can manually create in the 
+  # ~/.local/share/applications/ folder as a quick fix
+  environment.etc."xdg/xdg-desktop/applications/bambustudio.desktop".text = ''
     [Desktop Entry]
     Name=BambuStudio
     GenericName=3D Printing Software
     Icon=BambuStudio
-    Exec=GBM_BACKEND=dri bambustudio
+    Exec=env GBM_BACKEND=dri bambustudio
     Terminal=false
     Type=Application
     MimeType=model/stl;model/3mf;application/vnd.ms-3mfdocument;application/prs.wavefront-obj;application/x-amf;x-scheme-handler/bambustudio;
