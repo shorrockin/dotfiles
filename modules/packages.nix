@@ -70,8 +70,9 @@
     obsidian
     mangohud # game overlap for fps
     google-chrome
-    orca-slicer
 
+    #  see bambustudio.nix
+    # orca-slicer
     # (bambu-studio.overrideAttrs (previousAttrs: {
     #   version = "01.00.01.50";
     #   src = fetchFromGitHub {
