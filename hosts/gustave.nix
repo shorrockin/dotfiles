@@ -10,6 +10,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   imports = [ # Include the results of the hardware scan.
+    # ../modules/homemanager.nix
     ../modules/hardware-configuration.nix
     ../modules/system.nix
     ../modules/nvidia.nix
@@ -18,7 +19,7 @@
     ../modules/hyprland.nix
     ../modules/synology.nix
     ../modules/random-wallpaper.nix
-    ../modules/bambustudio.nix
+    # ../modules/bambustudio.nix
 
     # hibernate seems to be a bit broken
     # ../modules/hibernate.nix
