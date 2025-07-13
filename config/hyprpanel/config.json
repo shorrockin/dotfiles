@@ -8,7 +8,7 @@
   "tear": false,
   "menus.transition": "crossfade",
   "menus.transitionTime": 350,
-  "theme.bar.floating": true,
+  "theme.bar.floating": false,
   "theme.bar.location": "top",
   "bar.autoHide": "fullscreen",
   "theme.bar.buttons.enableBorders": true,
@@ -421,7 +421,7 @@
       ]
     }
   },
-  "theme.bar.buttons.borderSize": "0.1em",
+  "theme.bar.buttons.borderSize": "0em",
   "theme.bar.border.location": "none",
   "menus.dashboard.powermenu.confirmation": true,
   "menus.dashboard.stats.enable_gpu": false,
@@ -429,7 +429,7 @@
   "menus.dashboard.shortcuts.enabled": false,
   "theme.bar.buttons.modules.storage.enableBorder": false,
   "theme.bar.buttons.modules.power.enableBorder": false,
-  "theme.bar.transparent": true,
+  "theme.bar.transparent": false,
   "theme.bar.buttons.monochrome": false,
   "bar.launcher.autoDetectIcon": false,
   "theme.bar.buttons.dashboard.enableBorder": false,
