@@ -33,6 +33,7 @@
     hyperfine # terminal benchmarking
     tldr # succinct man pages
     dust # better du / df
+    ollama # local llms
 
     # general development
     ghostty
