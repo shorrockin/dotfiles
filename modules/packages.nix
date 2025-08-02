@@ -41,6 +41,7 @@
     kitty
     go
     rustc
+    cargo
     gcc
 
     # neovim & plugin dependencies
