@@ -43,6 +43,7 @@
     rustc
     cargo
     gcc
+    gnumake
 
     # neovim & plugin dependencies
     neovim
