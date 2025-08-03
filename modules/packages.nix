@@ -44,6 +44,7 @@
     cargo
     gcc
     gnumake
+    claude-code
 
     # neovim & plugin dependencies
     neovim
