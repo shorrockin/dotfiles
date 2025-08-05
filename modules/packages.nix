@@ -45,10 +45,11 @@
     gcc
     gnumake
     claude-code
-    (python3.withPackages (ps: with ps; [
-      openai-whisper  # for dictation system
-      pyaudio         # for dictation system
-    ]))
+    (python3.withPackages (ps:
+      with ps; [
+        openai-whisper # for dictation system
+        pyaudio # for dictation system
+      ]))
     nodejs_22
 
     # dictation system
