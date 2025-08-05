@@ -62,7 +62,7 @@ def cleanup():
     if recording_process and recording_process.poll() is None:
         recording_process.terminate()
         try:
-            recording_process.wait(timeout=2)
+            recording_process.wait(timeout=1)
         except subprocess.TimeoutExpired:
             recording_process.kill()
     
@@ -77,7 +77,7 @@ def signal_handler(signum, frame):
     if recording_process and recording_process.poll() is None:
         try:
             recording_process.send_signal(signal.SIGINT)
-            recording_process.wait(timeout=2)
+            recording_process.wait(timeout=1)
         except subprocess.TimeoutExpired:
             recording_process.kill()
         except:
@@ -200,17 +200,17 @@ def main():
                 # Kill the recording process gracefully
                 try:
                     os.kill(pid, signal.SIGINT)
-                    # Reduced wait time for faster response
-                    time.sleep(1.5)
+                    
+                    # Poll for file to be ready (max 0.5s)
+                    for _ in range(25):  # 25 * 0.02s = 0.5s max
+                        if os.path.exists(audio_file) and os.path.getsize(audio_file) > 1000:
+                            break
+                        time.sleep(0.02)
                 except:
                     pass
                 
                 # Set temp_file and transcribe the recording
                 temp_file = audio_file
-                
-                # Wait for file to be fully written
-                if os.path.exists(audio_file):
-                    time.sleep(0.3)
                 
                 stop_recording_and_transcribe()
                 
