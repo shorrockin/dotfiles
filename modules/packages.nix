@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
+  imports = [ ./ollama.nix ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -33,7 +34,6 @@
     hyperfine # terminal benchmarking
     tldr # succinct man pages
     dust # better du / df
-    ollama # local llms
 
     # general development
     ghostty

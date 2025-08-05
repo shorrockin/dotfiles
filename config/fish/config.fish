@@ -16,3 +16,6 @@ end
 if test -e ~/.work.fish
     source ~/.work.fish
 end
+
+# opencode
+fish_add_path /home/chris/.opencode/bin
