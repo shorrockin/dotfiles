@@ -45,14 +45,22 @@
     gcc
     gnumake
     claude-code
+    (python3.withPackages (ps: with ps; [
+      openai-whisper  # for dictation system
+      pyaudio         # for dictation system
+    ]))
+    nodejs_22
+
+    # dictation system
+    wtype # wayland keyboard input
+    ffmpeg # audio recording
+    libnotify # desktop notifications
 
     # neovim & plugin dependencies
     neovim
     ripgrep
     jq
     unzip
-    python3Minimal
-    nodejs_22
 
     # wayland / hyprland 
     kdePackages.dolphin # file manager
