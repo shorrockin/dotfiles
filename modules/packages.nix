@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, pkgs-unstable, ... }: {
   imports = [ ./ollama.nix ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -45,6 +45,7 @@
     gcc
     gnumake
     claude-code
+    pkgs-unstable.opencode
     (python3.withPackages (ps:
       with ps; [
         openai-whisper # for dictation system
