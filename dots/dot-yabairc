@@ -38,7 +38,7 @@ yabai -m space 4 --label "Four"
 yabai -m space 5 --label "Personal"
 
 # disable specific apps
-yabai -m rule --add app="^(LuLu|Calculator|Software Update|Dictionary|VLC|System Preferences|System Settings|Photo Booth|Archive Utility|Python|LibreOffice|App Store|Steam|Alfred|Activity Monitor)$" manage=off
+yabai -m rule --add app="^(LuLu|Calculator|Software Update|Dictionary|VLC|System Preferences|System Settings|Photo Booth|Archive Utility|Python|LibreOffice|App Store|Steam|Alfred|Activity Monitor|FaceTime)$" manage=off
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Hammerspoon$" manage=off
