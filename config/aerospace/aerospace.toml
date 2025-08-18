@@ -1,0 +1,108 @@
+# AeroSpace Configuration - Window Management Only
+# Converted from Hyprland configuration
+
+# General settings
+start-at-login = true
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# Enable window dragging (equivalent to Hyprland's bindm)
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Gaps equivalent to Hyprland gaps_in = 5, gaps_out = 10
+gaps.inner.horizontal = 5
+gaps.inner.vertical = 5
+gaps.outer.left = 10
+gaps.outer.bottom = 10
+gaps.outer.top = 10
+gaps.outer.right = 10
+
+# mouse follows focus when monitor changes
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Key bindings - Window Management Only
+[mode.main.binding]
+
+# Window management
+cmd-w = 'close'
+# cmd-tab = 'focus next'
+# cmd-s = 'layout toggle tiles accordion'
+cmd-shift-f = 'fullscreen'
+
+# Focus movement (vim-style)
+cmd-h = 'focus left'
+cmd-j = 'focus down'
+# cmd-k = 'focus up'
+cmd-l = 'focus right'
+cmd-left = 'focus left'
+cmd-right = 'focus right'
+cmd-up = 'focus up'
+cmd-down = 'focus down'
+
+# Window movement
+cmd-shift-left = 'move left'
+cmd-shift-right = 'move right'
+cmd-shift-up = 'move up'
+cmd-shift-down = 'move down'
+
+# Window resizing
+cmd-ctrl-left = 'resize width -50'
+cmd-ctrl-right = 'resize width +50'
+cmd-ctrl-up = 'resize height -50'
+cmd-ctrl-down = 'resize height +50'
+
+# Workspace switching
+cmd-1 = 'workspace 1'
+cmd-2 = 'workspace 2'
+cmd-3 = 'workspace 3'
+cmd-4 = 'workspace 4'
+cmd-5 = 'workspace 5'
+cmd-6 = 'workspace 6'
+cmd-7 = 'workspace 7'
+cmd-8 = 'workspace 8'
+cmd-9 = 'workspace 9'
+cmd-0 = 'workspace 0'
+
+# Mouse bindings for window dragging (equivalent to Hyprland's bindm)
+# Note: AeroSpace uses ctrl+cmd+drag by default for moving windows
+# and ctrl+cmd+right-drag for resizing - these are built-in and don't need configuration
+
+# Move window to workspace
+cmd-shift-1 = 'move-node-to-workspace 1'
+cmd-shift-2 = 'move-node-to-workspace 2'
+cmd-shift-3 = 'move-node-to-workspace 3'
+cmd-shift-4 = 'move-node-to-workspace 4'
+cmd-shift-5 = 'move-node-to-workspace 5'
+cmd-shift-6 = 'move-node-to-workspace 6'
+cmd-shift-7 = 'move-node-to-workspace 7'
+cmd-shift-8 = 'move-node-to-workspace 8'
+cmd-shift-9 = 'move-node-to-workspace 9'
+cmd-shift-0 = 'move-node-to-workspace 0'
+
+# Window detection rules - auto-assign apps to workspaces
+# [[on-window-detected]]
+# if.app-id = 'io.alacritty'
+# run = 'move-node-to-workspace 1'
+#
+# [[on-window-detected]]
+# if.app-id = 'com.tinyspeck.slackmacOS'
+# run = 'move-node-to-workspace 2'
+#
+# [[on-window-detected]]
+# if.app-id = 'com.google.Chrome'
+# run = 'move-node-to-workspace 2'
+#
+# [[on-window-detected]]
+# if.app-id = 'md.obsidian'
+# run = 'move-node-to-workspace 2'
+#
+# [[on-window-detected]]
+# if.app-id = 'com.apple.MobileSMS'
+# run = 'move-node-to-workspace 6'
+#
+# [[on-window-detected]]
+# if.app-id = 'org.mozilla.firefox'
+# run = 'move-node-to-workspace 6'
+#
