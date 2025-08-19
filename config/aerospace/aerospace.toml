@@ -1,57 +1,93 @@
-# AeroSpace Configuration - Window Management Only
-# Converted from Hyprland configuration
-
-# General settings
 start-at-login = true
-accordion-padding = 30
-default-root-container-layout = 'tiles'
-default-root-container-orientation = 'auto'
 
-# Enable window dragging (equivalent to Hyprland's bindm)
+# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
-# Gaps equivalent to Hyprland gaps_in = 5, gaps_out = 10
-gaps.inner.horizontal = 5
-gaps.inner.vertical = 5
-gaps.outer.left = 10
-gaps.outer.bottom = 10
-gaps.outer.top = 10
-gaps.outer.right = 10
+# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
+# The 'accordion-padding' specifies the size of accordion padding
+# You can set 0 to disable the padding feature
+accordion-padding = 30
 
-# mouse follows focus when monitor changes
+# Possible values: tiles|accordion
+default-root-container-layout = 'tiles'
+
+# Possible values: horizontal|vertical|auto
+# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
+#               tall monitor (anything higher than wide) gets vertical orientation
+default-root-container-orientation = 'auto'
+
+# Mouse follows focus when focused monitor changes
+# Drop it from your config, if you don't like this behavior
+# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
+# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
+# Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-# Key bindings - Window Management Only
+# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
+# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
+# Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
+automatically-unhide-macos-hidden-apps = false
+
+# Possible values: (qwerty|dvorak|colemak)
+# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
+[key-mapping]
+preset = 'qwerty'
+
+# Gaps between windows (inner-*) and between monitor edges (outer-*).
+# Possible values:
+# - Constant:     gaps.outer.top = 8
+# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
+#                 In this example, 24 is a default value when there is no match.
+#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
+#                 See:
+#                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[gaps]
+inner.horizontal = 0
+inner.vertical = 0
+outer.left = 0
+outer.bottom = 0
+outer.top = 0
+outer.right = 0
+
+# 'main' binding mode declaration
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+# 'main' binding mode must be always presented
+# Fallback value (if you omit the key): mode.main.binding = {}
 [mode.main.binding]
 
 # Window management
-cmd-w = 'close'
+# cmd-w = 'close'
 # cmd-tab = 'focus next'
 # cmd-s = 'layout toggle tiles accordion'
-cmd-shift-f = 'fullscreen'
+cmd-ctrl-f = 'fullscreen'
+cmd-shift-b = 'balance-sizes'
 
-# Focus movement (vim-style)
-cmd-h = 'focus left'
-cmd-j = 'focus down'
-# cmd-k = 'focus up'
-cmd-l = 'focus right'
+# Focus movement 
 cmd-left = 'focus left'
+# cmd-h = 'focus left'
 cmd-right = 'focus right'
+# cmd-l = 'focus right'
 cmd-up = 'focus up'
+# cmd-k = 'focus up'
 cmd-down = 'focus down'
+# cmd-j = 'focus down'
 
 # Window movement
 cmd-shift-left = 'move left'
+# cmd-shift-h = 'move left'
 cmd-shift-right = 'move right'
-cmd-shift-up = 'move up'
-cmd-shift-down = 'move down'
+# cmd-shift-l = 'move right'
+cmd-shift-up = 'join-with left'
+# cmd-shift-k = 'join-with left'
+cmd-shift-down = 'join-with right'
+# cmd-shift-j = 'join-with right'
 
 # Window resizing
-cmd-ctrl-left = 'resize width -50'
-cmd-ctrl-right = 'resize width +50'
-cmd-ctrl-up = 'resize height -50'
-cmd-ctrl-down = 'resize height +50'
+cmd-ctrl-left = 'resize smart -80'
+cmd-ctrl-right = 'resize smart +80'
+cmd-ctrl-up = 'resize smart -80'
+cmd-ctrl-down = 'resize smart +80'
 
 # Workspace switching
 cmd-1 = 'workspace 1'
@@ -65,44 +101,48 @@ cmd-8 = 'workspace 8'
 cmd-9 = 'workspace 9'
 cmd-0 = 'workspace 0'
 
-# Mouse bindings for window dragging (equivalent to Hyprland's bindm)
-# Note: AeroSpace uses ctrl+cmd+drag by default for moving windows
-# and ctrl+cmd+right-drag for resizing - these are built-in and don't need configuration
-
 # Move window to workspace
-cmd-shift-1 = 'move-node-to-workspace 1'
-cmd-shift-2 = 'move-node-to-workspace 2'
-cmd-shift-3 = 'move-node-to-workspace 3'
-cmd-shift-4 = 'move-node-to-workspace 4'
-cmd-shift-5 = 'move-node-to-workspace 5'
-cmd-shift-6 = 'move-node-to-workspace 6'
-cmd-shift-7 = 'move-node-to-workspace 7'
-cmd-shift-8 = 'move-node-to-workspace 8'
-cmd-shift-9 = 'move-node-to-workspace 9'
-cmd-shift-0 = 'move-node-to-workspace 0'
+cmd-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+cmd-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+cmd-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+cmd-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+cmd-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+cmd-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+cmd-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
+cmd-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
+cmd-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+cmd-shift-0 = 'move-node-to-workspace --focus-follows-window 0'
+
+[workspace-to-monitor-force-assignment]
+0 = 'secondary' # Non-main monitor in case when there are only two monitors
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
 
 # Window detection rules - auto-assign apps to workspaces
-# [[on-window-detected]]
-# if.app-id = 'io.alacritty'
-# run = 'move-node-to-workspace 1'
-#
-# [[on-window-detected]]
-# if.app-id = 'com.tinyspeck.slackmacOS'
-# run = 'move-node-to-workspace 2'
-#
-# [[on-window-detected]]
-# if.app-id = 'com.google.Chrome'
-# run = 'move-node-to-workspace 2'
-#
-# [[on-window-detected]]
-# if.app-id = 'md.obsidian'
-# run = 'move-node-to-workspace 2'
-#
-# [[on-window-detected]]
-# if.app-id = 'com.apple.MobileSMS'
-# run = 'move-node-to-workspace 6'
-#
-# [[on-window-detected]]
-# if.app-id = 'org.mozilla.firefox'
-# run = 'move-node-to-workspace 6'
-#
+[[on-window-detected]]
+if.app-id = 'io.alacritty'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacOS'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'org.mozilla.firefox'
+run = 'move-node-to-workspace 6'
