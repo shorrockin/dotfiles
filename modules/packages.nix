@@ -34,6 +34,7 @@
     hyperfine # terminal benchmarking
     tldr # succinct man pages
     dust # better du / df
+    poppler-utils # pdf tools
 
     # general development
     ghostty
@@ -74,6 +75,8 @@
     hypridle # idle management
     hyprshot # screenshots
     mpv # used to show wallpaper fullscreen
+    # moonlight-qt # game streaming client
+    # sunshine # moonlight: game streaming server
     # hyprlock # lock screen
 
     # general aps

@@ -8,6 +8,11 @@
   # Maybe recommended for wayland? But only if problems
   # hardware.nvidia.modesetting.enable = true;
 
+  # Enable 10GB shader cache for OpenGL applications 
+  environment.variables = {
+    __GL_SHADER_DISK_CACHE_SIZE = "10737418240"; # 10GB in bytes
+  };
+
   hardware.nvidia = {
     # Modesetting is required.
     modesetting.enable = true;
