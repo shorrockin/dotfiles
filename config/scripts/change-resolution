@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+if [ "$1" = "game" ]; then
+    hyprctl keyword monitor DP-1,2560x1440,0x0,1
+    echo "Switched to 1440p for gaming"
+elif [ "$1" = "desktop" ]; then
+    hyprctl keyword monitor DP-1,3440x1440@59.97,0x0,1
+    echo "Switched back to ultrawide"
+else
+    echo "Usage: game-res.sh [game|desktop]"
+fi

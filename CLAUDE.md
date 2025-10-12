@@ -68,6 +68,12 @@ bat cache --build
 - **Terminal**: Multiple options (Ghostty, Alacritty, Kitty) managed via Hyprland
 - **Desktop**: Hyprland + HyprPanel on Wayland with automated wallpaper rotation
 
+### Gaming Configuration
+- **Steam**: Fully configured with GameMode, GameScope, and MangoHUD integration
+- **Panel Behavior**: HyprPanel configured to hide during fullscreen Steam games
+- **Scripts**: 
+  - `config/scripts/change-resolution`: Switch between gaming and desktop resolutions
+
 ## Development Environment
 
 ### Language Support

@@ -10,7 +10,7 @@
   "menus.transitionTime": 350,
   "theme.bar.floating": false,
   "theme.bar.location": "top",
-  "bar.autoHide": "fullscreen",
+  "bar.autoHide": "never",
   "theme.bar.buttons.enableBorders": true,
   "theme.bar.border.width": "0.1.5em",
   "theme.bar.outer_spacing": "0.2em",

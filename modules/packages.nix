@@ -75,6 +75,8 @@
     hypridle # idle management
     hyprshot # screenshots
     mpv # used to show wallpaper fullscreen
+    wdisplays # display manager
+    wlr-randr # for adjusting resolutions
     # moonlight-qt # game streaming client
     # sunshine # moonlight: game streaming server
     # hyprlock # lock screen
