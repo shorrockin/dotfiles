@@ -15,10 +15,11 @@ vim.diagnostic.config({
 -- vim.opt_local.foldnestmax = 10 -- Maximum fold levels
 
 -- set's markdown indentation to 2
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
+-- using vim.bo (buffer-local) instead of vim.opt to resist vim-sleuth overrides
+vim.bo.tabstop = 2
+vim.bo.softtabstop = 2
+vim.bo.shiftwidth = 2
+vim.bo.expandtab = true
 
 -- folds things like urls, etc
 vim.opt_local.conceallevel = 2
