@@ -67,8 +67,7 @@
 
     # wayland / hyprland 
     kdePackages.dolphin # file manager
-    rofi-wayland # app launcher
-    rofimoji # emoji selector in rofi
+    walker # app launcher
     wl-clipboard # system clipboard
     hyprpanel # bar, replaces all the following
     hyprpaper # wallpaper

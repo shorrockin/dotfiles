@@ -1,0 +1,32 @@
+[general]
+terminal = "ghostty"
+theme = "catppuccin-mocha"
+
+[modules.applications]
+show_icons = true
+icon_theme = "Oranchelo"
+
+[modules.windows]
+show_icons = true
+
+[modules.websearch]
+show_icons = true
+
+[modules.emoji]
+show_icons = true
+
+[providers.applications]
+# Show desktop applications
+show_icons = true
+
+[providers.windows]
+# Show open windows
+show_icons = true
+
+[providers.websearch]
+# Web search functionality  
+show_icons = true
+
+[providers.emoji] 
+# Emoji picker functionality
+show_icons = true
