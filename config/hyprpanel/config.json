@@ -403,17 +403,17 @@
   "bar.layouts": {
     "*": {
       "left": [
-        "dashboard"
+        "dashboard",
+        "volume",
+        "media"
       ],
       "middle": [
-        "workspaces",
-        "notifications"
+        "workspaces"
       ],
       "right": [
-        "media",
-        "volume",
+        "clock",
         "bluetooth",
-        "clock"
+        "notifications"
       ]
     }
   },
