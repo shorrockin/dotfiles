@@ -403,21 +403,17 @@
   "bar.layouts": {
     "*": {
       "left": [
-        "media",
-        "microphone",
-        "volume"
+        "dashboard"
       ],
       "middle": [
         "workspaces",
-        "clock",
         "notifications"
       ],
       "right": [
-        "netstat",
-        "ram",
-        "cpu",
+        "media",
+        "volume",
         "bluetooth",
-        "dashboard"
+        "clock"
       ]
     }
   },
@@ -457,7 +453,7 @@
   "theme.bar.buttons.systray.enableBorder": false,
   "bar.clock.showTime": true,
   "bar.clock.showIcon": true,
-  "bar.clock.format": "%I:%M %p",
+  "bar.clock.format": "%m/%d @ %I:%M %p",
   "bar.clock.icon": "󰥔 ",
   "theme.bar.layer": "top",
   "bar.scrollSpeed": 5,
