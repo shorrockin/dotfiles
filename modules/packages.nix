@@ -66,7 +66,7 @@
     unzip
 
     # wayland / hyprland 
-    kdePackages.dolphin # file manager
+    nautilus # file manager
     walker # app launcher
     wl-clipboard # system clipboard
     hyprpanel # bar, replaces all the following
