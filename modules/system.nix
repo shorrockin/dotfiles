@@ -11,9 +11,9 @@
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "performance";
 
-  services.logind = {
-    rebootKey = "suspend";
-    powerKey = "suspend";
+  services.logind.settings.Login = {
+    HandleRebootKey = "suspend";
+    HandlePowerKey = "suspend";
   };
 
   # Bootloader.
