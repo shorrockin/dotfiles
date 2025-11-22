@@ -12,6 +12,7 @@ HOSTNAME=$(hostname)
 cd "$DOTFILES" || { echo "Failed to cd to $DOTFILES"; exit 1; }
 
 # Rebuild NixOS configuration
+echo "note: flakes, and nixos can be updated to latest with: nix flake update"
 echo "running: nixos-rebuild switch --flake .#$HOSTNAME"
 sudo nixos-rebuild switch --flake .#$HOSTNAME || { echo "Failed to rebuild NixOS configuration"; exit 1; }
 
