@@ -22,13 +22,12 @@
 
   # allows interaction between apps and proper dark mode support
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ 
-    pkgs.xdg-desktop-portal-gtk 
-    pkgs.xdg-desktop-portal-gnome 
-    pkgs.xdg-desktop-portal-hyprland 
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-hyprland
+    pkgs.xdg-desktop-portal-gtk
   ];
   xdg.portal.config.common = {
-    default = [ "gnome" "hyprland" "gtk" ];
-    "org.freedesktop.impl.portal.Settings" = [ "gnome" ];
+    default = [ "hyprland" "gtk" ];
+    "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
   };
 }

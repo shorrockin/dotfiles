@@ -1,6 +1,6 @@
 [general]
 terminal = "ghostty"
-theme = "catppuccin-mocha"
+# theme = "catppuccin-mocha"
 
 [modules.applications]
 show_icons = true

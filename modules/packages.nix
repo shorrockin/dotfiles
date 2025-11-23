@@ -1,4 +1,4 @@
-{ config, pkgs, lib, pkgs-unstable, ... }: {
+{ config, pkgs, lib, pkgs-unstable, vicinae-pkg, ... }: {
   imports = [ ./ollama.nix ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -65,9 +65,9 @@
     jq
     unzip
 
-    # wayland / hyprland 
+    # wayland / hyprland
     nautilus # file manager
-    walker # app launcher
+    vicinae-pkg # app launcher (replaces walker)
     wl-clipboard # system clipboard
     hyprpanel # bar, replaces all the following
     hyprpaper # wallpaper
