@@ -46,6 +46,7 @@
     gcc
     gnumake
     claude-code
+    gemini-cli
     pkgs-unstable.opencode
     (python3.withPackages (ps:
       with ps; [
