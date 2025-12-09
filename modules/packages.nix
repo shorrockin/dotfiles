@@ -45,8 +45,8 @@
     cargo
     gcc
     gnumake
-    claude-code
-    gemini-cli
+    pkgs-unstable.claude-code
+    pkgs-unstable.gemini-cli
     pkgs-unstable.opencode
     (python3.withPackages (ps:
       with ps; [
