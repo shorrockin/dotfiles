@@ -1,5 +1,5 @@
 { config, pkgs, lib, pkgs-unstable, vicinae-pkg, ... }: {
-  imports = [ ./ollama.nix ];
+  # imports = [ ./ollama.nix ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [

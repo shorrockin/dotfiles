@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }: {
   services.ollama = {
     enable = true;
-    acceleration = "cuda";
     package = pkgs.ollama-cuda.overrideAttrs (oldAttrs: rec {
       version = "0.11.2";
       src = pkgs.fetchFromGitHub {

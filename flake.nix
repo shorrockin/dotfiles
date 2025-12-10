@@ -14,7 +14,10 @@
         specialArgs = {
           inherit system;
           inherit inputs;
-          pkgs-unstable = import nixpkgs-unstable { inherit system; };
+          pkgs-unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
           vicinae-pkg = vicinae.packages.${system}.default;
         };
         modules = [ ./hosts/gustave.nix ];
