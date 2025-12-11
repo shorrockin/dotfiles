@@ -401,7 +401,7 @@
   "bar.customModules.ram.labelType": "percentage",
   "bar.customModules.ram.round": true,
   "bar.layouts": {
-    "*": {
+    "0": {
       "left": [
         "dashboard",
         "volume",
