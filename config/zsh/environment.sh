@@ -3,7 +3,7 @@
 # -----------------------------------------------
 EDITOR=nvim
 VISUAL=nvim
-BROWSER=firefox
+BROWSER=vivaldi
 PAGER=less
 RSYNC_RSH=/usr/bin/ssh
 PATH=./bin:./node_modules/.bin:.:$PATH:~/.zsh/scripts

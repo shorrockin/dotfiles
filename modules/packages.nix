@@ -82,6 +82,7 @@
     obsidian
     mangohud # game overlap for fps
     google-chrome
+    vivaldi
     localsend # allows sharing across devices on local network
 
     #  see bambustudio.nix

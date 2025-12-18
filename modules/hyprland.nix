@@ -18,6 +18,8 @@
     # WLR_NO_HARDWARE_CURSORS = "1";
     # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
+    # Default browser
+    BROWSER = "vivaldi";
   };
 
   # allows interaction between apps and proper dark mode support
