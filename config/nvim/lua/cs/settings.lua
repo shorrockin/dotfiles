@@ -1,5 +1,3 @@
--- vim.verbose = 15
-
 -- relative line number setup
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -64,7 +62,7 @@ vim.opt.formatoptions = "tcqrn1"
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 --  Does not play well with neoclip
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = "unnamedplus"
 
 -- preview substitutions live as you type
 vim.opt.inccommand = "split"
@@ -74,6 +72,9 @@ vim.opt.guicursor = "a:blinkon500"
 
 -- show which line your cursor is on
 vim.opt.cursorline = true
+
+-- style on the hover window borders
+vim.opt.winborder = "rounded"
 
 -- set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true

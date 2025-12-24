@@ -14,7 +14,7 @@ return {
 		quickfile = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
-		picker = {},
+		picker = { layout = "vertical" },
 		dashboard = {
 			sections = {
 				{ section = "header" },
