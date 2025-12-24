@@ -1,2 +1,64 @@
- #!/bin/bash
-hyprctl binds -j | jq -r 'map({modkey:.modmask|tostring,key:.key,description:.description,dispatch:.dispatcher,arg:.arg}) | map(.modkey |= {"0":"","1":"SHIFT","4":"CTRL","5":"SHIFT+CTRL","64":"SUPER","65":"SUPER+SHIFT","68":"SUPER+CTRL","72":"SUPER+ALT","73":"SUPER+ALT+SHIFT", "8":"ALT", "12":"ALT+CTRL"} [.] )| sort_by(.modkey)' | jtbl -n --fancy | fzf --layout=reverse-list 
+#!/usr/bin/env bash
+
+# Modifier mask to text mapping
+declare -A MODMASKS=(
+    [0]=""
+    [1]="SHIFT"
+    [4]="CTRL"
+    [5]="SHIFT+CTRL"
+    [8]="ALT"
+    [9]="ALT+SHIFT"
+    [12]="ALT+CTRL"
+    [13]="ALT+CTRL+SHIFT"
+    [64]="SUPER"
+    [65]="SUPER+SHIFT"
+    [68]="SUPER+CTRL"
+    [69]="SUPER+CTRL+SHIFT"
+    [72]="SUPER+ALT"
+    [73]="SUPER+ALT+SHIFT"
+    [76]="SUPER+ALT+CTRL"
+    [77]="SUPER+ALT+CTRL+SHIFT"
+)
+
+# Mouse button mapping
+declare -A MOUSE_BUTTONS=(
+    [272]="LEFT_CLICK"
+    [273]="RIGHT_CLICK"
+    [274]="MIDDLE_CLICK"
+)
+
+# Parse and format bindings
+parse_bindings() {
+    hyprctl -j binds | jq -r '.[] | "\(.modmask)|\(.key)|\(.description)|\(.dispatcher) \(.arg)"' | while IFS='|' read -r modmask key description command; do
+        # Get modifier text
+        mod_text="${MODMASKS[$modmask]}"
+
+        # Handle mouse buttons
+        if [[ $key =~ ^mouse:([0-9]+)$ ]]; then
+            button="${BASH_REMATCH[1]}"
+            key="${MOUSE_BUTTONS[$button]:-MOUSE$button}"
+        fi
+
+        # Format the keybinding
+        if [[ -n "$mod_text" ]]; then
+            keybind="$mod_text + $key"
+        else
+            keybind="$key"
+        fi
+
+        # Use description if available, otherwise use command
+        action="${description:-$command}"
+
+        # Skip empty bindings
+        [[ -z "$action" || "$action" == " " ]] && continue
+
+        # Format output with proper spacing
+        printf "%-30s  %s\n" "$keybind" "$action"
+    done
+}
+
+# Run and display with Vicinae
+parse_bindings | sort | vicinae dmenu \
+    --navigation-title "Hyprland Keybindings" \
+    --placeholder "Search keybindings..." \
+    --section-title "Bindings ({count})"
