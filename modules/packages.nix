@@ -100,6 +100,7 @@
     google-chrome
     vivaldi
     localsend # allows sharing across devices on local network
+    whatsapp-electron
 
     #  see bambustudio.nix
     # orca-slicer
