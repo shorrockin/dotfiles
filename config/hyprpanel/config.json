@@ -463,7 +463,7 @@
   "theme.bar.opacity": 100,
   "theme.bar.buttons.opacity": 100,
   "theme.bar.buttons.background_opacity": 100,
-  "theme.bar.buttons.spacing": "0.25em",
+  "theme.bar.buttons.spacing": "0.2em",
   "theme.matugen_settings.scheme_type": "tonal-spot",
   "theme.bar.buttons.notifications.enableBorder": false,
   "bar.network.label": false,
