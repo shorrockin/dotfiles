@@ -59,6 +59,22 @@
     jq
     unzip
 
+    # LSP servers
+    lua-language-server # lua_ls
+    nixd # nix
+    pyright # python
+    marksman # markdown
+    yaml-language-server # yamlls
+    nodePackages.bash-language-server # bashls
+    elixir-ls # elixirls
+    gopls # go
+    rust-analyzer # rust
+    nodePackages.vscode-langservers-extracted # jsonls, html, cssls, eslint
+
+    # Formatters (used by conform.nvim)
+    stylua # lua
+    nixfmt-classic # nix
+
     # wayland / hyprland
     nautilus # file manager
     vicinae-pkg # app launcher (replaces walker)
