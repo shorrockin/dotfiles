@@ -101,6 +101,11 @@
     vivaldi
     localsend # allows sharing across devices on local network
     whatsapp-electron
+    pinta # basic image editing: https://www.pinta-project.com
+    mpv # general purpose media player
+    impala # wifi management tui
+    bluetui # bluetooth management tui
+    fastfetch # system about screen
 
     #  see bambustudio.nix
     # orca-slicer
