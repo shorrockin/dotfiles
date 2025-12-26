@@ -21,13 +21,14 @@
   // Left modules
 
   "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-muted": "  {volume}%",
+    "format": "{icon}",
+    "format-muted": "󰝟",
     "format-icons": {
-      "default": ["", "", ""]
+      "default": ["󰕿", "󰖀", "󰕾"]
     },
     "on-click": "pavucontrol",
-    "tooltip-format": "{desc}\n{volume}%"
+    "tooltip-format": "{desc}\n{volume}%",
+    "scroll-step": 5
   },
 
   "mpris": {
