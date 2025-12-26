@@ -28,7 +28,7 @@
 
 * {
   font-family: "MesloLGS Nerd Font", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   border: none;
   border-radius: 0;
@@ -59,17 +59,17 @@ tooltip label {
   background-color: @base;
   border-radius: 20px;
   margin: 3px 0px 6px 0px;
-  padding: 0px 5px;
+  padding: 0px 5px 3px 5px;
 }
 
 #workspaces button {
-  padding: 5px 12px;
-  margin: 3px;
+  padding: 3px 10px;
+  margin: 2px;
   border-radius: 8px;
   color: @maroon;
   background-color: transparent;
   transition: all 0.3s ease-in-out;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 #workspaces button.active {
@@ -103,8 +103,8 @@ tooltip label {
 /* Left modules */
 #pulseaudio,
 #mpris {
-  padding: 6px 12px;
-  margin: 3px 3px;
+  padding: 4px 10px;
+  margin: 2px 3px;
   border-radius: 0px;
   background-color: transparent;
   color: @text;
@@ -112,7 +112,7 @@ tooltip label {
 
 #pulseaudio {
   color: @maroon;
-  padding: 6px 12px;
+  padding: 4px 10px;
 }
 
 #pulseaudio.muted {
@@ -137,8 +137,8 @@ tooltip label {
 /* Right modules */
 #clock,
 #custom-notifications {
-  padding: 5px 15px;
-  margin: 3px 3px;
+  padding: 4px 12px;
+  margin: 2px 3px;
   border-radius: 0px;
   background-color: transparent;
   color: @text;
