@@ -29,7 +29,7 @@
 * {
   font-family: "MesloLGS Nerd Font", sans-serif;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 500;
   border: none;
   border-radius: 0;
   min-height: 0;
@@ -69,6 +69,7 @@ tooltip label {
   color: @maroon;
   background-color: transparent;
   transition: all 0.3s ease-in-out;
+  font-size: 18px;
 }
 
 #workspaces button.active {
@@ -104,8 +105,8 @@ tooltip label {
 #mpris {
   padding: 6px 12px;
   margin: 3px 3px;
-  border-radius: 8px;
-  background-color: rgba(24, 24, 37, 0.9);
+  border-radius: 0px;
+  background-color: transparent;
   color: @text;
 }
 
@@ -138,8 +139,8 @@ tooltip label {
 #custom-notifications {
   padding: 5px 15px;
   margin: 3px 3px;
-  border-radius: 8px;
-  background-color: rgba(24, 24, 37, 0.9);
+  border-radius: 0px;
+  background-color: transparent;
   color: @text;
 }
 
@@ -156,5 +157,5 @@ tooltip label {
 #mpris:hover,
 #clock:hover,
 #custom-notifications:hover {
-  background-color: @surface1;
+  background-color: rgba(69, 71, 90, 0.3);
 }
