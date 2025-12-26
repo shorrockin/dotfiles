@@ -5,7 +5,7 @@
   "spacing": 8,
 
   "modules-left": [
-    "pulseaudio",
+    "custom/notifications",
     "mpris"
   ],
 
@@ -15,7 +15,7 @@
 
   "modules-right": [
     "clock",
-    "custom/notifications"
+    "pulseaudio"
   ],
 
   // Left modules

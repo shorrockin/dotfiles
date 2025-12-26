@@ -93,7 +93,7 @@
 
 /* Notifications List */
 .notification-row {
-  margin: 8px;
+  margin: 8px 8px 8px -8px;
   padding: 0;
 }
 
