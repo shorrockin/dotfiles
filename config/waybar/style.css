@@ -1,0 +1,160 @@
+/* Catppuccin Mocha Color Palette - matching HyprPanel */
+@define-color base #181825;
+@define-color mantle #11111b;
+@define-color crust #1e1e2e;
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+@define-color text #cdd6f4;
+@define-color lavender #b4befe;
+@define-color blue #89b4fa;
+@define-color sapphire #74c7ec;
+@define-color sky #89dceb;
+@define-color teal #94e2d5;
+@define-color green #a6e3a1;
+@define-color yellow #f9e2af;
+@define-color peach #fab387;
+@define-color maroon #eba0ac;
+@define-color red #f38ba8;
+@define-color mauve #cba6f7;
+@define-color pink #f5c2e7;
+@define-color flamingo #f2cdcd;
+@define-color rosewater #f5e0dc;
+
+* {
+  font-family: "MesloLGS Nerd Font", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: rgba(24, 24, 37, 0.75); /* @base with 75% opacity */
+  color: @text;
+  border-radius: 0px;
+  margin: 0px;
+}
+
+/* Tooltip */
+tooltip {
+  background-color: @mantle;
+  color: @text;
+  border: 1px solid @surface1;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: @text;
+}
+
+/* Workspaces */
+#workspaces {
+  background-color: @base;
+  border-radius: 20px;
+  margin: 3px;
+  padding: 0px 5px;
+}
+
+#workspaces button {
+  padding: 5px 12px;
+  margin: 3px;
+  border-radius: 8px;
+  color: @maroon;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.active {
+  color: @pink;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+#workspaces button.urgent {
+  color: @base;
+  background-color: @red;
+}
+
+#workspaces button:hover {
+  background-color: @surface1;
+  color: @yellow;
+}
+
+#workspaces button.empty {
+  color: @surface2;
+}
+
+#workspaces button.persistent {
+  color: @overlay2;
+}
+
+#workspaces button.visible {
+  color: @text;
+}
+
+/* Left modules */
+#pulseaudio,
+#mpris {
+  padding: 6px 12px;
+  margin: 3px 3px;
+  border-radius: 8px;
+  background-color: rgba(24, 24, 37, 0.9);
+  color: @text;
+}
+
+#pulseaudio {
+  color: @maroon;
+  padding: 6px 20px 6px 10px;
+}
+
+#pulseaudio.muted {
+  color: @surface2;
+}
+
+#mpris {
+  color: @lavender;
+}
+
+#mpris.paused {
+  color: @overlay2;
+}
+
+#mpris.stopped {
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  opacity: 0;
+}
+
+/* Right modules */
+#clock,
+#custom-notifications {
+  padding: 5px 15px;
+  margin: 3px 3px;
+  border-radius: 8px;
+  background-color: rgba(24, 24, 37, 0.9);
+  color: @text;
+}
+
+#clock {
+  color: @text;
+}
+
+#custom-notifications {
+  color: @text;
+}
+
+/* Module specific styling */
+#pulseaudio:hover,
+#mpris:hover,
+#clock:hover,
+#custom-notifications:hover {
+  background-color: @surface1;
+}

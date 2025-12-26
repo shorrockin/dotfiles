@@ -1,0 +1,217 @@
+/* Catppuccin Mocha Colors */
+@define-color base #181825;
+@define-color mantle #11111b;
+@define-color crust #1e1e2e;
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+@define-color text #cdd6f4;
+@define-color lavender #b4befe;
+@define-color blue #89b4fa;
+@define-color sapphire #74c7ec;
+@define-color sky #89dceb;
+@define-color teal #94e2d5;
+@define-color green #a6e3a1;
+@define-color yellow #f9e2af;
+@define-color peach #fab387;
+@define-color maroon #eba0ac;
+@define-color red #f38ba8;
+@define-color mauve #cba6f7;
+@define-color pink #f5c2e7;
+@define-color flamingo #f2cdcd;
+@define-color rosewater #f5e0dc;
+
+* {
+  font-family: "MesloLGS Nerd Font", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Control Center */
+.control-center {
+  background-color: @base;
+  border: 2px solid @pink;
+  border-radius: 12px;
+  padding: 0;
+  margin: 0;
+}
+
+.control-center .widget-title {
+  background-color: @mantle;
+  color: @pink;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 16px;
+  margin: 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.control-center .widget-title button {
+  background-color: @red;
+  color: @base;
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 0;
+  border: none;
+  font-weight: 800;
+}
+
+.control-center .widget-title button:hover {
+  background-color: @maroon;
+}
+
+/* DND Toggle */
+.control-center .widget-dnd {
+  background-color: @surface0;
+  color: @text;
+  padding: 12px 16px;
+  margin: 8px;
+  border-radius: 8px;
+}
+
+.control-center .widget-dnd > switch {
+  background-color: @surface1;
+  border-radius: 12px;
+  border: none;
+  min-width: 48px;
+  min-height: 24px;
+}
+
+.control-center .widget-dnd > switch:checked {
+  background-color: @yellow;
+}
+
+.control-center .widget-dnd > switch slider {
+  background-color: @overlay0;
+  border-radius: 10px;
+}
+
+/* Notifications List */
+.notification-row {
+  margin: 8px;
+  padding: 0;
+}
+
+.notification {
+  background-color: @surface0;
+  border: 2px solid @surface1;
+  border-radius: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.notification.critical {
+  border: 2px solid @red;
+}
+
+/* Notification Content */
+.notification-content {
+  padding: 16px;
+  margin: 0;
+}
+
+.notification-default-action {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.notification-default-action:hover {
+  background-color: @surface1;
+}
+
+.close-button {
+  background-color: @red;
+  color: @base;
+  border-radius: 6px;
+  margin: 8px;
+  padding: 6px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.close-button:hover {
+  background-color: @maroon;
+}
+
+/* Summary and Body */
+.summary {
+  color: @pink;
+  font-weight: 800;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.body {
+  color: @text;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.time {
+  color: @overlay2;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* Notification Image */
+.image {
+  margin-right: 12px;
+  border-radius: 8px;
+}
+
+/* Action Buttons */
+.notification-action {
+  background-color: @pink;
+  color: @base;
+  border-radius: 6px;
+  margin: 8px;
+  padding: 8px 16px;
+  border: none;
+  font-weight: 800;
+}
+
+.notification-action:hover {
+  background-color: @mauve;
+}
+
+/* Notification Window Positioning */
+.floating-notifications {
+  margin-top: -10px;
+  margin-right: -15px;
+}
+
+/* Empty Notifications */
+.blank-window {
+  background-color: transparent;
+}
+
+.widget-title > label {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* Scrollbar */
+scrollbar {
+  background-color: transparent;
+}
+
+scrollbar trough {
+  background-color: @surface0;
+  border-radius: 8px;
+}
+
+scrollbar slider {
+  background-color: @overlay0;
+  border-radius: 8px;
+  min-width: 8px;
+}
+
+scrollbar slider:hover {
+  background-color: @overlay1;
+}

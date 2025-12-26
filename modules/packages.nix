@@ -79,7 +79,12 @@
     nautilus # file manager
     vicinae-pkg # app launcher (replaces walker)
     wl-clipboard # system clipboard
-    hyprpanel # bar, replaces all the following
+    waybar # status bar
+    swaynotificationcenter # notification daemon
+    playerctl # media player controls
+    pavucontrol # pulseaudio volume control GUI
+    blueman # bluetooth manager GUI
+    # hyprpanel # bar, replaced by waybar
     hyprpaper # wallpaper
     hypridle # idle management
     hyprshot # screenshots

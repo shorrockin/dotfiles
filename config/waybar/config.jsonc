@@ -1,0 +1,104 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 32,
+  "spacing": 8,
+
+  "modules-left": [
+    "pulseaudio",
+    "mpris"
+  ],
+
+  "modules-center": [
+    "hyprland/workspaces"
+  ],
+
+  "modules-right": [
+    "clock",
+    "custom/notifications"
+  ],
+
+  // Left modules
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "  {volume}%",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol",
+    "tooltip-format": "{desc}\n{volume}%"
+  },
+
+  "mpris": {
+    "format": "{player_icon} {dynamic}",
+    "format-paused": "{player_icon} <i>{dynamic}</i>",
+    "format-stopped": "",
+    "player-icons": {
+      "default": "▶",
+      "mpv": "🎵",
+      "spotify": ""
+    },
+    "status-icons": {
+      "paused": "⏸",
+      "playing": "▶"
+    },
+    "dynamic-order": ["title", "artist"],
+    "dynamic-len": 30,
+    "dynamic-separator": " - ",
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous",
+    "ignored-players": []
+  },
+
+  // Center modules
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "●",
+      "default": "○"
+    },
+    "on-click": "activate",
+    "persistent-workspaces": {
+      "*": 5
+    },
+    "show-special": false
+  },
+
+  // Right modules
+  "clock": {
+    "format": "󰥔  {:%m/%d @ %I:%M %p}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#f9e2af'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'><b>{}</b></span>",
+        "weeks": "<span color='#f5c2e6'><b>W{}</b></span>",
+        "weekdays": "<span color='#f5c2e6'><b>{}</b></span>",
+        "today": "<span color='#f5c2e6'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+
+  "custom/notifications": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "<span foreground='#f9e2af'>󰂚</span>",
+      "none": "󰂚",
+      "dnd-notification": "<span foreground='#f9e2af'>󰂛</span>",
+      "dnd-none": "󰂛"
+    },
+    "return-type": "json",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  }
+}
