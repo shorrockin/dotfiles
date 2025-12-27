@@ -1,0 +1,28 @@
+/* Add padding to tab bar tabs */
+.tab-strip .tab {
+  padding: 2px 8px !important;
+  margin: 2px 2px !important;
+}
+
+/* Ensure pinned tabs are wide enough to show icons */
+.tab-strip .tab.pinned {
+  min-width: 36px !important;
+  padding: 2px 6px !important;
+}
+
+/* Increase tab bar height to prevent icon clipping */
+#tabs-tabbar-container {
+  padding: 6px 0 !important;
+  min-height: 36px !important;
+}
+
+/* Ensure favicons aren't clipped */
+.tab-strip .tab .favicon {
+  overflow: visible !important;
+}
+
+/* Add spacing between tabs */
+.tab-strip {
+  gap: 4px !important;
+  align-items: center !important;
+}
