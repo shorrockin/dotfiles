@@ -75,22 +75,6 @@
     stylua # lua
     nixfmt-classic # nix
 
-    # theming
-    (catppuccin-gtk.override {
-      variant = "mocha";
-      accents = [ "mauve" ];
-      size = "standard";
-    })
-    (catppuccin-kvantum.override {
-      variant = "mocha";
-      accent = "mauve";
-    })
-    catppuccin-cursors.mochaDark # cursor theme - mocha dark variant
-    libsForQt5.qtstyleplugin-kvantum # kvantum for qt5
-    kdePackages.qtstyleplugin-kvantum # kvantum for qt6
-    papirus-icon-theme # icon theme
-    catppuccin-papirus-folders # catppuccin folder colors
-
     # wayland / hyprland
     nautilus # file manager
     vicinae-pkg # app launcher (replaces walker)

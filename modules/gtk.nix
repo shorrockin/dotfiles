@@ -37,11 +37,32 @@
   # Enable dconf for gsettings support
   programs.dconf.enable = true;
 
-  # Add necessary packages for theme support
+  # Theme packages and support tools
   environment.systemPackages = with pkgs; [
+    # GTK/Qt theme support
     dconf
     gsettings-desktop-schemas
     glib # for gsettings
+
+    # Catppuccin themes
+    (catppuccin-gtk.override {
+      variant = "mocha";
+      accents = [ "mauve" ];
+      size = "standard";
+    })
+    (catppuccin-kvantum.override {
+      variant = "mocha";
+      accent = "mauve";
+    })
+    catppuccin-cursors.mochaDark
+
+    # Kvantum for Qt theming
+    libsForQt5.qtstyleplugin-kvantum
+    kdePackages.qtstyleplugin-kvantum
+
+    # Icons
+    papirus-icon-theme
+    catppuccin-papirus-folders
   ];
 
   # Create a systemd user service to set themes on login via gsettings
