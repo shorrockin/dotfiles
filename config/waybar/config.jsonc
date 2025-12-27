@@ -55,18 +55,14 @@
 
   // Center modules
   "hyprland/workspaces": {
-    "format": "{icon}",
-    "format-icons": {
-      "active": "●",
-      "default": "○"
-    },
+    "format": "{name}",
     "on-click": "activate",
     "show-special": false
   },
 
   // Right modules
   "clock": {
-    "format": "{:%I:%M %p}",
+    "format": "🕐 {:%I:%M %p}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "month",
