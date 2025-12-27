@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# Get battery level from connected game controllers via bluetoothctl
+
+get_controller_battery() {
+    # Get list of connected devices
+    while read -r line; do
+        if [[ "$line" =~ Device\ ([0-9A-F:]+) ]]; then
+            mac="${BASH_REMATCH[1]}"
+
+            # Get device info
+            info=$(bluetoothctl info "$mac" 2>/dev/null)
+
+            # Check if it's a game controller and connected
+            if echo "$info" | grep -q "Icon: input-gaming" && \
+               echo "$info" | grep -q "Connected: yes"; then
+
+                # Get device name
+                name=$(echo "$info" | grep "Name:" | head -1 | cut -d: -f2- | xargs)
+
+                # Get battery percentage (format: "Battery Percentage: 0x5a (90)")
+                battery_line=$(echo "$info" | grep "Battery Percentage:")
+                if [[ -n "$battery_line" ]]; then
+                    # Extract the decimal value in parentheses
+                    capacity=$(echo "$battery_line" | grep -oP '\((\d+)\)' | tr -d '()')
+
+                    if [[ -n "$capacity" ]]; then
+                        icon="󰖺"
+                        echo "{\"text\": \"$icon $capacity%\", \"tooltip\": \"$name\\nBattery: $capacity%\", \"class\": \"controller\"}"
+                        return 0
+                    fi
+                fi
+            fi
+        fi
+    done < <(bluetoothctl devices 2>/dev/null)
+
+    # No controller found - output empty (module will hide)
+    echo "{\"text\": \"\", \"tooltip\": \"\", \"class\": \"empty\"}"
+}
+
+get_controller_battery
