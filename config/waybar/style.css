@@ -161,6 +161,24 @@ tooltip label {
   color: @text;
 }
 
+#tray {
+  padding: 2px 6px;
+  opacity: 0.8;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#tray menu {
+  background-color: @base;
+  color: @text;
+}
+
 #custom-controller {
   padding: 2px 10px;
   margin: 2px 3px;

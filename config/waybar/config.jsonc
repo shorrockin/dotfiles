@@ -6,6 +6,7 @@
 
   "modules-left": [
     "custom/notifications",
+    // "tray",
     "mpris"
   ],
 
@@ -103,5 +104,10 @@
     "exec": "~/.config/scripts/controller-battery",
     "interval": 30,
     "tooltip": true
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
   }
 }
