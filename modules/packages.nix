@@ -80,6 +80,7 @@
     vicinae-pkg # app launcher (replaces walker)
     wl-clipboard # system clipboard
     waybar # status bar
+    wttrbar # weather for waybar
     swaynotificationcenter # notification daemon
     playerctl # media player controls
     pavucontrol # pulseaudio volume control GUI

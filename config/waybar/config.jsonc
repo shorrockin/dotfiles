@@ -7,7 +7,8 @@
   "modules-left": [
     "custom/notifications",
     // "tray",
-    "mpris"
+    "pulseaudio",
+    "custom/controller"
   ],
 
   "modules-center": [
@@ -15,9 +16,9 @@
   ],
 
   "modules-right": [
-    "custom/controller",
+    "mpris",
     "clock",
-    "pulseaudio"
+    "custom/weather"
   ],
 
   // Left modules
@@ -103,6 +104,14 @@
     "return-type": "json",
     "exec": "~/.config/scripts/controller-battery",
     "interval": 30,
+    "tooltip": true
+  },
+
+  "custom/weather": {
+    "format": "{}°",
+    "return-type": "json",
+    "exec": "wttrbar --custom-indicator '{ICON} {temp_C}' --hide-conditions --nerd",
+    "interval": 3600,
     "tooltip": true
   },
 
