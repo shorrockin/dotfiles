@@ -20,8 +20,8 @@ font-size = 16
 clipboard-read = allow
 clipboard-write = allow
 
-keybind = super+c=copy:clipboard
-keybind = super+v=paste:clipboard
+keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
 
 keybind = ctrl+1=text:\x1b[49;5u
 keybind = ctrl+2=text:\x1b[50;5u
