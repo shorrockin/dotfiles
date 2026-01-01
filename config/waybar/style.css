@@ -39,7 +39,7 @@ window#waybar {
   background-color: rgba(24, 24, 37, 0.75); /* @base with 75% opacity */
   color: @text;
   border-radius: 0px;
-  margin: 0px;
+  margin: 100px;
 }
 
 /* Tooltip */
