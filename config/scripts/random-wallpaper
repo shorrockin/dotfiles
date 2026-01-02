@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
 WALLPAPER_DIR="$HOME/.config/assets/wallpapers/"
-CURRENT_WALL=$(hyprctl hyprpaper listloaded)
+CACHE_FILE="$HOME/.cache/current_wallpaper"
 
 export DISPLAY=:0
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
-export WAYLAND_DISPLAY=wayland-1  # or whatever matches your session
+export WAYLAND_DISPLAY=wayland-1
+
+# Get current wallpaper from cache (if exists)
+CURRENT_WALL=""
+if [[ -f "$CACHE_FILE" ]]; then
+    CURRENT_WALL=$(cat "$CACHE_FILE")
+fi
 
 # Get a random wallpaper that is not the current one
-WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
+WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -path "$CURRENT_WALL" | shuf -n 1)
 
-# save the selected wallpaper path, used to show the current wallpaper
-# fullscreen when idle
-echo  "$WALLPAPER" > ~/.cache/current_wallpaper
+# Save the selected wallpaper path
+echo "$WALLPAPER" > "$CACHE_FILE"
 
-# Apply the selected wallpaper
-/run/current-system/sw/bin/hyprctl hyprpaper reload ,"$WALLPAPER"
+# Apply the selected wallpaper (empty monitor = all monitors)
+hyprctl hyprpaper wallpaper ", $WALLPAPER"

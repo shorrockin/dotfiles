@@ -2,12 +2,14 @@
 let
   hyprlandPkg = inputs.hyprland.packages.${system}.hyprland;
   hyprlandPortal = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
+  hyprpaperPkg = inputs.hyprpaper.packages.${system}.hyprpaper;
   hyprPlugins = inputs.hyprland-plugins.packages.${system};
   pluginDir = pkgs.symlinkJoin {
     name = "hyprland-plugins";
     paths = [ hyprPlugins.hyprscrolling ];
   };
 in {
+  environment.systemPackages = [ hyprpaperPkg ];
   services.displayManager.enable = true;
 
   # seems like this shouldn't be needed, at least as i understand

@@ -86,7 +86,6 @@
     pavucontrol # pulseaudio volume control GUI
     blueman # bluetooth manager GUI
     # hyprpanel # bar, replaced by waybar
-    hyprpaper # wallpaper
     hypridle # idle management
     hyprshot # screenshots
     mpv # used to show wallpaper fullscreen
