@@ -5,9 +5,14 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     vicinae.url = "github:vicinaehq/vicinae";
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, vicinae, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, vicinae, hyprland, hyprland-plugins, ... }:
     let system = "x86_64-linux";
     in {
       nixosConfigurations.gustave = nixpkgs.lib.nixosSystem {

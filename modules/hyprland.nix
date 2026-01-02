@@ -1,4 +1,13 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, inputs, system, ... }:
+let
+  hyprlandPkg = inputs.hyprland.packages.${system}.hyprland;
+  hyprlandPortal = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
+  hyprPlugins = inputs.hyprland-plugins.packages.${system};
+  pluginDir = pkgs.symlinkJoin {
+    name = "hyprland-plugins";
+    paths = [ hyprPlugins.hyprscrolling ];
+  };
+in {
   services.displayManager.enable = true;
 
   # seems like this shouldn't be needed, at least as i understand
@@ -11,6 +20,8 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    package = hyprlandPkg;
+    portalPackage = hyprlandPortal;
   };
 
   environment.sessionVariables = {
@@ -20,12 +31,14 @@
     NIXOS_OZONE_WL = "1";
     # Default browser
     BROWSER = "vivaldi";
+    # Hyprland plugins directory
+    HYPR_PLUGIN_DIR = "${pluginDir}";
   };
 
   # allows interaction between apps and proper dark mode support
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-hyprland
+    hyprlandPortal
     pkgs.xdg-desktop-portal-gtk
   ];
   xdg.portal.config.common = {
