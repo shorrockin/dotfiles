@@ -8,6 +8,7 @@ directories=(
     "$HOME/projects"
     "$HOME/dev"
     "$HOME/code"
+    "$HOME/Code"
     "$HOME"  # Keep home directory as a fallback
 )
 

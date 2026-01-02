@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Toggle single window width between 80% and 100%
+STATE_FILE="/tmp/hypr-single-window-full"
+
+if [[ -f "$STATE_FILE" ]]; then
+    # Currently full width, switch to 80%
+    hyprctl keyword workspace "w[t1], gapsout:15 344"
+    rm "$STATE_FILE"
+else
+    # Currently 80%, switch to full width
+    hyprctl keyword workspace "w[t1], gapsout:15 15"
+    touch "$STATE_FILE"
+fi
