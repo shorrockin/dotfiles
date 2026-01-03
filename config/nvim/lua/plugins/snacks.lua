@@ -60,7 +60,7 @@ return {
 			function()
 				Snacks.notifier.show_history()
 			end,
-			desc = "Snacks: [F]ind [N]notification",
+			desc = "Snacks: [f]ind [n]otification",
 		},
 		-- { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
 		-- { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
@@ -80,7 +80,7 @@ return {
 			function()
 				Snacks.notifier.hide()
 			end,
-			desc = "Snacks: [U]ndo / Dismiss All [N]otifications",
+			desc = "Snacks: [u]ndo / Dismiss All [n]otifications",
 		},
 		-- { "<c-/>",      function() Snacks.terminal() end, desc = "Toggle Terminal" },
 		-- { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
@@ -110,77 +110,77 @@ return {
 			function()
 				Snacks.picker.files({ hidden = true, follow = true })
 			end,
-			desc = "Snacks: [F]ind [F]iles",
+			desc = "Snacks: [f]ind [f]iles",
 		},
 		{
 			"<leader>fo",
 			function()
 				Snacks.picker.recent()
 			end,
-			desc = "Snacks: [F]ind [O]ld / Recent Files",
+			desc = "Snacks: [f]ind [o]ld / Recent Files",
 		},
 		{
 			"<leader>fg",
 			function()
 				Snacks.picker.grep({ hidden = true, follow = true })
 			end,
-			desc = "Snacks: [F]ind by [g]rep",
+			desc = "Snacks: [f]ind by [g]rep",
 		},
 		{
 			"<leader>fG",
 			function()
 				Snacks.picker.grep_buffers()
 			end,
-			desc = "Snacks: [F]ind by [G]rep in buffers",
+			desc = "Snacks: [f]ind by [G]rep in buffers",
 		},
 		{
 			"<leader>fh",
 			function()
 				Snacks.picker.help()
 			end,
-			desc = "Snacks: [F]ind [H]elp ",
+			desc = "Snacks: [f]ind [h]elp",
 		},
 		{
 			"<leader>fk",
 			function()
 				Snacks.picker.keymaps()
 			end,
-			desc = "Snacks: [F]ind by [K]eymaps",
+			desc = "Snacks: [f]ind by [k]eymaps",
 		},
 		{
 			"<leader>fa",
 			function()
 				Snacks.picker.commands()
 			end,
-			desc = "Snacks: [F]ind [A]ction / Command",
+			desc = "Snacks: [f]ind [a]ction / Command",
 		},
 		{
 			"<leader>fm",
 			function()
 				Snacks.picker.marks()
 			end,
-			desc = "Snacks: [F]ind [M]arks",
+			desc = "Snacks: [f]ind [m]arks",
 		},
 		{
 			"<leader>b",
 			function()
 				Snacks.picker.buffers()
 			end,
-			desc = "Snacks: [F]ind [B]uffer",
+			desc = "Snacks: Find [b]uffer",
 		},
 		{
 			"<leader>fs",
 			function()
 				Snacks.picker.lsp_symbols()
 			end,
-			desc = "Snacks LSP: [F]ind [S]ymbol",
+			desc = "Snacks LSP: [f]ind [s]ymbol",
 		},
 		{
 			"gd",
 			function()
 				Snacks.picker.lsp_definitions()
 			end,
-			desc = "Snacks LSP: [G]oto [D]efinition",
+			desc = "Snacks LSP: [g]oto [d]efinition",
 		},
 		{
 			"gr",
@@ -188,14 +188,14 @@ return {
 				Snacks.picker.lsp_references()
 			end,
 			nowait = true,
-			desc = "Snacks LSP: [G]oto [R]eferences",
+			desc = "Snacks LSP: [g]oto [r]eferences",
 		},
 		{
 			"gI",
 			function()
 				Snacks.picker.lsp_implementations()
 			end,
-			desc = "Snacks LSP: [G]oto [I]mplementation",
+			desc = "Snacks LSP: [g]oto [I]mplementation",
 		},
 		{
 			"<leader>D",

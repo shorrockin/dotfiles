@@ -51,19 +51,19 @@ return {
 		-- Keybindings
 		vim.keymap.set("n", "<leader>qq", function()
 			require("quicker").toggle()
-		end, { desc = "Quicker: Toggle [Q]uickfix" })
+		end, { desc = "Quicker: Toggle [q]uickfix" })
 
 		vim.keymap.set("n", "<leader>ql", function()
 			require("quicker").toggle({ loclist = true })
-		end, { desc = "Quicker: Toggle [L]oclist" })
+		end, { desc = "Quicker: Toggle [l]oclist" })
 
 		-- Optional: Expand/collapse context in quickfix window
 		vim.keymap.set("n", "<leader>qe", function()
 			require("quicker").expand()
-		end, { desc = "Quicker: [E]xpand context" })
+		end, { desc = "Quicker: [e]xpand context" })
 
 		vim.keymap.set("n", "<leader>qc", function()
 			require("quicker").collapse()
-		end, { desc = "Quicker: [C]ollapse context" })
+		end, { desc = "Quicker: [c]ollapse context" })
 	end,
 }

@@ -36,5 +36,11 @@
     "dnd": {
       "text": "Do Not Disturb"
     }
+  },
+  "notification-visibility": {
+    "hyprshot": {
+      "state": "transient",
+      "app-name": "hyprshot"
+    }
   }
 }

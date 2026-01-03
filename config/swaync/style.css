@@ -27,7 +27,7 @@
 @define-color rosewater #f5e0dc;
 
 * {
-  font-family: "MesloLGS Nerd Font", sans-serif;
+  font-family: "DejaVu Sans", "MesloLGS Nerd Font", sans-serif;
   font-size: 14px;
   font-weight: 400;
 }

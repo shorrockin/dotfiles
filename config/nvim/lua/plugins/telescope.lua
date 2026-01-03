@@ -111,7 +111,7 @@ return {
 		-- map("<leader>fj", builtin.jumplist, "[F]ind by [j]umplist")
 		-- map("<leader>sp", builtin.spell_suggest, "[S]pell [c]heck")
 		-- map("<leader>fd", builtin.diagnostics, "[F]ind [d]iagnostics")
-		map("<leader>fq", builtin.quickfix, "[F]ind in [Q]uickfix")
+		map("<leader>fq", builtin.quickfix, "[f]ind in [q]uickfix")
 		-- -- replaced by snack.nvim binding
 		-- map("<leader>fn", function()
 		-- 	require("telescope").extensions.notify.notify()

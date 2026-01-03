@@ -13,7 +13,7 @@ return {
 			"n",
 			"<leader>tt",
 			"<cmd>Trouble diagnostics toggle<cr>",
-			{ desc = "Trouble: [T]oggle [T]rouble Drawer" }
+			{ desc = "Trouble: [t]oggle [t]rouble Drawer" }
 		)
 		--[[
 		vim.keymap.set("n", "<leader>tq", function()
@@ -26,10 +26,10 @@ return {
 ]]
 		vim.keymap.set("n", "<leader>xn", function()
 			trouble.next({ skip_groups = true, jump = true })
-		end, { desc = "Trouble: Trouble [N]ext" })
+		end, { desc = "Trouble: [x][n]ext" })
 
 		vim.keymap.set("n", "<leader>xp", function()
 			trouble.previous({ skip_groups = true, jump = true })
-		end, { desc = "Trouble: Trouble [P]revious" })
+		end, { desc = "Trouble: [x][p]revious" })
 	end,
 }

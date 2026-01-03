@@ -46,7 +46,7 @@ vim.api.nvim_exec2(
 
 vim.keymap.set("n", "<leader>id", function()
 	vim.api.nvim_put({ os.date("%Y-%m-%d") }, "c", true, true)
-end, { desc = "Markdown: [I]nsert [D]ate" })
+end, { desc = "Markdown: [i]nsert [d]ate" })
 
 local name = function(trigger, name, description)
 	return {

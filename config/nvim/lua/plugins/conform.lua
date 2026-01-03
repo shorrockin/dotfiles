@@ -10,7 +10,7 @@ return {
 				require("conform").format({ async = true, lsp_fallback = true })
 			end,
 			mode = "",
-			desc = "Conform: [S]yntax [F]ormat",
+			desc = "Conform: [s]yntax [f]ormat",
 		},
 	},
 	opts = {
