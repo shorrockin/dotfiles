@@ -17,5 +17,11 @@ return {
 		--  - sr)'  - [S]urround [R]eplace [)] [']
 		-- NOTE bindings currently conflict with leap which i use more
 		-- require("mini.surround").setup()
+
+		-- Align text interactively
+		-- Examples:
+		--  - ga + motion + delimiter (e.g., gaip# to align paragraph on #)
+		--  - visual select, then ga + delimiter
+		require("mini.align").setup()
 	end,
 }

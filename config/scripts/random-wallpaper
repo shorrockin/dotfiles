@@ -20,4 +20,4 @@ WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -path "$CURRENT_WALL" | shuf -n 1)
 echo "$WALLPAPER" > "$CACHE_FILE"
 
 # Apply the selected wallpaper (empty monitor = all monitors)
-hyprctl hyprpaper wallpaper ", $WALLPAPER"
+/run/current-system/sw/bin/hyprctl hyprpaper wallpaper ", $WALLPAPER"

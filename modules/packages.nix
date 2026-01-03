@@ -3,21 +3,19 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # terminal zsh
+    # terminal 
     zsh
-    zoxide # quick cd
-
-    # terminal fish
     fish
     starship # prompt
+    zoxide # quick cd
 
-    # terminal git
+    # git
     git
     delta # better git diffs
     tig # show git history
     lazygit # git history in a tui
 
-    # terminal 
+    # terminal utils
     tmux # multiplexer
     wget # http fetcher
     stow # symlink manager
@@ -35,6 +33,9 @@
     tldr # succinct man pages
     dust # better du / df
     poppler-utils # pdf tools
+    ripgrep # recursive searching
+    jq # json parsing
+    unzip # unzip
 
     # general development
     ghostty
@@ -55,9 +56,6 @@
 
     # neovim & plugin dependencies
     neovim
-    ripgrep
-    jq
-    unzip
 
     # LSP servers
     lua-language-server # lua_ls
