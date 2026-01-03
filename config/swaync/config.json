@@ -40,7 +40,7 @@
   "notification-visibility": {
     "hyprshot": {
       "state": "transient",
-      "app-name": "hyprshot"
+      "app-name": "Hyprshot"
     }
   }
 }
