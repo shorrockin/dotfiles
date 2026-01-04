@@ -65,7 +65,7 @@
 
   // Right modules
   "clock": {
-    "format": "🗓️ {:%a %b %d  🕐 %I:%M %p}",
+    "format": "🗓️ {:%a %b %e  🕐 %I:%M %p}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "month",
