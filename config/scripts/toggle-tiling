@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Toggle between tiled and floating
+# If fullscreen, exit fullscreen first then toggle
+
+WINDOW_INFO=$(hyprctl activewindow -j)
+FULLSCREEN_MODE=$(echo "$WINDOW_INFO" | jq '.fullscreen')
+
+# Exit fullscreen first if needed
+if [ "$FULLSCREEN_MODE" != "0" ]; then
+    hyprctl dispatch fullscreen 0
+fi
+
+# Toggle floating state
+hyprctl dispatch togglefloating

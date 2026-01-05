@@ -1,15 +1,5 @@
-{ config, pkgs, inputs, system, ... }:
-let
-  hyprlandPkg = inputs.hyprland.packages.${system}.hyprland;
-  hyprlandPortal = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
-  hyprpaperPkg = inputs.hyprpaper.packages.${system}.hyprpaper;
-  hyprPlugins = inputs.hyprland-plugins.packages.${system};
-  pluginDir = pkgs.symlinkJoin {
-    name = "hyprland-plugins";
-    paths = [ hyprPlugins.hyprscrolling ];
-  };
-in {
-  environment.systemPackages = [ hyprpaperPkg ];
+{ config, pkgs, ... }: {
+  environment.systemPackages = [ pkgs.hyprpaper ];
   services.displayManager.enable = true;
 
   # seems like this shouldn't be needed, at least as i understand
@@ -22,8 +12,6 @@ in {
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    package = hyprlandPkg;
-    portalPackage = hyprlandPortal;
   };
 
   environment.sessionVariables = {
@@ -33,16 +21,11 @@ in {
     NIXOS_OZONE_WL = "1";
     # Default browser
     BROWSER = "vivaldi";
-    # Hyprland plugins directory
-    HYPR_PLUGIN_DIR = "${pluginDir}";
   };
 
   # allows interaction between apps and proper dark mode support
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [
-    hyprlandPortal
-    pkgs.xdg-desktop-portal-gtk
-  ];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.config.common = {
     default = [ "hyprland" "gtk" ];
     "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
