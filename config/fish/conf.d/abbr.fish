@@ -14,6 +14,7 @@ abbr --add gb "git reflog show --pretty=format:'%gs ~ %gd' --date=relative | gre
 abbr --add gundo "git reset --soft HEAD && git restore --staged ."
 abbr --add gamend "git commit --amend"
 abbr --add info neofetch
+
 # EZA
 abbr --add l eza
 abbr --add ll eza --all --long --icons --no-permissions

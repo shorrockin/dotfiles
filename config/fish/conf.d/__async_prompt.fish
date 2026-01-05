@@ -59,7 +59,7 @@ function __async_prompt_spawn -a cmd
             end
         end
     end | read -lz vars
-    echo $vars | env $envs fish -c '
+    echo $vars | env $envs (status fish-path) -c '
     function __async_prompt_signal
         kill -s "'(__async_prompt_config_internal_signal)'" '$fish_pid' 2>/dev/null
     end
@@ -140,7 +140,7 @@ function __async_prompt_spawn -a cmd
     '$cmd'
     __async_prompt_signal' &
     if test (__async_prompt_config_disown) = 1
-        disown
+        disown 2>/dev/null
     end
 end
 
