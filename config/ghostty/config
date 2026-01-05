@@ -17,6 +17,9 @@ background-opacity = 0.96
 font-family = "MesloLGS Nerd Font Mono"
 font-size = 16
 
+# macOS font rendering improvements (no effect on Linux)
+font-thicken = true
+
 clipboard-read = allow
 clipboard-write = allow
 

@@ -13,9 +13,9 @@ accordion-padding = 30
 default-root-container-layout = 'tiles'
 
 # Possible values: horizontal|vertical|auto
-# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
-#               tall monitor (anything higher than wide) gets vertical orientation
-default-root-container-orientation = 'auto'
+# 'horizontal' mimics master-stack where new windows appear to the right
+# (master on left, slaves stack on right)
+default-root-container-orientation = 'horizontal'
 
 # Mouse follows focus when focused monitor changes
 # Drop it from your config, if you don't like this behavior
@@ -63,37 +63,26 @@ outer.right = 5
 [mode.main.binding]
 
 # Window management
-# cmd-w = 'close'
-# cmd-tab = 'focus next'
-# cmd-s = 'layout toggle tiles accordion'
 cmd-ctrl-f = 'fullscreen'
 cmd-shift-b = 'balance-sizes'
 
-# Focus movement 
+# Focus movement
 cmd-left = 'focus left'
-# cmd-h = 'focus left'
 cmd-right = 'focus right'
-# cmd-l = 'focus right'
 cmd-up = 'focus up'
-# cmd-k = 'focus up'
 cmd-down = 'focus down'
-# cmd-j = 'focus down'
 
 # Window movement
 cmd-shift-left = 'move left'
-# cmd-shift-h = 'move left'
 cmd-shift-right = 'move right'
-# cmd-shift-l = 'move right'
 cmd-shift-up = 'join-with left'
-# cmd-shift-k = 'join-with left'
 cmd-shift-down = 'join-with right'
-# cmd-shift-j = 'join-with right'
 
 # Window resizing
-cmd-ctrl-left = 'resize smart -80'
-cmd-ctrl-right = 'resize smart +80'
-cmd-ctrl-up = 'resize smart -80'
-cmd-ctrl-down = 'resize smart +80'
+cmd-ctrl-left = 'resize smart -100'
+cmd-ctrl-right = 'resize smart +100'
+cmd-ctrl-up = 'resize smart -100'
+cmd-ctrl-down = 'resize smart +100'
 
 # Workspace switching
 cmd-1 = 'workspace --auto-back-and-forth 1'
