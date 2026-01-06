@@ -208,8 +208,7 @@ tooltip label {
 #clock:hover,
 #custom-notifications:hover,
 #custom-controller:hover,
-#custom-weather:hover,
-#custom-power:hover {
+#custom-weather:hover {
   background-color: rgba(69, 71, 90, 0.3);
 }
 
