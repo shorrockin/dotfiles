@@ -1,5 +1,5 @@
-{ config, pkgs, ... }: {
-  environment.systemPackages = [ pkgs.hyprpaper ];
+{ config, pkgs, pkgs-unstable, ... }: {
+  environment.systemPackages = [ pkgs-unstable.hyprpaper ];
   services.displayManager.enable = true;
 
   # seems like this shouldn't be needed, at least as i understand

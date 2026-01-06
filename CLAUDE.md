@@ -13,10 +13,11 @@ The repository assumes it's cloned to `~/dotfiles`.
 ## Common Commands
 
 ### NixOS System Management
+
+**IMPORTANT: Never run `nixos-rebuild` directly - it requires sudo password input which Claude cannot provide. Instead, make the necessary config changes and instruct the user to run the rebuild themselves.**
+
 ```bash
-# Rebuild NixOS system (includes git commit prompt)
-config/scripts/nix-rebuild
-# or
+# Rebuild NixOS system (user must run manually)
 sudo nixos-rebuild switch --flake .#gustave
 
 # Update flake inputs
