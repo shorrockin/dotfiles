@@ -18,7 +18,8 @@
   "modules-right": [
     "mpris",
     "clock",
-    "custom/weather"
+    "custom/weather",
+    "custom/power"
   ],
 
   // Left modules
@@ -118,5 +119,18 @@
   "tray": {
     "icon-size": 16,
     "spacing": 8
+  },
+
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": false,
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/power_menu.xml",
+    "menu-actions": {
+      "about": "ghostty --title=fastfetch -e sh -c 'fastfetch; read -p \"Press Enter to close...\"'",
+      "activity": "ghostty -e btop",
+      "suspend": "systemctl suspend",
+      "reboot": "systemctl reboot"
+    }
   }
 }
