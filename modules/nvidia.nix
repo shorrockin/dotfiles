@@ -1,4 +1,15 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
+  # Post-resume delay to give GPU time to stabilize before display restoration
+  systemd.services.nvidia-post-resume-fix = {
+    description = "NVIDIA post-resume display stabilization delay";
+    after = [ "nvidia-resume.service" ];
+    before = [ "post-resume.target" ];
+    wantedBy = [ "post-resume.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.coreutils}/bin/sleep 2";
+    };
+  };
   # Enable OpenGL
   hardware.graphics = { enable = true; };
 

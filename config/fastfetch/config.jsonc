@@ -1,0 +1,134 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "kitty-direct",
+    "source": "~/.config/assets/logos/nixos-snowflake.png",
+    "width": 40,
+    "height": 18,
+    "padding": {
+      "top": 2,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "display": {
+    "separator": "  ",
+    "color": {
+      "keys": "35",
+      "title": "96"
+    }
+  },
+  "modules": [
+    {
+      "type": "title",
+      "key": "  {#96}",
+      "format": "{user-name-colored}{#90}@{#}{host-name-colored}"
+    },
+    {
+      "type": "custom",
+      "format": "  {#90}─────────────────────────────────{#}"
+    },
+    {
+      "type": "custom",
+      "format": "  {#35}System{#}"
+    },
+    {
+      "type": "os",
+      "key": "    {#35}󰍹 ",
+      "format": "{name} {version}"
+    },
+    {
+      "type": "kernel",
+      "key": "    {#35}󰒋 ",
+      "format": "{release}"
+    },
+    {
+      "type": "packages",
+      "key": "    {#35}󰏖 ",
+      "format": "{all}"
+    },
+    {
+      "type": "uptime",
+      "key": "    {#35}󰅐 "
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "  {#35}Desktop{#}"
+    },
+    {
+      "type": "wm",
+      "key": "    {#35}󱂬 "
+    },
+    {
+      "type": "terminal",
+      "key": "    {#35}󰊠 "
+    },
+    {
+      "type": "shell",
+      "key": "    {#35}󰞷 "
+    },
+    {
+      "type": "terminalfont",
+      "key": "    {#35}󰛖 "
+    },
+    {
+      "type": "cursor",
+      "key": "    {#35}󰳽 "
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "  {#35}Hardware{#}"
+    },
+    {
+      "type": "host",
+      "key": "    {#35}󰟀 "
+    },
+    {
+      "type": "cpu",
+      "key": "    {#35}󰻠 ",
+      "format": "{name}"
+    },
+    {
+      "type": "gpu",
+      "key": "    {#35}󰢮 ",
+      "format": "{name}"
+    },
+    {
+      "type": "memory",
+      "key": "    {#35}󰍛 "
+    },
+    {
+      "type": "disk",
+      "key": "    {#35}󰋊 ",
+      "folders": "/"
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "  {#35}Network{#}"
+    },
+    {
+      "type": "display",
+      "key": "    {#35}󰹑 ",
+      "compactType": "original"
+    },
+    {
+      "type": "localip",
+      "key": "    {#35}󰩟 ",
+      "showIpv4": true,
+      "showIpv6": false,
+      "showMac": false
+    },
+    {
+      "type": "custom",
+      "format": "  {#90}─────────────────────────────────{#}"
+    },
+    {
+      "type": "colors",
+      "key": "  ",
+      "symbol": "circle"
+    }
+  ]
+}
