@@ -10,14 +10,21 @@ This is a dotfiles repository with dual configuration management:
 
 The repository assumes it's cloned to `~/dotfiles`.
 
+## NixOS Environment Notes
+
+**Command Locations**: On NixOS, system commands are not in traditional locations (`/bin`, `/usr/bin`). If a command fails to run, use the full path from `/run/current-system/sw/bin/`. For example:
+- `/run/current-system/sw/bin/ls`
+- `/run/current-system/sw/bin/cat`
+- `/run/current-system/sw/bin/grep`
+
+**Never run `nixos-rebuild` directly** - it requires sudo password input which Claude cannot provide. Instead, make the necessary config changes and instruct the user to run the rebuild themselves.
+
 ## Common Commands
 
 ### NixOS System Management
 
-**IMPORTANT: Never run `nixos-rebuild` directly - it requires sudo password input which Claude cannot provide. Instead, make the necessary config changes and instruct the user to run the rebuild themselves.**
-
 ```bash
-# Rebuild NixOS system (user must run manually)
+# Rebuild NixOS system (user must run manually - see note above)
 sudo nixos-rebuild switch --flake .#gustave
 
 # Update flake inputs
