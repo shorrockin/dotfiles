@@ -109,6 +109,7 @@
     impala # wifi management tui
     bluetui # bluetooth management tui
     fastfetch # system about screen
+    ytmdesktop # youtube music for the desktop
 
     #  see bambustudio.nix
     # orca-slicer
