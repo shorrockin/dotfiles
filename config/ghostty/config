@@ -12,7 +12,7 @@ theme = catppuccin-mocha.conf
 window-padding-x = 16,16
 window-padding-y = 16,16
 window-decoration = "none"
-background-opacity = 0.96
+background-opacity = 0.9
 
 font-family = "MesloLGS Nerd Font Mono"
 font-size = 16

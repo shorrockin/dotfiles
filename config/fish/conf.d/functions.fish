@@ -9,6 +9,14 @@ function git-fix
   git rebase -i --autosquash $AUTOSQUASH_AT
 end
 
+function tmux
+    if test (count $argv) -eq 0
+        command tmux new-session -A -s main
+    else
+        command tmux $argv
+    end
+end
+
 # from the fish docs, .. goes back one, ... goes back two, etc
 function multicd
     echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)
