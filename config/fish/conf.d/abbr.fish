@@ -25,7 +25,10 @@ abbr --add l eza
 abbr --add ll eza --all --long --icons --no-permissions
 abbr --add lt eza --tree --level 3 --long --icons --no-permissions
 
-# OTHER 
+# NIXOS
+abbr --add nix-rebuild "sudo nixos-rebuild switch --flake .#$hostname"
+
+# OTHER
 abbr --add vim nvim
 abbr --add vi nvim
 abbr --add v nvim
