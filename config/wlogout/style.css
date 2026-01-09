@@ -11,31 +11,31 @@
 }
 
 window {
-    background-color: transparent;
+    background-color: rgba(147, 197, 204, 0.3);
 }
 
 button {
     color: #cdd6f4;
-    background-color: rgba(30, 30, 46, 0.7);
+    background-color: #1e1e2e;
     outline-style: none;
     border: none;
     border-width: 0px;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 20%;
+    background-size: 18%;
     box-shadow: none;
     text-shadow: none;
-    margin: 20px 0px;
+    margin: 40px 0px;
 }
 
 button:focus {
-    background-color: rgba(69, 71, 90, 0.8);
+    background-color: rgba(69, 71, 90, 1);
 }
 
 button:hover {
-    background-color: rgba(137, 180, 250, 0.6);
+    background-color: #89b4fa;
     border-radius: 36px;
-    margin: 5px 0px;
+    margin: -15px 0px;
     transition: all 0.3s cubic-bezier(0.55, 0.0, 0.28, 1.682);
 }
 
