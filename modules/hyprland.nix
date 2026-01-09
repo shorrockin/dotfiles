@@ -1,12 +1,17 @@
 { config, pkgs, pkgs-unstable, ... }: {
-  environment.systemPackages = [ pkgs-unstable.hyprpaper ];
+  environment.systemPackages = [
+    pkgs-unstable.hyprpaper
+    (pkgs.catppuccin-sddm.override {
+      flavor = "mocha";
+      accent = "mauve";
+    })
+  ];
   services.displayManager.enable = true;
 
-  # seems like this shouldn't be needed, at least as i understand
-  # sddm, but ui seems to be reliant on this
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+    theme = "catppuccin-mocha-mauve";
   };
 
   programs.hyprland = {

@@ -124,13 +124,6 @@
   "custom/power": {
     "format": "⏻",
     "tooltip": false,
-    "menu": "on-click",
-    "menu-file": "~/.config/waybar/power_menu.xml",
-    "menu-actions": {
-      "about": "ghostty --title=fastfetch -e fish -c 'fastfetch -c popup; read -P \"Press Enter to close...\"'",
-      "activity": "ghostty -e btop",
-      "suspend": "systemctl suspend",
-      "reboot": "systemctl reboot"
-    }
+    "on-click": "wlogout -b 4 -c 0 -r 0 -m 0 -L 400 -R 400 -T 300 -B 300"
   }
 }

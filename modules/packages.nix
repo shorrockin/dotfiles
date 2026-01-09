@@ -86,12 +86,13 @@
     # hyprpanel # bar, replaced by waybar
     hypridle # idle management
     hyprshot # screenshots
+    hyprlock # lock screen
+    wlogout # logout/power menu
     mpv # used to show wallpaper fullscreen
     wdisplays # display manager
     wlr-randr # for adjusting resolutions
     # moonlight-qt # game streaming client
     # sunshine # moonlight: game streaming server
-    # hyprlock # lock screen
 
     # general aps
     _1password-cli

@@ -19,6 +19,9 @@ WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -path "$CURRENT_WALL" | shuf -n 1)
 # Save the selected wallpaper path
 echo "$WALLPAPER" > "$CACHE_FILE"
 
+# Create symlink for hyprlock to use
+ln -sf "$WALLPAPER" "$HOME/.cache/current_wallpaper.png"
+
 # Preload the wallpaper first (required by hyprpaper for IPC)
 /run/current-system/sw/bin/hyprctl hyprpaper preload "$WALLPAPER"
 
