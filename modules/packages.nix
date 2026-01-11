@@ -50,6 +50,7 @@
     pkgs-unstable.gemini-cli
     pkgs-unstable.opencode
     nodejs_22
+    python3
 
     ffmpeg # audio recording
     libnotify # desktop notifications
