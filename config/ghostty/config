@@ -13,6 +13,7 @@ window-padding-x = 16,16
 window-padding-y = 16,16
 window-decoration = "none"
 background-opacity = 0.9
+background-blur-radius = 20
 
 font-family = "MesloLGS Nerd Font Mono"
 font-size = 16
