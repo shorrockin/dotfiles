@@ -89,7 +89,7 @@
     hyprshot # screenshots
     hyprlock # lock screen
     wlogout # logout/power menu
-    mpv # used to show wallpaper fullscreen
+    mpv # general purpose media player
     wdisplays # display manager
     wlr-randr # for adjusting resolutions
     # moonlight-qt # game streaming client
