@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Push-to-talk dictation wrapper for hyprflow
-# Usage: dictation start|stop
+# Usage: dictation start|stop|reset
 
 # Config - use same paths as hyprflow (hardcoded for speed)
 WHISPER_BIN="/nix/store/dwdby91qwv3k8y8qyvvpg5l893v5i4k7-whisper-cpp-1.8.2/bin/whisper-cli"
@@ -10,7 +10,26 @@ TRANSCRIPT_DIR="$HOME/.cache/hyprflow/transcripts"
 STATE_FILE="/tmp/dictation.state"
 KEEP_VERSIONS=5
 
+# Hyprland visual settings (defaults to restore)
+DEFAULT_BORDER="0xeecba6f7 0xeef5c2e7 45deg"
+RECORDING_BORDER="0xee89dceb 0xee89dceb 45deg"
+
 mkdir -p "$RECORDING_DIR" "$TRANSCRIPT_DIR"
+
+# Reset Hyprland to normal state (safety function)
+reset_hyprland() {
+    hyprctl keyword general:col.active_border "$DEFAULT_BORDER" >/dev/null 2>&1
+    hyprctl keyword decoration:active_opacity 1.0 >/dev/null 2>&1
+    hyprctl keyword decoration:inactive_opacity 1.0 >/dev/null 2>&1
+}
+
+# Apply recording visual effects
+apply_recording_effects() {
+    hyprctl keyword general:col.active_border "$RECORDING_BORDER" >/dev/null 2>&1
+    # Transparency on all windows - blur shows through
+    hyprctl keyword decoration:active_opacity 0.65 >/dev/null 2>&1
+    hyprctl keyword decoration:inactive_opacity 0.65 >/dev/null 2>&1
+}
 
 start_recording() {
     # Don't start if already recording
@@ -21,6 +40,9 @@ start_recording() {
     TIME=$(date +%s)
     echo "TIME=$TIME" > "$STATE_FILE"
     RECORDING_FILE="${RECORDING_DIR}/${TIME}.wav"
+
+    # Apply Hyprland visual effects
+    apply_recording_effects
 
     # Start recording
     pw-record --rate 16000 --channels 1 "$RECORDING_FILE" 2>/dev/null &
@@ -55,6 +77,11 @@ stop_recording() {
     fi
     pkill -f "pw-record.*hyprflow" 2>/dev/null
 
+    # Reset visuals immediately (before transcription)
+    rm -f "$STATE_FILE"
+    reset_hyprland
+    pkill -RTMIN+8 waybar 2>/dev/null
+
     RECORDING_FILE="${RECORDING_DIR}/${TIME}.wav"
     TRANSCRIPT_FILE="${TRANSCRIPT_DIR}/${TIME}_raw.txt"
 
@@ -74,11 +101,6 @@ stop_recording() {
         fi
     fi
 
-    rm -f "$STATE_FILE"
-
-    # Update Waybar indicator
-    pkill -RTMIN+8 waybar 2>/dev/null
-
     # Cleanup old files
     if [ "$KEEP_VERSIONS" -gt 0 ]; then
         ls -1t "$RECORDING_DIR"/*.wav 2>/dev/null | tail -n +$((KEEP_VERSIONS + 1)) | xargs -r rm -f
@@ -93,8 +115,14 @@ case "${1:-}" in
     stop)
         stop_recording
         ;;
+    reset)
+        # Manual reset if effects get stuck
+        reset_hyprland
+        rm -f "$STATE_FILE"
+        pkill -RTMIN+8 waybar 2>/dev/null
+        ;;
     *)
-        echo "Usage: dictation start|stop"
+        echo "Usage: dictation start|stop|reset"
         exit 1
         ;;
 esac

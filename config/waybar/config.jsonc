@@ -6,13 +6,13 @@
 
   "modules-left": [
     "custom/notifications",
-    "custom/dictation",
     // "tray",
     "pulseaudio",
     "custom/controller"
   ],
 
   "modules-center": [
+    "custom/dictation",
     "hyprland/workspaces"
   ],
 

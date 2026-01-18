@@ -203,12 +203,17 @@ tooltip label {
 }
 
 #custom-dictation {
-  padding: 2px 10px;
+  padding: 4px 20px;
   margin: 2px 3px;
-  border-radius: 0px;
+  border-radius: 12px;
   background-color: transparent;
   color: @sky;
-  font-size: 16px;
+  font-size: 24px;
+  letter-spacing: 4px;
+}
+
+#custom-dictation.recording {
+  background-color: rgba(137, 220, 235, 0.2);
 }
 
 #custom-dictation.empty {
