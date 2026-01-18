@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+# Push-to-talk dictation wrapper for hyprflow
+# Usage: dictation start|stop
+
+# Config - use same paths as hyprflow (hardcoded for speed)
+WHISPER_BIN="/nix/store/dwdby91qwv3k8y8qyvvpg5l893v5i4k7-whisper-cpp-1.8.2/bin/whisper-cli"
+WHISPER_MODEL="/nix/store/m1j9app6vkpwiiwg9wrzqd3q8nn0prr6-hyprflow-2025-12-09/share/hyprflow/ggml-base.en.bin"
+RECORDING_DIR="$HOME/.cache/hyprflow/recordings"
+TRANSCRIPT_DIR="$HOME/.cache/hyprflow/transcripts"
+STATE_FILE="/tmp/dictation.state"
+KEEP_VERSIONS=5
+
+mkdir -p "$RECORDING_DIR" "$TRANSCRIPT_DIR"
+
+start_recording() {
+    # Don't start if already recording
+    if [ -f "$STATE_FILE" ]; then
+        return 0
+    fi
+
+    TIME=$(date +%s)
+    echo "TIME=$TIME" > "$STATE_FILE"
+    RECORDING_FILE="${RECORDING_DIR}/${TIME}.wav"
+
+    # Visual feedback
+    notify-send --print-id --app-name=Dictation --expire-time=0 \
+        --hint=int:transient:1 "Recording" "Speak now..." > /tmp/dictation_notify_id
+
+    # Start recording
+    pw-record --rate 16000 --channels 1 "$RECORDING_FILE" 2>/dev/null &
+    echo "PID=$!" >> "$STATE_FILE"
+}
+
+stop_recording() {
+    # Don't stop if not recording
+    if [ ! -f "$STATE_FILE" ]; then
+        return 0
+    fi
+
+    source "$STATE_FILE"
+
+    # Stop recording
+    if [ -n "$PID" ]; then
+        kill "$PID" 2>/dev/null
+    fi
+    pkill -f "pw-record.*hyprflow" 2>/dev/null
+
+    # Update notification
+    if [ -f /tmp/dictation_notify_id ]; then
+        NOTIFY_ID=$(cat /tmp/dictation_notify_id)
+        notify-send --replace-id="$NOTIFY_ID" --app-name=Dictation \
+            --expire-time=2000 --hint=int:transient:1 "Processing..." "Transcribing..."
+    fi
+
+    RECORDING_FILE="${RECORDING_DIR}/${TIME}.wav"
+    TRANSCRIPT_FILE="${TRANSCRIPT_DIR}/${TIME}_raw.txt"
+
+    if [ -f "$RECORDING_FILE" ]; then
+        # Transcribe
+        "$WHISPER_BIN" -m "$WHISPER_MODEL" -f "$RECORDING_FILE" \
+            --no-prints --no-timestamps > "$TRANSCRIPT_FILE" 2>/dev/null
+
+        # Clean up, copy to clipboard, and paste
+        TEXT=$(sed 's/^[[:space:]]*//;s/[[:space:]]*$//' "$TRANSCRIPT_FILE" | tr -d '\n')
+
+        if [ -n "$TEXT" ]; then
+            echo -n "$TEXT" | wl-copy
+            # Small delay to ensure clipboard is ready
+            sleep 0.1
+            hyprctl dispatch sendshortcut "CTRL SHIFT, V, activewindow"
+
+            # Success notification
+            if [ -f /tmp/dictation_notify_id ]; then
+                NOTIFY_ID=$(cat /tmp/dictation_notify_id)
+                notify-send --replace-id="$NOTIFY_ID" --app-name=Dictation \
+                    --expire-time=1500 --hint=int:transient:1 "Done" "${TEXT:0:50}..."
+            fi
+        else
+            notify-send --app-name=Dictation --expire-time=1500 "No speech detected"
+        fi
+    fi
+
+    rm -f "$STATE_FILE" /tmp/dictation_notify_id
+
+    # Cleanup old files
+    if [ "$KEEP_VERSIONS" -gt 0 ]; then
+        ls -1t "$RECORDING_DIR"/*.wav 2>/dev/null | tail -n +$((KEEP_VERSIONS + 1)) | xargs -r rm -f
+        ls -1t "$TRANSCRIPT_DIR"/*_raw.txt 2>/dev/null | tail -n +$((KEEP_VERSIONS + 1)) | xargs -r rm -f
+    fi
+}
+
+case "${1:-}" in
+    start)
+        start_recording
+        ;;
+    stop)
+        stop_recording
+        ;;
+    *)
+        echo "Usage: dictation start|stop"
+        exit 1
+        ;;
+esac
