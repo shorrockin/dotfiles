@@ -6,6 +6,7 @@
 
   "modules-left": [
     "custom/notifications",
+    "custom/dictation",
     // "tray",
     "pulseaudio",
     "custom/controller"
@@ -105,6 +106,15 @@
     "return-type": "json",
     "exec": "~/.config/scripts/controller-battery",
     "interval": 30,
+    "tooltip": true
+  },
+
+  "custom/dictation": {
+    "format": "{}",
+    "return-type": "json",
+    "exec": "~/.config/scripts/dictation-status",
+    "interval": 1,
+    "signal": 8,
     "tooltip": true
   },
 
