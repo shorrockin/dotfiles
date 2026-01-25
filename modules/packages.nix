@@ -36,6 +36,7 @@
     ripgrep # recursive searching
     jq # json parsing
     unzip # unzip
+    nsxiv # terminal image viewer
 
     # general development
     ghostty

@@ -14,7 +14,6 @@
       "noauto"
       "nofail"
       "_netdev"
-      "users"
     ];
   };
 }
