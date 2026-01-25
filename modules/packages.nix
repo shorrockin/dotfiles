@@ -1,65 +1,63 @@
 { config, pkgs, lib, pkgs-unstable, vicinae-pkg, ... }: {
-  # imports = [ ./ollama.nix ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # terminal 
-    zsh
-    fish
+    # Core & Shells
+    zsh # interactive shell
+    fish # user friendly shell
     starship # prompt
-    zoxide # quick cd
+    tmux # multiplexer
+    stow # symlink manager
 
-    # git
-    git
+    # Git & TUI
+    git # version control
     delta # better git diffs
     tig # show git history
     lazygit # git history in a tui
 
-    # terminal utils
-    tmux # multiplexer
-    wget # http fetcher
-    stow # symlink manager
+    # CLI Utilities
+    zoxide # quick cd
     fzf # fuzzy finder
     btop # better top
     most # most > less > more
     eza # better ls
     bat # more cat
-    neofetch # computer info
-    cmatrix # terminal matrix
-    jtbl # json in the terminal
-    libqalculate # qalc: calculator
-    yazi # terminal file manager
-    hyperfine # terminal benchmarking
-    tldr # succinct man pages
-    dust # better du / df
-    poppler-utils # pdf tools
+    fastfetch # system about screen
     ripgrep # recursive searching
     jq # json parsing
-    unzip # unzip
-    nsxiv # terminal image viewer
+    yazi # terminal file manager
+    tldr # succinct man pages
+    dust # better du / df
+    unzip # extraction tool
+    wget # network downloader
+    jtbl # json in the terminal
+    libqalculate # calculator
+    hyperfine # terminal benchmarking
+    poppler-utils # pdf utilities
+    nsxiv # image viewer
+    cmatrix # matrix effect
+    ffmpeg # multimedia framework
+    libnotify # notification library
+    impala # wifi management tui
+    bluetui # bluetooth management tui
 
-    # general development
-    ghostty
-    alacritty
-    kitty
-    go
-    rustc
-    cargo
-    gcc
-    gnumake
-    pkgs-unstable.claude-code
-    pkgs-unstable.gemini-cli
-    pkgs-unstable.opencode
-    nodejs_22
-    python3
+    # Development Languages & Tools
+    ghostty # terminal emulator
+    alacritty # terminal emulator
+    kitty # terminal emulator
+    go # go programming language
+    rustc # rust compiler
+    cargo # rust package manager
+    gcc # c compiler
+    gnumake # build tool
+    nodejs_22 # javascript runtime
+    python3 # python programming language
+    pkgs-unstable.claude-code # claude ai cli
+    pkgs-unstable.gemini-cli # gemini ai cli
+    pkgs-unstable.opencode # opencode ai cli
 
-    ffmpeg # audio recording
-    libnotify # desktop notifications
-
-    # neovim & plugin dependencies
-    neovim
-
-    # LSP servers
+    # Neovim & LSP Support
+    neovim # text editor
     lua-language-server # lua_ls
     nixd # nix
     pyright # python
@@ -70,12 +68,10 @@
     gopls # go
     rust-analyzer # rust
     nodePackages.vscode-langservers-extracted # jsonls, html, cssls, eslint
-
-    # Formatters (used by conform.nvim)
     stylua # lua
     nixfmt-classic # nix
 
-    # wayland / hyprland
+    # Wayland / Hyprland Environment
     nautilus # file manager
     vicinae-pkg # app launcher (replaces walker)
     wl-clipboard # system clipboard
@@ -85,7 +81,6 @@
     playerctl # media player controls
     pavucontrol # pulseaudio volume control GUI
     blueman # bluetooth manager GUI
-    # hyprpanel # bar, replaced by waybar
     hypridle # idle management
     hyprshot # screenshots
     hyprlock # lock screen
@@ -93,40 +88,20 @@
     mpv # general purpose media player
     wdisplays # display manager
     wlr-randr # for adjusting resolutions
-    # moonlight-qt # game streaming client
-    # sunshine # moonlight: game streaming server
 
-    # general aps
-    _1password-cli
-    _1password-gui
-    slack
-    discord
-    obsidian
+    # Desktop Applications
+    _1password-cli # password manager cli
+    _1password-gui # password manager gui
+    slack # communication tool
+    discord # communication tool
+    obsidian # note taking app
     mangohud # game overlap for fps
-    google-chrome
-    vivaldi
-    localsend # allows sharing across devices on local network
-    whatsapp-electron
+    google-chrome # web browser
+    vivaldi # web browser
+    localsend # sharing across devices on local network
+    whatsapp-electron # messaging app
     pinta # basic image editing: https://www.pinta-project.com
-    mpv # general purpose media player
-    impala # wifi management tui
-    bluetui # bluetooth management tui
-    fastfetch # system about screen
     ytmdesktop # youtube music for the desktop
-
-    #  see bambustudio.nix
-    # orca-slicer
-    # (bambu-studio.overrideAttrs (previousAttrs: {
-    #   version = "01.00.01.50";
-    #   src = fetchFromGitHub {
-    #     owner = "bambulab";
-    #     repo = "BambuStudio";
-    #     rev = "v01.00.01.50";
-    #     hash = "sha256-7mkrPl2CQSfc1lRjl1ilwxdYcK5iRU//QGKmdCicK30=";
-    #   };
-    # }))
-
-    # protonup # https://www.youtube.com/watch?v=qlfm3MEbqYA&t=392s
   ];
 
   # programs.zsh.enable = true;
@@ -141,5 +116,4 @@
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;
   programs.gamemode.enable = true;
-
 }

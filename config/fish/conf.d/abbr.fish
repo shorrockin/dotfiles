@@ -13,12 +13,7 @@ abbr --add gp git pull
 abbr --add gb "git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[\$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr(\$2, 1, length(\$2)-1), \$1)}'"
 abbr --add gundo "git reset --soft HEAD && git restore --staged ."
 abbr --add gamend "git commit --amend"
-abbr --add info neofetch
-
-# EZA
-abbr --add l eza
-abbr --add ll eza --all --long --icons --no-permissions
-abbr --add lt eza --tree --level 3 --long --icons --no-permissions
+abbr --add info fastfetch
 
 # EZA
 abbr --add l eza
