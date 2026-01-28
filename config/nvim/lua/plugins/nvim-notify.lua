@@ -6,6 +6,7 @@ return {
 			stages = "fade",
 			render = "minimal",
 			top_down = false,
+			background_colour = "#000000",
 		})
 		vim.notify = notify
 	end,

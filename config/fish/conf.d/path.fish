@@ -8,7 +8,12 @@ end
 fish_add_path ~/.config/scripts
 fish_add_path ~/.local/bin
 
-# Go
+# Go - Stripe managed SDK
+if test -d ~/.cache/gocode/sdk/managed/bin
+    fish_add_path ~/.cache/gocode/sdk/managed/bin
+end
+
+# Go user binaries
 if test -d ~/go/bin
     fish_add_path ~/go/bin
 end
