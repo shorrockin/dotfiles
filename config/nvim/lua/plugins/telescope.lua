@@ -3,7 +3,7 @@ return {
 	"nvim-telescope/telescope.nvim",
 	-- enabled = false, -- in favor of snacks for now
 	event = "VimEnter",
-	tag = "0.1.4",
+	branch = "master",
 	dependencies = {
 		{ "nvim-lua/plenary.nvim" },
 

@@ -4,7 +4,7 @@ return {
 	-- Lua version of above: https://github.com/zbirenbaum/copilot.lua
 	-- "zbirenbaum/copilot.lua",
 	event = "VeryLazy",
-	enabled = false,
+	enabled = true,
 	config = function()
 		vim.g.copilot_no_tab_map = true
 		vim.keymap.set("i", "<S-Tab>", 'copilot#Accept("\\<CR>")', {
