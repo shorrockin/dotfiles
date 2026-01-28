@@ -75,6 +75,64 @@ return {
 			end,
 		})
 
+		-- Custom :LspInfo command to replace nvim-lspconfig's version
+		vim.api.nvim_create_user_command("LspInfo", function()
+			local clients = vim.lsp.get_clients({ bufnr = 0 })
+			local lines = {}
+
+			if #clients == 0 then
+				table.insert(lines, "No LSP clients attached to this buffer")
+			else
+				table.insert(lines, "LSP clients attached to this buffer:")
+				table.insert(lines, "")
+				for _, client in ipairs(clients) do
+					table.insert(lines, string.format("  %s (id: %d)", client.name, client.id))
+					table.insert(lines, string.format("    Root: %s", client.root_dir or "nil"))
+					table.insert(lines, string.format("    Filetypes: %s", table.concat(client.config.filetypes or {}, ", ")))
+					table.insert(lines, "")
+				end
+			end
+
+			-- Also show all active clients (in other buffers)
+			local all_clients = vim.lsp.get_clients()
+			if #all_clients > #clients then
+				table.insert(lines, "Other active LSP clients:")
+				table.insert(lines, "")
+				for _, client in ipairs(all_clients) do
+					local attached = vim.tbl_contains(vim.tbl_map(function(c) return c.id end, clients), client.id)
+					if not attached then
+						table.insert(lines, string.format("  %s (id: %d)", client.name, client.id))
+						table.insert(lines, string.format("    Root: %s", client.root_dir or "nil"))
+						table.insert(lines, "")
+					end
+				end
+			end
+
+			-- Display in floating window
+			local buf = vim.api.nvim_create_buf(false, true)
+			vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+			vim.bo[buf].modifiable = false
+
+			local width = math.min(80, vim.o.columns - 4)
+			local height = math.min(#lines + 2, vim.o.lines - 4)
+
+			vim.api.nvim_open_win(buf, true, {
+				relative = "editor",
+				width = width,
+				height = height,
+				col = math.floor((vim.o.columns - width) / 2),
+				row = math.floor((vim.o.lines - height) / 2),
+				style = "minimal",
+				border = "rounded",
+				title = " LSP Info ",
+				title_pos = "center",
+			})
+
+			-- Close on q or <Esc>
+			vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = buf, silent = true })
+			vim.keymap.set("n", "<Esc>", "<cmd>close<cr>", { buffer = buf, silent = true })
+		end, { desc = "Show LSP client information" })
+
 		-- LSP servers and clients are able to communicate to each other what features they support.
 		--  By default, Neovim doesn't support everything that is in the LSP specification.
 		--  When you add blink.cmp, Neovim now has *more* capabilities.
