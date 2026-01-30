@@ -58,7 +58,7 @@ Scope {
             Behavior on scale {
                 NumberAnimation {
                     duration: 400
-                    easing.type: isRecording ? Easing.OutCubic : Easing.InBack
+                    easing.type: isRecording ? Easing.OutCubic : Easing.InCubic
                     easing.overshoot: 1.5
                 }
             }
@@ -66,7 +66,7 @@ Scope {
             Behavior on opacity {
                 NumberAnimation {
                     duration: 300
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.InOutCubic
                 }
             }
             
