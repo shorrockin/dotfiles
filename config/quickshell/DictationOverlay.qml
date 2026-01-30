@@ -32,21 +32,43 @@ Scope {
             left: true
             right: true
         }
-        visible: isRecording
-        
+        visible: isRecording || overlay.opacity > 0
+
         exclusionMode: ExclusionMode.Ignore
         color: "transparent"
 
         Rectangle {
+            id: overlay
             anchors.centerIn: parent
-            
+
             width: 260
-            height: 60 
+            height: 60
             radius: 30
-            
+
             color: "#EE1e1e2e" // Slightly more opaque for center visibility
             border.color: "#f38ba8" // Red
             border.width: 2
+
+            // Animation properties
+            scale: isRecording ? 1.0 : 0.1
+            opacity: isRecording ? 1.0 : 0.0
+            transformOrigin: Item.Center
+
+            // Smooth animations
+            Behavior on scale {
+                NumberAnimation {
+                    duration: 400
+                    easing.type: isRecording ? Easing.OutCubic : Easing.InBack
+                    easing.overshoot: 1.5
+                }
+            }
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.InOutQuad
+                }
+            }
             
             // Shadow effect (simple imitation)
             Rectangle {
