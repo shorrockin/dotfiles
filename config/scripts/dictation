@@ -23,6 +23,7 @@ start_recording() {
     RECORDING_FILE="${RECORDING_DIR}/${TIME}.wav"
 
     # Start recording
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
     pw-record --rate 16000 --channels 1 "$RECORDING_FILE" 2>/dev/null &
     echo "PID=$!" >> "$STATE_FILE"
 }
@@ -40,6 +41,7 @@ stop_recording() {
         kill "$PID" 2>/dev/null
     fi
     pkill -f "pw-record.*hyprflow" 2>/dev/null
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
 
     rm -f "$STATE_FILE"
 
@@ -77,6 +79,7 @@ case "${1:-}" in
         stop_recording
         ;;
     reset)
+        wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
         rm -f "$STATE_FILE"
         ;;
     *)
