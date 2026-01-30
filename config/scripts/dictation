@@ -18,17 +18,19 @@ mkdir -p "$RECORDING_DIR" "$TRANSCRIPT_DIR"
 
 # Reset Hyprland to normal state (safety function)
 reset_hyprland() {
-    hyprctl keyword general:col.active_border "$DEFAULT_BORDER" >/dev/null 2>&1
-    hyprctl keyword decoration:active_opacity 1.0 >/dev/null 2>&1
-    hyprctl keyword decoration:inactive_opacity 1.0 >/dev/null 2>&1
+    # hyprctl keyword general:col.active_border "$DEFAULT_BORDER" >/dev/null 2>&1
+    # hyprctl keyword decoration:active_opacity 1.0 >/dev/null 2>&1
+    # hyprctl keyword decoration:inactive_opacity 1.0 >/dev/null 2>&1
+    : # No-op
 }
 
 # Apply recording visual effects
 apply_recording_effects() {
-    hyprctl keyword general:col.active_border "$RECORDING_BORDER" >/dev/null 2>&1
+    # hyprctl keyword general:col.active_border "$RECORDING_BORDER" >/dev/null 2>&1
     # Transparency on all windows - blur shows through
-    hyprctl keyword decoration:active_opacity 0.65 >/dev/null 2>&1
-    hyprctl keyword decoration:inactive_opacity 0.65 >/dev/null 2>&1
+    # hyprctl keyword decoration:active_opacity 0.65 >/dev/null 2>&1
+    # hyprctl keyword decoration:inactive_opacity 0.65 >/dev/null 2>&1
+    : # No-op
 }
 
 start_recording() {
@@ -48,14 +50,7 @@ start_recording() {
     pw-record --rate 16000 --channels 1 "$RECORDING_FILE" 2>/dev/null &
     echo "PID=$!" >> "$STATE_FILE"
 
-    # Start animation loop (updates waybar rapidly while recording)
-    (
-        while [ -f "$STATE_FILE" ]; do
-            pkill -RTMIN+8 waybar 2>/dev/null
-            sleep 0.15
-        done
-    ) &
-    echo "ANIM_PID=$!" >> "$STATE_FILE"
+    # Animation loop removed for Quickshell
 }
 
 stop_recording() {
@@ -66,11 +61,6 @@ stop_recording() {
 
     source "$STATE_FILE"
 
-    # Stop animation loop
-    if [ -n "$ANIM_PID" ]; then
-        kill "$ANIM_PID" 2>/dev/null
-    fi
-
     # Stop recording
     if [ -n "$PID" ]; then
         kill "$PID" 2>/dev/null
@@ -80,7 +70,7 @@ stop_recording() {
     # Reset visuals immediately (before transcription)
     rm -f "$STATE_FILE"
     reset_hyprland
-    pkill -RTMIN+8 waybar 2>/dev/null
+    # pkill -RTMIN+8 waybar 2>/dev/null
 
     RECORDING_FILE="${RECORDING_DIR}/${TIME}.wav"
     TRANSCRIPT_FILE="${TRANSCRIPT_DIR}/${TIME}_raw.txt"
@@ -119,7 +109,7 @@ case "${1:-}" in
         # Manual reset if effects get stuck
         reset_hyprland
         rm -f "$STATE_FILE"
-        pkill -RTMIN+8 waybar 2>/dev/null
+        # pkill -RTMIN+8 waybar 2>/dev/null
         ;;
     *)
         echo "Usage: dictation start|stop|reset"

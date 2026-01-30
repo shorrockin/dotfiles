@@ -74,6 +74,7 @@
     # Wayland / Hyprland Environment
     nautilus # file manager
     vicinae-pkg # app launcher (replaces walker)
+    quickshell # desktop shell toolkit
     wl-clipboard # system clipboard
     waybar # status bar
     wttrbar # weather for waybar
