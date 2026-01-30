@@ -89,6 +89,7 @@
     mpv # general purpose media player
     wdisplays # display manager
     wlr-randr # for adjusting resolutions
+    kooha # simple screen recorder for wayland
 
     # Desktop Applications
     _1password-cli # password manager cli
