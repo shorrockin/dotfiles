@@ -35,7 +35,6 @@
           "template": "{{ .Path }} ",
           "type": "path"
         },
-
         {
           "type": "git",
           "style": "plain",
@@ -84,61 +83,6 @@
         }
       ],
       "type": "prompt"
-    },
-    {
-      "type": "prompt",
-      "alignment": "right",
-      "segments": [
-        {
-          "type": "node",
-          "style": "plain",
-          "foreground": "p:green",
-          "background": "transparent",
-          "template": " {{ .Full }} "
-        },
-        {
-          "type": "python",
-          "style": "plain",
-          "foreground": "p:yellow",
-          "background": "transparent",
-          "template": " {{ .Full }} "
-        },
-        {
-          "type": "go",
-          "style": "plain",
-          "foreground": "p:blue",
-          "background": "transparent",
-          "template": " {{ .Full }} "
-        },
-        {
-          "type": "rust",
-          "style": "plain",
-          "foreground": "p:red",
-          "background": "transparent",
-          "template": " {{ .Full }} "
-        },
-        {
-          "type": "java",
-          "style": "plain",
-          "foreground": "p:red",
-          "background": "transparent",
-          "template": " {{ .Full }} "
-        },
-        {
-          "type": "ruby",
-          "style": "plain",
-          "foreground": "p:red",
-          "background": "transparent",
-          "template": " {{ .Full }} "
-        },
-        {
-          "type": "elixir",
-          "style": "plain",
-          "foreground": "p:mauve",
-          "background": "transparent",
-          "template": " {{ .Full }} "
-        }
-      ]
     }
   ],
   "transient_prompt": {
