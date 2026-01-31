@@ -68,9 +68,9 @@
         {
           "type": "status",
           "style": "plain",
-          "foreground": "p:os",
+          "foreground": "p:red",
           "foreground_templates": [
-            "{{ if eq .Env.OMP_FISH_BIND_MODE \"default\" }}p:red{{ end }}",
+            "{{ if eq .Env.OMP_FISH_BIND_MODE \"default\" }}p:os{{ end }}",
             "{{ if eq .Env.OMP_FISH_BIND_MODE \"visual\" }}p:mauve{{ end }}",
             "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace_one\" }}p:red{{ end }}",
             "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace\" }}p:red{{ end }}",
@@ -143,9 +143,9 @@
   ],
   "transient_prompt": {
     "background": "transparent",
-    "foreground": "p:os",
+    "foreground": "p:red",
     "foreground_templates": [
-      "{{ if eq .Env.OMP_FISH_BIND_MODE \"default\" }}p:red{{ end }}",
+      "{{ if eq .Env.OMP_FISH_BIND_MODE \"default\" }}p:os{{ end }}",
       "{{ if eq .Env.OMP_FISH_BIND_MODE \"visual\" }}p:mauve{{ end }}",
       "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace_one\" }}p:red{{ end }}",
       "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace\" }}p:red{{ end }}",

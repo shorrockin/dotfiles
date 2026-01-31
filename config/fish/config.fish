@@ -9,18 +9,20 @@ end
 function fish_greeting
 end
 
-# disable vi mode indicator (we use oh-my-posh instead)
-function fish_mode_prompt
-    set -gx OMP_FISH_BIND_MODE $fish_bind_mode
-    set -g _omp_new_prompt 1
+# source work stuff first (before oh-my-posh, since it overrides fish_mode_prompt)
+if test -e ~/.work.fish
+    source ~/.work.fish
 end
 
+# initialize oh-my-posh (after work stuff so our fish_mode_prompt takes precedence)
 if command -v oh-my-posh > /dev/null
     oh-my-posh init fish --config ~/.config/oh-my-posh/config.json | source
 end
 
-if test -e ~/.work.fish
-    source ~/.work.fish
+# override fish_mode_prompt for oh-my-posh vi mode support (must be after work scripts)
+function fish_mode_prompt
+    set -gx OMP_FISH_BIND_MODE $fish_bind_mode
+    set -g _omp_new_prompt 1
 end
 
 # opencode
