@@ -90,17 +90,6 @@
       "alignment": "right",
       "segments": [
         {
-          "type": "executiontime",
-          "style": "plain",
-          "foreground": "p:yellow",
-          "background": "transparent",
-          "template": "{{ .FormattedMs }} ",
-          "properties": {
-            "threshold": 500,
-            "style": "round"
-          }
-        },
-        {
           "type": "node",
           "style": "plain",
           "foreground": "p:green",
