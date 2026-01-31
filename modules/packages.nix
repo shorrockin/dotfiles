@@ -5,7 +5,7 @@
     # Core & Shells
     zsh # interactive shell
     fish # user friendly shell
-    starship # prompt
+    oh-my-posh # prompt with async git support
     tmux # multiplexer
     stow # symlink manager
 

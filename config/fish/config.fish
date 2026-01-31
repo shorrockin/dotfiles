@@ -9,8 +9,14 @@ end
 function fish_greeting
 end
 
-if command -v starship > /dev/null
-    starship init fish | source
+# disable vi mode indicator (we use oh-my-posh instead)
+function fish_mode_prompt
+    set -gx OMP_FISH_BIND_MODE $fish_bind_mode
+    set -g _omp_new_prompt 1
+end
+
+if command -v oh-my-posh > /dev/null
+    oh-my-posh init fish --config ~/.config/oh-my-posh/config.json | source
 end
 
 if test -e ~/.work.fish
