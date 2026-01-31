@@ -5,7 +5,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Table of Contents
 
 - [Repository Overview](#repository-overview)
-- [Quick Start](#quick-start)
 - [NixOS Environment Notes](#nixos-environment-notes)
 - [Common Commands](#common-commands)
   - [NixOS System Management](#nixos-system-management)
@@ -18,7 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - [Configuration Management Notes](#configuration-management-notes)
   - [Symlink Management](#symlink-management)
   - [Git Integration](#git-integration)
-  - [Hardware Integration](#hardware-integration)
+- [Development Conventions](#development-conventions)
 
 ## Repository Overview
 
@@ -156,7 +155,7 @@ These are NixOS-specific modules located in `modules/`:
 - `modules/system.nix`: Core system settings and services
 - `modules/packages.nix`: System-wide package declarations
 - `modules/hyprland.nix`: Wayland compositor setup (see [Application Configurations](#application-configurations))
-- `modules/nvidia.nix`: GPU drivers and configuration (see [Hardware Integration](#hardware-integration))
+- `modules/nvidia.nix`: GPU drivers and configuration
 
 ### Application Configurations
 
@@ -220,9 +219,27 @@ This means:
 The stow script creates the necessary directory structure before linking to avoid conflicts.
 
 ### Git Integration
-
 - NixOS system changes via `nix flake update` and manual `nixos-rebuild` (user-initiated only)
 - Standard git workflows for dotfile changes
 - Multiple gitconfig files for personal/work separation
 - Delta configured for enhanced git diffs
 
+## Development Conventions
+
+### Package Management Patterns
+- **Unstable Packages**: The flake injects `pkgs-unstable` into modules via `specialArgs`. Use it in modules like this:
+  ```nix
+  { config, pkgs, pkgs-unstable, ... }:
+  {
+    environment.systemPackages = [ pkgs-unstable.some-new-package ];
+  }
+  ```
+- **Home Manager**: **NOT USED**. Do not suggest Home Manager options. All user-level config is handled via:
+  1. Traditional dotfiles (Stow) for config files
+  2. NixOS `users.users.<name>` for shell/groups
+  3. NixOS `environment.systemPackages` (or user packages) for software
+
+### Neovim Configuration Strategy
+The `dots` script specifically pre-creates subdirectories for Neovim (`~/.config/nvim/lua`, `plugins`, etc.) *before* stowing.
+- **Why**: This allows mixing symlinked public config with private/local files that aren't in the repo across different environments and operating system
+- **Implication**: When adding new Neovim directories, ensure they are compatible with this "partial stow" approach.
