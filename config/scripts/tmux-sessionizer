@@ -82,11 +82,11 @@ else
         )
 
         # Display with fzf
-        selected=$(echo "$sorted_list" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:80%:wrap' | awk 'END {print}')
+        selected=$(echo "$sorted_list" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:60%:wrap' | awk 'END {print}')
     else
         # Fallback to just showing tmux sessions if no valid directories
         sessions=$(tmux ls 2>/dev/null | awk -F':' '{print "● " $1}')
-        selected=$(echo "$sessions" | get_sorted_items "$sessions" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:80%:wrap' | awk 'END {print}')
+        selected=$(echo "$sessions" | get_sorted_items "$sessions" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:60%:wrap' | awk 'END {print}')
     fi
 fi
 
