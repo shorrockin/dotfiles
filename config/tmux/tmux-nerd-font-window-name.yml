@@ -6,3 +6,4 @@ config:
 icons:
   claude: "" # nf-fa-robot
   pay:    "" # nf-fa-money_bill_wave
+  nix:    "󱄅" # nf-dev-nix
