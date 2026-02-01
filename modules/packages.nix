@@ -40,6 +40,7 @@
     libnotify # notification library
     impala # wifi management tui
     bluetui # bluetooth management tui
+    yq # yaml processor
 
     # Development Languages & Tools
     ghostty # terminal emulator
