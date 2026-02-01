@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Preview script for tmux-sessionizer
+# Argument $1 is the selected item (with or without ● prefix)
+
+item="$1"
+# Remove the ● prefix if present
+item="${item#● }"
+
+if [ -d "$item" ]; then
+    # It's a directory - show contents
+    ls -la --color=always "$item" 2>/dev/null | head -50
+else
+    # It's a tmux session - show windows
+    tmux list-windows -t "$item" 2>/dev/null
+fi

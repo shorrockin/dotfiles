@@ -1,5 +1,51 @@
 #!/usr/bin/env bash
 
+# History file for tracking recency
+HISTORY_FILE="$HOME/.cache/tmux-sessionizer-history"
+
+# Ensure cache directory exists
+mkdir -p "$(dirname "$HISTORY_FILE")"
+
+# Function to update history with the selected item
+update_history() {
+    local item="$1"
+    # Remove old entry if it exists, then add to front
+    if [[ -f "$HISTORY_FILE" ]]; then
+        grep -vF "$item" "$HISTORY_FILE" > "${HISTORY_FILE}.tmp" 2>/dev/null || true
+        mv "${HISTORY_FILE}.tmp" "$HISTORY_FILE"
+    fi
+    echo "$item" >> "$HISTORY_FILE"
+    # Keep only last 50 entries
+    tail -50 "$HISTORY_FILE" > "${HISTORY_FILE}.tmp"
+    mv "${HISTORY_FILE}.tmp" "$HISTORY_FILE"
+}
+
+# Function to get items sorted by recency
+get_sorted_items() {
+    local all_items="$1"
+
+    if [[ ! -f "$HISTORY_FILE" ]]; then
+        echo "$all_items"
+        return
+    fi
+
+    # Recent items (from history, newest first)
+    local recent_items=$(tac "$HISTORY_FILE" 2>/dev/null)
+
+    # Print recent items first (if they exist in all_items), then remaining items
+    {
+        echo "$recent_items" | while IFS= read -r item; do
+            echo "$all_items" | grep -F "$item"
+        done
+        # Then items not in history
+        echo "$all_items" | while IFS= read -r item; do
+            if ! echo "$recent_items" | grep -qF "$item"; then
+                echo "$item"
+            fi
+        done
+    } | awk '!seen[$0]++'
+}
+
 # Define an array of directories to search
 directories=(
     "$HOME/stripe"
@@ -25,11 +71,22 @@ else
 
     # Only execute find if we have valid directories
     if [[ -n "$find_cmd" ]]; then
-        # existing sessions get ● prefix and appear first; --tiebreak=index keeps them prioritized when typing
-        selected=$( (tmux ls 2>/dev/null | awk -F':' '{print "● " $1}'; find $find_cmd -mindepth 1 -maxdepth 1 -type d) | awk '!seen[$0]++' | fzf --tiebreak=index --print-query | awk 'END {print}')
+        # Gather sessions and directories separately
+        sessions=$(tmux ls 2>/dev/null | awk -F':' '{print "● " $1}')
+        directories=$(find $find_cmd -mindepth 1 -maxdepth 1 -type d)
+
+        # Sort sessions by recency, then append all directories
+        sorted_list=$(
+            echo "$sessions" | get_sorted_items "$sessions"
+            echo "$directories"
+        )
+
+        # Display with fzf
+        selected=$(echo "$sorted_list" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:80%:wrap' | awk 'END {print}')
     else
         # Fallback to just showing tmux sessions if no valid directories
-        selected=$(tmux ls 2>/dev/null | awk -F':' '{print "● " $1}' | fzf --tiebreak=index --print-query | awk 'END {print}')
+        sessions=$(tmux ls 2>/dev/null | awk -F':' '{print "● " $1}')
+        selected=$(echo "$sessions" | get_sorted_items "$sessions" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:80%:wrap' | awk 'END {print}')
     fi
 fi
 
@@ -39,6 +96,10 @@ fi
 
 # Strip the marker prefix if present
 selected=$(echo "$selected" | sed 's/^● //')
+
+# Update history with this selection
+update_history "$selected"
+
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 dir_option=""
