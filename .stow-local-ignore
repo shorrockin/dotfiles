@@ -16,6 +16,8 @@ _darcs
 \.gitmodules
 
 \.claude/settings\.local\.json
+CLAUDE.md
+AGENT.md
 
 .+~          # emacs backup files
 \#.*\#       # emacs autosave files
@@ -30,3 +32,5 @@ flake.lock
 flake.nix
 hosts
 modules
+config
+dots
