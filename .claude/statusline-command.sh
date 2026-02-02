@@ -9,11 +9,8 @@ model=$(echo "$input" | jq -r '.model.display_name // .model.id')
 vim_mode=$(echo "$input" | jq -r '.vim.mode // empty')
 agent_name=$(echo "$input" | jq -r '.agent.name // empty')
 
-# Extract token usage information
-total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
-total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
+# Extract context window size
 context_size=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
-used_percent=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
 
 # Extract cache stats
 cache_read=$(echo "$input" | jq -r '.context_window.current_usage.cache_read_input_tokens // 0')
@@ -67,20 +64,24 @@ if git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
     output+=" ${SKY}(${branch}${changes})${RESET}"
 fi
 
-# Token usage (format: input+output / total)
-total_tokens=$((total_input + total_output))
+# Token usage - use pre-calculated percentage (resets on /clear)
+used_percent=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
+used_percent_int=$(printf "%.0f" "$used_percent")
+
+# Calculate actual context tokens from percentage for display
+context_tokens=$(awk "BEGIN {printf \"%.0f\", ($used_percent * $context_size) / 100}")
+
 # Format numbers with k suffix if > 1000
-if [[ $total_tokens -gt 1000 ]]; then
-    total_display=$(awk "BEGIN {printf \"%.0fk\", $total_tokens/1000}")
+if [[ $context_tokens -gt 1000 ]]; then
+    total_display=$(awk "BEGIN {printf \"%.0fk\", $context_tokens/1000}")
 else
-    total_display="${total_tokens}"
+    total_display="${context_tokens}"
 fi
 if [[ $context_size -gt 1000 ]]; then
     context_display=$(awk "BEGIN {printf \"%.0fk\", $context_size/1000}")
 else
     context_display="${context_size}"
 fi
-used_percent_int=$(awk "BEGIN {printf \"%.0f\", $used_percent}")
 
 output+=" ${OS_COLOR}|${RESET} ${OS_COLOR}Tokens:${RESET} ${RED}${total_display}${RESET}${OS_COLOR}/${RESET}${BLUE}${context_display}${RESET} ${OS_COLOR}(${used_percent_int}%)${RESET}"
 
