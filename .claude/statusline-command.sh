@@ -64,12 +64,15 @@ if git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
     output+=" ${SKY}(${branch}${changes})${RESET}"
 fi
 
-# Token usage - use pre-calculated percentage (resets on /clear)
-used_percent=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
-used_percent_int=$(printf "%.0f" "$used_percent")
+# Token usage - calculate from actual usage fields (excludes autocompact buffer)
+input_tokens=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // 0')
+output_tokens=$(echo "$input" | jq -r '.context_window.current_usage.output_tokens // 0')
 
-# Calculate actual context tokens from percentage for display
-context_tokens=$(awk "BEGIN {printf \"%.0f\", ($used_percent * $context_size) / 100}")
+# Sum actual tokens used (input + output, cache tokens are part of input)
+context_tokens=$((input_tokens + output_tokens))
+
+# Calculate percentage based on actual usage
+used_percent_int=$(awk "BEGIN {printf \"%.0f\", ($context_tokens * 100) / $context_size}")
 
 # Format numbers with k suffix if > 1000
 if [[ $context_tokens -gt 1000 ]]; then
