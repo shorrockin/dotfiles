@@ -4,6 +4,7 @@ config:
   icon-position: "left"
 
 icons:
-  claude: "" # nf-fa-robot
-  pay:    "" # nf-fa-money_bill_wave
-  nix:    "󱄅" # nf-dev-nix
+  claude:      "" # nf-fa-robot
+  pay:         "" # nf-fa-money_bill_wave
+  nix:         "󱄅" # nf-dev-nix
+  git-wrapper: "" # nf-dev-git
