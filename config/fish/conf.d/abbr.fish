@@ -31,6 +31,7 @@ abbr --add ts tmux-sessionizer
 abbr --add matrix cmatrix -s -r
 abbr --add stow dots stow
 abbr --add lg lazygit 
+abbr --add c claude
 
 # REPLACEMENTS REPLACEMENTS
 abbr --add cat bat
