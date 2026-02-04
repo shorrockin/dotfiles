@@ -22,13 +22,5 @@ echo "$WALLPAPER" > "$CACHE_FILE"
 # Create symlink for hyprlock to use
 ln -sf "$WALLPAPER" "$HOME/.cache/current_wallpaper.png"
 
-# Preload the wallpaper first (required by hyprpaper for IPC)
-/run/current-system/sw/bin/hyprctl hyprpaper preload "$WALLPAPER"
-
 # Apply the selected wallpaper (empty monitor = all monitors)
-/run/current-system/sw/bin/hyprctl hyprpaper wallpaper ", $WALLPAPER"
-
-# Unload previous wallpaper to free memory
-if [[ -n "$CURRENT_WALL" && "$CURRENT_WALL" != "$WALLPAPER" ]]; then
-    /run/current-system/sw/bin/hyprctl hyprpaper unload "$CURRENT_WALL"
-fi
+/run/current-system/sw/bin/hyprctl hyprpaper wallpaper ",$WALLPAPER"

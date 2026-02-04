@@ -18,6 +18,15 @@ case "$USER_ACTION" in
     ;;
 esac
 
+# Detect platform
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  PLATFORM="macos"
+else
+  PLATFORM="linux"
+fi
+
+echo "Platform: $PLATFORM"
+
 # Creating the ~/.config directory for nvim, scripts, etc
 mkdir -p ~/.config
 
@@ -44,10 +53,28 @@ else
   echo "Warning: $DOTFILES_DIR/dots does not exist."
 fi
 
-# 2. Stow .config/ to home (~) so it links ~/.config/ properly
+# 2. Stow config/ to ~/.config/ with platform-specific ignores
 if [ -d "$DOTFILES_DIR/config" ]; then
-  echo "  $USER_ACTION: .config → $HOME"
-  stow --dir="$DOTFILES_DIR" --target="$HOME/.config" --$USER_ACTION config
+  echo "  $USER_ACTION: config → ~/.config"
+
+  # Linux-only directories (skip on macOS)
+  LINUX_ONLY=("hypr" "hyprpanel" "waybar" "swaync" "wlogout" "rofi" "walker" "vicinae" "dconf" "quickshell")
+
+  # macOS-only directories (skip on Linux)
+  MACOS_ONLY=("aerospace")
+
+  IGNORE_ARGS=()
+  if [[ "$PLATFORM" == "macos" ]]; then
+    for dir in "${LINUX_ONLY[@]}"; do
+      IGNORE_ARGS+=(--ignore="$dir")
+    done
+  else
+    for dir in "${MACOS_ONLY[@]}"; do
+      IGNORE_ARGS+=(--ignore="$dir")
+    done
+  fi
+
+  stow --dir="$DOTFILES_DIR" --target="$HOME/.config" "${IGNORE_ARGS[@]}" --$USER_ACTION config
 else
-  echo "Warning: $DOTFILES_DIR/.config does not exist."
+  echo "Warning: $DOTFILES_DIR/config does not exist."
 fi

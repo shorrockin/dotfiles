@@ -70,11 +70,11 @@ cleanup_old_files() {
 if [ -f "$STATE_FILE" ]; then
   # STOP RECORDING
   source "$STATE_FILE"
-  
+
   if [ -n "$PID" ]; then
     kill "$PID" 2>/dev/null
   fi
-  
+
   # Also kill via pkill to be safe
   pkill -f "pw-record.*hyprflow" 2>/dev/null
 
@@ -85,10 +85,10 @@ if [ -f "$STATE_FILE" ]; then
 
   if [ -f "$RECORDING_FILE" ]; then
     "$WHISPER_BIN" -m "$WHISPER_MODEL" -f "$RECORDING_FILE" --no-prints --no-timestamps >"$TRANSCRIPT_FILE" 2>/dev/null
-    
+
     # Trim and Copy
     sed 's/^[[:space:]]*//;s/[[:space:]]*$//' "$TRANSCRIPT_FILE" | tr -d '\n' | wl-copy
-    
+
     # Paste
     hyprctl dispatch sendshortcut "CTRL SHIFT, V, activewindow"
   fi
@@ -133,11 +133,11 @@ EOF
     meta = with lib; {
       description = "A local voice-to-text tool for Hyprland using whisper.cpp";
       homepage = "https://github.com/harshvsri/hyprflow";
-      license = licenses.mit; # Assuming MIT, but check repo if needed
+      license = licenses.mit;
       platforms = platforms.linux;
     };
   };
 in
 {
-  environment.systemPackages = [ hyprflow ];
+  home.packages = [ hyprflow ];
 }
