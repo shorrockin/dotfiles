@@ -25,5 +25,5 @@ function fish_mode_prompt
     set -g _omp_new_prompt 1
 end
 
-# opencode
-fish_add_path /home/chris/.opencode/bin
+# npm global packages (claude-code, etc.)
+fish_add_path ~/.npm-global/bin

@@ -27,6 +27,21 @@ Restow with:
 ## NixOS
 Once you get this on nix you can rebuild the normal way or through the nix-rebuild script in config/scripts
 
+## Claude Code
+Claude Code is installed via npm (not nixpkgs) for faster access to new releases and working `claude update` support.
+
+Setup (one-time):
+```
+npm config set prefix ~/.npm-global
+npm install -g @anthropic-ai/claude-code
+```
+
+Update:
+```
+claude update
+# or: npm update -g @anthropic-ai/claude-code
+```
+
 ## Quirks
 A few other things to note:
 - `bat` requires a `bat cache --build`

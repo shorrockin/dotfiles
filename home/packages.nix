@@ -57,7 +57,6 @@
     gnumake # build tool
     nodejs_22 # javascript runtime
     python3 # python programming language
-    pkgs-unstable.claude-code # claude ai cli
     pkgs-unstable.gemini-cli # gemini ai cli
     pkgs-unstable.opencode # opencode ai cli
 
