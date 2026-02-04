@@ -50,6 +50,16 @@
           "properties": {
             "fetch_status": true,
             "fetch_upstream_icon": true,
+            "ignore_status": [
+              "~/stripe/mint",
+              "~/stripe/pay-server",
+              "~/stripe/zoolander",
+              "~/stripe/gocode",
+              "/pay/src/mint",
+              "/pay/src/pay-server",
+              "/pay/src/zoolander",
+              "/pay/src/gocode"
+            ],
             "branch_icon": " ",
             "branch_identical_icon": "",
             "branch_ahead_icon": "⇡",

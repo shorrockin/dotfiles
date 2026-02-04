@@ -1,12 +1,15 @@
+# User paths
+fish_add_path ~/.config/scripts
+fish_add_path ~/.local/bin
+
+# System binaries (git-wrapper location)
+fish_add_path /usr/local/bin
+
 # Homebrew (macOS)
 if test -d /opt/homebrew/bin
     fish_add_path /opt/homebrew/bin
     fish_add_path /opt/homebrew/sbin
 end
-
-# User paths
-fish_add_path ~/.config/scripts
-fish_add_path ~/.local/bin
 
 # Go - Stripe managed SDK
 if test -d ~/.cache/gocode/sdk/managed/bin
