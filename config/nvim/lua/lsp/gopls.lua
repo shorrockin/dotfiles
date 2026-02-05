@@ -1,3 +1,8 @@
+if vim.fn.isdirectory(vim.fn.expand("~/stripe")) == 1
+	or vim.fn.filereadable(vim.fn.expand("~/.stripeproxy")) == 1 then
+	return {}
+end
+
 return {
 	name = "gopls",
 	config = {
