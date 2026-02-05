@@ -64,6 +64,22 @@ vim.opt.formatoptions = "tcqrn1"
 --  Does not play well with neoclip
 vim.opt.clipboard = "unnamedplus"
 
+-- Enable OSC52 clipboard support for SSH sessions (Neovim 0.10+)
+-- This allows copying to local system clipboard when connected via SSH
+if vim.env.SSH_CONNECTION then
+	vim.g.clipboard = {
+		name = "OSC 52",
+		copy = {
+			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+		},
+		paste = {
+			["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+			["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+		},
+	}
+end
+
 -- preview substitutions live as you type
 vim.opt.inccommand = "split"
 
