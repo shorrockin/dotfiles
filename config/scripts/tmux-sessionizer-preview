@@ -1,16 +1,25 @@
 #!/usr/bin/env bash
 
 # Preview script for tmux-sessionizer
-# Argument $1 is the selected item (with or without ● prefix)
+# Handles two formats:
+# - "●session:" for existing tmux sessions
+# - "session:/path" for configured directories
 
-item="$1"
-# Remove the ● prefix if present
-item="${item#● }"
+selection="$1"
 
-if [ -d "$item" ]; then
-    # It's a directory - show contents
-    ls -la --color=always "$item" 2>/dev/null | head -50
+# Parse format: "●session:" or "session:/path"
+if [[ "$selection" =~ ^●(.+):$ ]]; then
+    # Existing tmux session - show windows
+    session="${BASH_REMATCH[1]}"
+    tmux list-windows -t "$session" 2>/dev/null
+elif [[ "$selection" =~ ^([^:]+):(.+)$ ]]; then
+    # Configured directory - show contents
+    directory="${BASH_REMATCH[2]}"
+    if [[ -d "$directory" ]]; then
+        ls -la --color=always "$directory" 2>/dev/null | head -50
+    else
+        echo "Directory not found: $directory"
+    fi
 else
-    # It's a tmux session - show windows
-    tmux list-windows -t "$item" 2>/dev/null
+    echo "Invalid selection format: $selection"
 fi

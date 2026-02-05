@@ -2,22 +2,123 @@
 
 # History file for tracking recency
 HISTORY_FILE="$HOME/.cache/tmux-sessionizer-history"
+CONFIG_FILE="$HOME/.tmux-sessionizer.conf"
 
 # Ensure cache directory exists
 mkdir -p "$(dirname "$HISTORY_FILE")"
 
+# Show help message
+show_help() {
+    cat << 'EOF'
+tmux-sessionizer - Fast tmux session switcher with config-driven project management
+
+USAGE:
+    tmux-sessionizer [OPTIONS] [DIRECTORY]
+
+DESCRIPTION:
+    Interactive fuzzy finder for switching between tmux sessions and configured projects.
+    Uses a config file to map session names to directories for fast, predictable access.
+
+OPTIONS:
+    help, --help, -h    Show this help message
+
+ARGUMENTS:
+    DIRECTORY           Optional: Directly open a specific directory without interactive selection
+
+CONFIGURATION:
+    Config file: ~/.tmux-sessionizer.conf
+    Format: session_name=/path/to/directory
+
+    Config entries are displayed as: session_name (directory)
+    Active tmux sessions are marked with: ● session_name
+
+    Example:
+        # Comment lines start with #
+        dotfiles=/Users/username/dotfiles
+        work-project=/Users/username/work/main-app
+        personal=/Users/username/projects/blog
+
+    Each line maps a session name (left of =) to a directory path (right of =).
+    Session names can be anything you want - they don't need to match directory names.
+
+    Notes:
+    • Do not use ● (bullet) in session names - it's reserved for marking active sessions
+    • Config entries for already-active sessions won't be shown (avoids duplicates)
+
+FEATURES:
+    • Configuration-driven: Only shows projects you explicitly configure
+    • History-based sorting: Most recently used sessions appear first
+    • Session list: Shows existing tmux sessions (marked with ●) alongside configured projects
+    • Fast startup: No file system scanning or preview overhead, near-instant (10-30ms)
+    • Interactive fuzzy search: Quickly find and switch between sessions
+
+KEYBINDINGS (in fzf):
+    Ctrl+J/K or ↑↓     Navigate up/down
+    Enter              Select and switch to session
+    Ctrl+C or Esc      Cancel selection
+
+EXAMPLES:
+    # Interactive selection
+    tmux-sessionizer
+
+    # Direct selection (bypass fzf)
+    tmux-sessionizer ~/projects/myapp
+
+    # Generate initial config from a directory
+    for dir in ~/work/*; do
+        [[ -d "$dir" ]] && echo "$(basename "$dir")=$dir"
+    done > ~/.tmux-sessionizer.conf
+
+    # Add current directory to config
+    echo "$(basename "$PWD")=$PWD" >> ~/.tmux-sessionizer.conf
+
+FILES:
+    ~/.tmux-sessionizer.conf            Configuration file (session_name=directory pairs)
+    ~/.cache/tmux-sessionizer-history   History file (50 most recent selections)
+
+SEE ALSO:
+    tmux(1), fzf(1)
+EOF
+}
+
+# Read configuration file and output session_name:directory pairs
+read_config() {
+    if [[ ! -f "$CONFIG_FILE" ]]; then
+        echo "Warning: Config file $CONFIG_FILE not found. Create it with format: session_name=/path/to/directory" >&2
+        return
+    fi
+
+    while IFS='=' read -r session_name directory; do
+        # Skip empty lines and comments
+        [[ -z "$session_name" || "$session_name" =~ ^[[:space:]]*# ]] && continue
+
+        # Trim whitespace
+        session_name=$(echo "$session_name" | xargs)
+        directory=$(echo "$directory" | xargs)
+
+        # Validate directory exists
+        if [[ -d "$directory" ]]; then
+            echo "${session_name}:${directory}"
+        else
+            echo "Warning: Skipping invalid directory: $directory" >&2
+        fi
+    done < "$CONFIG_FILE"
+}
+
 # Function to update history with the selected item
 update_history() {
     local item="$1"
-    # Remove old entry if it exists, then add to front
-    if [[ -f "$HISTORY_FILE" ]]; then
-        grep -vF "$item" "$HISTORY_FILE" > "${HISTORY_FILE}.tmp" 2>/dev/null || true
-        mv "${HISTORY_FILE}.tmp" "$HISTORY_FILE"
-    fi
-    echo "$item" >> "$HISTORY_FILE"
-    # Keep only last 50 entries
-    tail -50 "$HISTORY_FILE" > "${HISTORY_FILE}.tmp"
-    mv "${HISTORY_FILE}.tmp" "$HISTORY_FILE"
+    local temp_file="${HISTORY_FILE}.tmp.$$"
+
+    # Single pass: add new item to front, remove duplicates, truncate to 50
+    {
+        echo "$item"
+        if [[ -f "$HISTORY_FILE" ]]; then
+            grep -vF "$item" "$HISTORY_FILE" 2>/dev/null | head -49
+        fi
+    } > "$temp_file"
+
+    mv "$temp_file" "$HISTORY_FILE"
 }
 
 # Function to get items sorted by recency
@@ -29,97 +130,105 @@ get_sorted_items() {
         return
     fi
 
-    # Recent items (from history, newest first)
-    local recent_items=$(tac "$HISTORY_FILE" 2>/dev/null)
+    # Build associative array for O(1) lookups
+    declare -A all_map
+    while IFS= read -r item; do
+        [[ -n "$item" ]] && all_map["$item"]=1
+    done <<< "$all_items"
 
-    # Print recent items first (if they exist in all_items), then remaining items
-    {
-        echo "$recent_items" | while IFS= read -r item; do
-            echo "$all_items" | grep -F "$item"
-        done
-        # Then items not in history
-        echo "$all_items" | while IFS= read -r item; do
-            if ! echo "$recent_items" | grep -qF "$item"; then
-                echo "$item"
-            fi
-        done
-    } | awk '!seen[$0]++'
+    # Output history items first (newest to oldest)
+    while IFS= read -r item; do
+        if [[ -n "$item" ]] && [[ -n "${all_map[$item]}" ]]; then
+            echo "$item"
+            unset all_map["$item"]
+        fi
+    done < <(tac "$HISTORY_FILE" 2>/dev/null)
+
+    # Output remaining non-history items
+    for item in "${!all_map[@]}"; do
+        echo "$item"
+    done
 }
 
-# Define an array of directories to search
-directories=(
-    "$HOME/stripe"
-    "$HOME/personal"
-    "$HOME/work"
-    "$HOME/projects"
-    "$HOME/dev"
-    "$HOME/code"
-    "$HOME/Code"
-    "$HOME"  # Keep home directory as a fallback
-)
+# Handle help command
+if [[ "$1" == "help" ]] || [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
+    show_help
+    exit 0
+fi
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    # Build the find command with existing directories
-    find_cmd=""
-    for dir in "${directories[@]}"; do
-        if [[ -d "$dir" ]]; then
-            find_cmd="$find_cmd $dir"
-        fi
-    done
+    # Get configured directories from config file
+    config_entries=$(read_config)
 
-    # Only execute find if we have valid directories
-    if [[ -n "$find_cmd" ]]; then
-        # Gather sessions and directories separately
-        sessions=$(tmux ls 2>/dev/null | awk -F':' '{print "● " $1}')
-        directories=$(find $find_cmd -mindepth 1 -maxdepth 1 -type d)
-
-        # Sort sessions by recency, then append all directories
-        sorted_list=$(
-            echo "$sessions" | get_sorted_items "$sessions"
-            echo "$directories"
-        )
-
-        # Display with fzf
-        selected=$(echo "$sorted_list" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:60%:wrap' | awk 'END {print}')
-    else
-        # Fallback to just showing tmux sessions if no valid directories
-        sessions=$(tmux ls 2>/dev/null | awk -F':' '{print "● " $1}')
-        selected=$(echo "$sessions" | get_sorted_items "$sessions" | fzf --height=100% --layout=reverse --tiebreak=index --print-query --preview '~/.config/scripts/tmux-sessionizer-preview {}' --preview-window='down:60%:wrap' | awk 'END {print}')
+    # Get existing tmux sessions (with ● marker)
+    declare -A existing_sessions
+    if pgrep -x tmux > /dev/null; then
+        sessions=$(tmux ls -F "#{session_name}" 2>/dev/null)
+        while IFS= read -r session; do
+            existing_sessions["$session"]=1
+        done <<< "$sessions"
     fi
+
+    # Combine: sessions first (marked with ●), then configured entries (session_name (directory))
+    # Skip config entries where session already exists
+    all_items=$(
+        if [[ -n "$sessions" ]]; then
+            echo "$sessions" | while read -r session; do
+                echo "● ${session}"  # Mark tmux sessions with ● and space
+            done
+        fi
+        echo "$config_entries" | while IFS=: read -r session_name directory; do
+            # Only show if session doesn't already exist
+            if [[ -z "${existing_sessions[$session_name]}" ]]; then
+                echo "${session_name} (${directory})"
+            fi
+        done
+    )
+
+    # Sort items by recency
+    sorted_items=$(echo "$all_items" | get_sorted_items "$all_items")
+
+    # Display with fzf (no preview for speed)
+    selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --tiebreak=index | awk 'END {print}')
 fi
 
 if [[ -z $selected ]]; then
     exit 0
 fi
 
-# Strip the marker prefix if present
-selected=$(echo "$selected" | sed 's/^● //')
+# Parse selection: format is either "● session_name" or "session_name (directory)"
+if [[ "$selected" =~ ^●[[:space:]](.+)$ ]]; then
+    # Existing tmux session
+    session_name="${BASH_REMATCH[1]}"
+    update_history "● ${session_name}"
+else
+    # Configured directory entry: session_name (directory)
+    if [[ "$selected" =~ ^(.+)[[:space:]]\((.+)\)$ ]]; then
+        session_name="${BASH_REMATCH[1]}"
+        selected_path="${BASH_REMATCH[2]}"
+    else
+        echo "Error: Invalid selection format: $selected" >&2
+        exit 1
+    fi
 
-# Update history with this selection
-update_history "$selected"
+    if [[ ! -d "$selected_path" ]]; then
+        echo "Error: Invalid directory path for session $session_name: $selected_path" >&2
+        exit 1
+    fi
 
-selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
-dir_option=""
+    update_history "$selected"
 
-# check if the selected directory exists, omit the -c parameter if it doesn't
-if [[ -d $selected ]]; then
-    dir_option="-c $selected"
+    # Create session if it doesn't exist
+    if ! tmux has-session -t="$session_name" 2> /dev/null; then
+        tmux new-session -ds "$session_name" -c "$selected_path"
+    fi
 fi
 
-# If tmux is not running and we are not inside an existing tmux session,
-# start a new tmux session with the name and directory based on the selection.
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name $dir_option
-    exit 0
+# Switch to session
+if [[ -z $TMUX ]]; then
+    tmux attach -t "$session_name"
+else
+    tmux switch-client -t "$session_name"
 fi
-
-# If a tmux session with the selected name does not already exist,
-# create a new detached tmux session with the selected name and directory.    
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name $dir_option
-fi
-
-tmux switch-client -t $selected_name
