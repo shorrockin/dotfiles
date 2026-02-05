@@ -13,7 +13,7 @@ show_help() {
 tmux-sessionizer - Fast tmux session switcher with config-driven project management
 
 USAGE:
-    tmux-sessionizer [OPTIONS] [DIRECTORY]
+    tmux-sessionizer [OPTIONS] [SESSION_NAME | DIRECTORY]
 
 DESCRIPTION:
     Interactive fuzzy finder for switching between tmux sessions and configured projects.
@@ -23,7 +23,8 @@ OPTIONS:
     help, --help, -h    Show this help message
 
 ARGUMENTS:
-    DIRECTORY           Optional: Directly open a specific directory without interactive selection
+    SESSION_NAME        Optional: Create/switch to a session with this name in the current directory
+    DIRECTORY           Optional: Create/switch to a session for this directory (uses basename as name)
 
 CONFIGURATION:
     Config file: ~/.tmux-sessionizer.conf
@@ -61,7 +62,10 @@ EXAMPLES:
     # Interactive selection
     tmux-sessionizer
 
-    # Direct selection (bypass fzf)
+    # Create/switch to session by name (uses current directory)
+    tmux-sessionizer newsession
+
+    # Create/switch to session by directory path (uses basename as session name)
     tmux-sessionizer ~/projects/myapp
 
     # Generate initial config from a directory
@@ -198,20 +202,15 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-# Parse selection: format is either "● session_name" or "session_name (directory)"
+# Parse selection: format is either "● session_name", "session_name (directory)", or a raw directory/session name
 if [[ "$selected" =~ ^●[[:space:]](.+)$ ]]; then
     # Existing tmux session
     session_name="${BASH_REMATCH[1]}"
     update_history "● ${session_name}"
-else
+elif [[ "$selected" =~ ^(.+)[[:space:]]\((.+)\)$ ]]; then
     # Configured directory entry: session_name (directory)
-    if [[ "$selected" =~ ^(.+)[[:space:]]\((.+)\)$ ]]; then
-        session_name="${BASH_REMATCH[1]}"
-        selected_path="${BASH_REMATCH[2]}"
-    else
-        echo "Error: Invalid selection format: $selected" >&2
-        exit 1
-    fi
+    session_name="${BASH_REMATCH[1]}"
+    selected_path="${BASH_REMATCH[2]}"
 
     if [[ ! -d "$selected_path" ]]; then
         echo "Error: Invalid directory path for session $session_name: $selected_path" >&2
@@ -219,6 +218,22 @@ else
     fi
 
     update_history "$selected"
+
+    # Create session if it doesn't exist
+    if ! tmux has-session -t="$session_name" 2> /dev/null; then
+        tmux new-session -ds "$session_name" -c "$selected_path"
+    fi
+else
+    # Raw argument: could be a directory path or a session name
+    if [[ -d "$selected" ]]; then
+        # It's a directory - derive session name from basename
+        selected_path="$selected"
+        session_name=$(basename "$selected_path" | tr . _)
+    else
+        # Not a directory - treat as session name, use current directory
+        session_name="$selected"
+        selected_path="$PWD"
+    fi
 
     # Create session if it doesn't exist
     if ! tmux has-session -t="$session_name" 2> /dev/null; then
