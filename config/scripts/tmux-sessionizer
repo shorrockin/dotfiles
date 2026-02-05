@@ -112,14 +112,14 @@ fi
 # If tmux is not running and we are not inside an existing tmux session,
 # start a new tmux session with the name and directory based on the selection.
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -n $selected_name $dir_option
+    tmux new-session -s $selected_name $dir_option
     exit 0
 fi
 
 # If a tmux session with the selected name does not already exist,
 # create a new detached tmux session with the selected name and directory.    
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -n $selected_name $dir_option
+    tmux new-session -ds $selected_name $dir_option
 fi
 
 tmux switch-client -t $selected_name
