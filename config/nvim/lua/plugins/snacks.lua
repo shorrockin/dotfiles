@@ -204,5 +204,45 @@ return {
 			end,
 			desc = "Snacks LSP: Type [D]efinition",
 		},
+		{
+			"<leader>C",
+			function()
+				local plans_dir = vim.fn.expand("~/.claude/plans")
+				local files = vim.fn.globpath(plans_dir, "*", false, true)
+
+				if #files == 0 then
+					vim.notify("No plans found in " .. plans_dir, vim.log.levels.WARN)
+					return
+				end
+
+				-- Sort by modification time, newest first
+				table.sort(files, function(a, b)
+					return vim.fn.getftime(a) > vim.fn.getftime(b)
+				end)
+
+				local items = {}
+				for _, file in ipairs(files) do
+					table.insert(items, {
+						file = file,
+						text = vim.fn.fnamemodify(file, ":t"),
+					})
+				end
+
+				Snacks.picker({
+					title = "Claude Plans",
+					items = items,
+					format = function(item)
+						return { { item.text, "Normal" } }
+					end,
+					confirm = function(picker, item)
+						picker:close()
+						if item then
+							vim.cmd.edit(item.file)
+						end
+					end,
+				})
+			end,
+			desc = "Snacks: Pick [C]laude Plan",
+		},
 	},
 }
