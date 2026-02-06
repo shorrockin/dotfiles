@@ -29,7 +29,6 @@ abbr --add vi nvim
 abbr --add v nvim
 abbr --add ts tmux-sessionizer
 abbr --add matrix cmatrix -s -r
-abbr --add stow dots stow
 abbr --add lg lazygit 
 abbr --add c claude
 
