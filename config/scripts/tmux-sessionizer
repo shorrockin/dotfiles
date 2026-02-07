@@ -168,8 +168,8 @@ else
 
     # Get existing tmux sessions (with ● marker)
     declare -A existing_sessions
-    if pgrep -x tmux > /dev/null; then
-        sessions=$(tmux ls -F "#{session_name}" 2>/dev/null)
+    sessions=$(tmux ls -F "#{session_name}" 2>/dev/null)
+    if [[ -n "$sessions" ]]; then
         while IFS= read -r session; do
             existing_sessions["$session"]=1
         done <<< "$sessions"
