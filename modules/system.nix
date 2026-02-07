@@ -96,6 +96,16 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  # Enable nix-ld for running dynamically linked executables
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    zlib
+    openssl
+    icu
+    libuv
+  ];
+
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 53317 ]; # LocalSend
   networking.firewall.allowedUDPPorts = [ 53317 ]; # LocalSend
