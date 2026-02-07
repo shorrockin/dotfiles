@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Abbreviate path like fish prompt: ~/stripe/pay-server/lib/deep -> ~/s/p/l/deep
 # Keeps last directory full, abbreviates parents to first char
 
@@ -9,7 +9,10 @@ if [[ "$path" == "$HOME" ]]; then
   echo "~"
   exit 0
 fi
-path="${path/#$HOME\//~/}"
+path="${path#"$HOME"}"
+if [[ "$path" != "$1" ]]; then
+  path="~$path"
+fi
 
 if [[ "$path" == "/" ]]; then
   echo "/"

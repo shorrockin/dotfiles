@@ -257,6 +257,9 @@ Application config files (Hyprland, Waybar, Fish, Neovim, etc.) are still manage
 
 Home Manager is integrated as a NixOS module - a single `sudo nixos-rebuild switch --flake .#gustave` rebuilds both system and user configuration.
 
+### Shell Script Shebangs
+**Always use `#!/usr/bin/env bash`** (not `#!/bin/bash`) when creating or modifying shell scripts. NixOS does not have `/bin/bash`, so hardcoded paths will fail.
+
 ### Neovim Configuration Strategy
 The `dots` script specifically pre-creates subdirectories for Neovim (`~/.config/nvim/lua`, `plugins`, etc.) *before* stowing.
 - **Why**: This allows mixing symlinked public config with private/local files that aren't in the repo across different environments and operating system
