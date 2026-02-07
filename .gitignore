@@ -1,5 +1,6 @@
 .DS_Store
 .claude/settings.local.json
+__pycache__/
 
 # Fish auto-generated files
 config/fish/fish_variables
