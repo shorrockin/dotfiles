@@ -96,16 +96,16 @@ read_config() {
         # Skip empty lines and comments
         [[ -z "$session_name" || "$session_name" =~ ^[[:space:]]*# ]] && continue
 
-        # Trim whitespace
-        session_name=$(echo "$session_name" | xargs)
-        directory=$(echo "$directory" | xargs)
+        # Trim whitespace (pure bash, no subprocess)
+        session_name="${session_name#"${session_name%%[![:space:]]*}"}"
+        session_name="${session_name%"${session_name##*[![:space:]]}"}"
+        directory="${directory#"${directory%%[![:space:]]*}"}"
+        directory="${directory%"${directory##*[![:space:]]}"}"
 
-        # Validate directory exists
-        if [[ -d "$directory" ]]; then
-            echo "${session_name}:${directory}"
-        else
-            echo "Warning: Skipping invalid directory: $directory" >&2
-        fi
+        # Skip empty after trim
+        [[ -z "$session_name" || -z "$directory" ]] && continue
+
+        echo "${session_name}:${directory}"
     done < "$CONFIG_FILE"
 }
 
@@ -140,13 +140,15 @@ get_sorted_items() {
         [[ -n "$item" ]] && all_map["$item"]=1
     done <<< "$all_items"
 
-    # Output history items first (newest to oldest)
-    while IFS= read -r item; do
+    # Read history into array and iterate in reverse (newest to oldest)
+    mapfile -t history_items < "$HISTORY_FILE"
+    for ((i=${#history_items[@]}-1; i>=0; i--)); do
+        item="${history_items[i]}"
         if [[ -n "$item" ]] && [[ -n "${all_map[$item]}" ]]; then
             echo "$item"
             unset all_map["$item"]
         fi
-    done < <(tac "$HISTORY_FILE" 2>/dev/null)
+    done
 
     # Output remaining non-history items
     for item in "${!all_map[@]}"; do
@@ -177,25 +179,29 @@ else
 
     # Combine: sessions first (marked with ●), then configured entries (session_name (directory))
     # Skip config entries where session already exists
-    all_items=$(
-        if [[ -n "$sessions" ]]; then
-            echo "$sessions" | while read -r session; do
-                echo "● ${session}"  # Mark tmux sessions with ● and space
-            done
+    # Using arrays to avoid subshell overhead
+    items=()
+    if [[ -n "$sessions" ]]; then
+        while IFS= read -r session; do
+            items+=("● ${session}")  # Mark tmux sessions with ● and space
+        done <<< "$sessions"
+    fi
+    while IFS=: read -r session_name directory; do
+        [[ -z "$session_name" ]] && continue
+        # Only show if session doesn't already exist
+        if [[ -z "${existing_sessions[$session_name]}" ]]; then
+            items+=("${session_name} (${directory})")
         fi
-        echo "$config_entries" | while IFS=: read -r session_name directory; do
-            # Only show if session doesn't already exist
-            if [[ -z "${existing_sessions[$session_name]}" ]]; then
-                echo "${session_name} (${directory})"
-            fi
-        done
-    )
+    done <<< "$config_entries"
+
+    # Convert array to newline-separated string
+    all_items=$(printf '%s\n' "${items[@]}")
 
     # Sort items by recency
-    sorted_items=$(echo "$all_items" | get_sorted_items "$all_items")
+    sorted_items=$(get_sorted_items "$all_items")
 
-    # Display with fzf (no preview for speed)
-    selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --tiebreak=index | awk 'END {print}')
+    # Display with fzf (no preview for speed, --no-info skips match count for faster render)
+    selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --tiebreak=index --no-info | awk 'END {print}')
 fi
 
 if [[ -z $selected ]]; then
