@@ -177,28 +177,44 @@ else
         done <<< "$sessions"
     fi
 
-    # Combine: sessions first (marked with ●), then configured entries (session_name (directory))
-    # Skip config entries where session already exists
-    # Using arrays to avoid subshell overhead
-    items=()
+    # Build two separate lists: active sessions and config entries
+    # Each group is sorted by recency, but active sessions always come first
+    session_items=()
+    config_items=()
+
     if [[ -n "$sessions" ]]; then
         while IFS= read -r session; do
-            items+=("● ${session}")  # Mark tmux sessions with ● and space
+            session_items+=("● ${session}")  # Mark tmux sessions with ● and space
         done <<< "$sessions"
     fi
+
     while IFS=: read -r session_name directory; do
         [[ -z "$session_name" ]] && continue
         # Only show if session doesn't already exist
         if [[ -z "${existing_sessions[$session_name]}" ]]; then
-            items+=("${session_name} (${directory})")
+            config_items+=("${session_name} (${directory})")
         fi
     done <<< "$config_entries"
 
-    # Convert array to newline-separated string
-    all_items=$(printf '%s\n' "${items[@]}")
+    # Sort each group by recency separately, then concatenate
+    sorted_sessions=""
+    sorted_configs=""
 
-    # Sort items by recency
-    sorted_items=$(get_sorted_items "$all_items")
+    if [[ ${#session_items[@]} -gt 0 ]]; then
+        sorted_sessions=$(get_sorted_items "$(printf '%s\n' "${session_items[@]}")")
+    fi
+
+    if [[ ${#config_items[@]} -gt 0 ]]; then
+        sorted_configs=$(get_sorted_items "$(printf '%s\n' "${config_items[@]}")")
+    fi
+
+    # Active sessions first, then config entries
+    sorted_items=""
+    [[ -n "$sorted_sessions" ]] && sorted_items="$sorted_sessions"
+    if [[ -n "$sorted_configs" ]]; then
+        [[ -n "$sorted_items" ]] && sorted_items+=$'\n'
+        sorted_items+="$sorted_configs"
+    fi
 
     # Display with fzf (no preview for speed, --no-info skips match count for faster render)
     selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --tiebreak=index --no-info | awk 'END {print}')
