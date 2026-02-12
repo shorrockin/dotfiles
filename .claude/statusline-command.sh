@@ -142,7 +142,7 @@ pad_val() {
 
 # ── Computed Values ──────────────────────────────────────────────────────
 project=$(basename "$project_dir")
-path=$(echo "$cwd" | sed "s|^$HOME|~|")
+path=$("$HOME/dotfiles/config/scripts/short-path" "$cwd")
 
 # Context
 ctx_used=$(( input_tokens + cache_read + cache_write ))
