@@ -2,9 +2,22 @@
 # Push-to-talk dictation wrapper for Hyprland + Quickshell
 # Usage: dictation start|stop|reset
 
-# Config
-WHISPER_BIN="/nix/store/dwdby91qwv3k8y8qyvvpg5l893v5i4k7-whisper-cpp-1.8.2/bin/whisper-cli"
-WHISPER_MODEL="/nix/store/m1j9app6vkpwiiwg9wrzqd3q8nn0prr6-hyprflow-2025-12-09/share/hyprflow/ggml-base.en.bin"
+# Resolve paths dynamically from the installed hyprflow nix package
+HYPRFLOW_BIN="$(command -v hyprflow 2>/dev/null)"
+if [ -z "$HYPRFLOW_BIN" ]; then
+    echo "Error: hyprflow not found in PATH" >&2
+    exit 1
+fi
+HYPRFLOW_PKG="$(dirname "$(dirname "$(readlink -f "$HYPRFLOW_BIN")")")"
+
+# whisper-cli path is baked into the hyprflow script at build time
+WHISPER_BIN="$(sed -n 's/^WHISPER_BIN="\(.*\)"/\1/p' "$HYPRFLOW_PKG/bin/.hyprflow-wrapped")"
+WHISPER_MODEL="$HYPRFLOW_PKG/share/hyprflow/ggml-base.en.bin"
+
+if [ ! -x "$WHISPER_BIN" ]; then
+    echo "Error: whisper-cli not found at $WHISPER_BIN" >&2
+    exit 1
+fi
 RECORDING_DIR="$HOME/.cache/hyprflow/recordings"
 TRANSCRIPT_DIR="$HOME/.cache/hyprflow/transcripts"
 STATE_FILE="/tmp/dictation.state"
