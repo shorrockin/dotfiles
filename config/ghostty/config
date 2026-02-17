@@ -19,7 +19,9 @@ font-family = "MesloLGS Nerd Font Mono"
 font-size = 16
 
 # macOS font rendering improvements (no effect on Linux)
+# strength is a value between 0 and 255
 font-thicken = true
+font-thicken-strength = 100
 
 clipboard-read = allow
 clipboard-write = allow
