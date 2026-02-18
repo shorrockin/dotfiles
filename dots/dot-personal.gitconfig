@@ -24,7 +24,8 @@
 [include]
 	path = ~/.config/delta/themes/catppuccin.gitconfig
 [delta]
-	features = catppuccin-mocha
+    features = catppuccin-mocha
+    pager = less -RFX
 [merge]
     conflictstyle = zdiff3
 [alias]
