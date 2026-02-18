@@ -153,8 +153,10 @@ return {
 				-- Register the LSP config (vim.lsp.config is a table in Neovim 0.11+)
 				vim.lsp.config[lsp_config.name] = config
 
-				-- Track server name for enabling
-				table.insert(lsp_configs, lsp_config.name)
+				-- Track server name for enabling (unless explicitly disabled)
+				if lsp_config.enable ~= false then
+					table.insert(lsp_configs, lsp_config.name)
+				end
 			end
 		end
 

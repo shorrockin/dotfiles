@@ -1,6 +1,24 @@
 if vim.fn.isdirectory(vim.fn.expand("~/stripe")) == 1
 	or vim.fn.filereadable(vim.fn.expand("~/.stripeproxy")) == 1 then
-	return {}
+	-- Register base config so stripe_gopls can extend it, but don't enable
+	-- a separate gopls server (stripe_gopls handles Go files in Stripe env)
+	return {
+		name = "gopls",
+		enable = false,
+		config = {
+			cmd = { "gopls" },
+			settings = {
+				gopls = {
+					completeUnimported = true,
+					analyses = {
+						unusedparams = true,
+						unusedvariable = true,
+						unreachable = true,
+					},
+				},
+			},
+		},
+	}
 end
 
 return {
