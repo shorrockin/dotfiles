@@ -2,6 +2,10 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     # Set the SHELL environment variable to fish path
     set -gx SHELL (which fish)
+
+    # Ensure true color support is advertised (Ghostty sets this locally,
+    # but it gets lost in remote/nested tmux sessions)
+    set -gx COLORTERM truecolor
 end
 
 

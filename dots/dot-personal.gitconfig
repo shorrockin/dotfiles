@@ -22,7 +22,7 @@
 [delta]
     navigate = true  # use n and N to move between diff sections
 [include]
-	path = ~/.config/delta/themes/catppuccin.gitconfig
+    path = ~/.config/delta/themes/catppuccin.gitconfig
 [delta]
     features = catppuccin-mocha
     pager = less -RFX
