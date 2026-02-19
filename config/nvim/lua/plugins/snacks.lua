@@ -1,3 +1,14 @@
+local function lsp_pick(picker_fn, opts)
+	opts = opts or {}
+	opts.confirm = function(picker, item, action)
+		Snacks.picker.actions.jump(picker, item, action)
+		vim.schedule(function()
+			vim.cmd("normal! zt")
+		end)
+	end
+	picker_fn(opts)
+end
+
 return {
 	-- collection of small useful improvements
 	-- https://github.com/folke/snacks.nvim
@@ -171,21 +182,21 @@ return {
 		{
 			"<leader>fs",
 			function()
-				Snacks.picker.lsp_symbols()
+				lsp_pick(Snacks.picker.lsp_symbols)
 			end,
 			desc = "Snacks LSP: [f]ind [s]ymbol",
 		},
 		{
 			"gd",
 			function()
-				Snacks.picker.lsp_definitions()
+				lsp_pick(Snacks.picker.lsp_definitions)
 			end,
 			desc = "Snacks LSP: [g]oto [d]efinition",
 		},
 		{
 			"gr",
 			function()
-				Snacks.picker.lsp_references()
+				lsp_pick(Snacks.picker.lsp_references)
 			end,
 			nowait = true,
 			desc = "Snacks LSP: [g]oto [r]eferences",
@@ -193,14 +204,14 @@ return {
 		{
 			"gI",
 			function()
-				Snacks.picker.lsp_implementations()
+				lsp_pick(Snacks.picker.lsp_implementations)
 			end,
 			desc = "Snacks LSP: [g]oto [I]mplementation",
 		},
 		{
 			"<leader>D",
 			function()
-				Snacks.picker.lsp_type_definitions()
+				lsp_pick(Snacks.picker.lsp_type_definitions)
 			end,
 			desc = "Snacks LSP: Type [D]efinition",
 		},
