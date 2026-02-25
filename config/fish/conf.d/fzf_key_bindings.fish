@@ -63,6 +63,9 @@ function fzf_key_bindings
       set -lx FZF_DEFAULT_OPTS (__fzf_defaults "" "--scheme=history --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m")
       set -lx FZF_DEFAULT_OPTS_FILE ''
 
+      # Merge history from other sessions (e.g. other tmux panes) before searching
+      builtin history merge
+
       set -l FISH_MAJOR (echo $version | cut -f1 -d.)
       set -l FISH_MINOR (echo $version | cut -f2 -d.)
 
