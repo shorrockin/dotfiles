@@ -31,3 +31,7 @@ end
 
 # npm global packages (claude-code, etc.)
 fish_add_path ~/.npm-global/bin
+
+# abbreviations
+abbr -a claude-danger 'claude --dangerously-skip-permissions'
+abbr -a fish-source 'source ~/.config/fish/config.fish'
