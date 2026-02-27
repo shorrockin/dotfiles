@@ -217,7 +217,7 @@ else
     fi
 
     # Display with fzf (no preview for speed, --no-info skips match count for faster render)
-    selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --tiebreak=index --no-info | awk 'END {print}')
+    selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --scheme=history --tiebreak=index --no-info | awk 'END {print}')
 fi
 
 if [[ -z $selected ]]; then
