@@ -17,7 +17,6 @@
   };
 
   xdg.configFile."mimeapps.list".force = true;
-  home.file.".local/share/applications/mimeapps.list".force = true;
 
   imports = [
     ./packages.nix
