@@ -19,7 +19,10 @@ if test -e ~/.work.fish
 end
 
 # initialize oh-my-posh (after work stuff so our fish_mode_prompt takes precedence)
+# clear stale cache — oh-my-posh bakes the absolute binary path into its cached
+# init script, which breaks after a nixos-rebuild changes the Nix store path
 if command -v oh-my-posh > /dev/null
+    command rm -f ~/.cache/oh-my-posh/init.*.fish
     oh-my-posh init fish --config ~/.config/oh-my-posh/config.json | source
 end
 
