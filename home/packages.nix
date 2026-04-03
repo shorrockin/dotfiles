@@ -45,6 +45,7 @@
     impala # wifi management tui
     bluetui # bluetooth management tui
     yq-go # yaml processor
+    glow # markdown renderer in terminal
 
     # Development Languages & Tools
     ghostty # terminal emulator
