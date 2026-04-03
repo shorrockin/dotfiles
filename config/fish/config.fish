@@ -22,7 +22,7 @@ end
 # clear stale cache — oh-my-posh bakes the absolute binary path into its cached
 # init script, which breaks after a nixos-rebuild changes the Nix store path
 if command -v oh-my-posh > /dev/null
-    command rm -f ~/.cache/oh-my-posh/init.*.fish
+    command find ~/.cache/oh-my-posh -name 'init.*.fish' -delete 2>/dev/null
     oh-my-posh init fish --config ~/.config/oh-my-posh/config.json | source
 end
 
