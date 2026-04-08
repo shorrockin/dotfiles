@@ -45,6 +45,7 @@ mkdir -p ~/.config/nvim/lua/lsp
 mkdir -p ~/.config/nvim/lua/plugins
 mkdir -p ~/.config/nvim/after/plugin
 mkdir -p ~/.config/nvim/after/ftplugin
+mkdir -p ~/.config/oh-my-posh
 
 echo "Running '$USER_ACTION' for dotfiles..."
 
