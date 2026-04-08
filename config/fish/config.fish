@@ -19,11 +19,29 @@ if test -e ~/.work.fish
 end
 
 # initialize oh-my-posh (after work stuff so our fish_mode_prompt takes precedence)
-# clear stale cache — oh-my-posh bakes the absolute binary path into its cached
-# init script, which breaks after a nixos-rebuild changes the Nix store path
+# invalidate the cached init script only when the binary path changes
 if command -v oh-my-posh > /dev/null
-    command find ~/.cache/oh-my-posh -name 'init.*.fish' -delete 2>/dev/null
-    oh-my-posh init fish --config ~/.config/oh-my-posh/config.json | source
+    set -l omp_config ~/.config/oh-my-posh/config.json
+    if set -q OMP_CONFIG
+        set omp_config $OMP_CONFIG
+    end
+
+    set -l omp_cache_dir ~/.cache/oh-my-posh
+    set -l omp_cache_marker $omp_cache_dir/init.binary-path
+    set -l omp_binary (command -s oh-my-posh)
+    command mkdir -p $omp_cache_dir
+
+    set -l cached_binary
+    if test -r $omp_cache_marker
+        set cached_binary (string trim -- (command cat $omp_cache_marker))
+    end
+
+    if test "$cached_binary" != "$omp_binary"
+        command find $omp_cache_dir -name 'init.*.fish' -delete 2>/dev/null
+        command printf '%s\n' "$omp_binary" > $omp_cache_marker
+    end
+
+    oh-my-posh init fish --config $omp_config | source
 end
 
 # override fish_mode_prompt for oh-my-posh vi mode support (must be after work scripts)
