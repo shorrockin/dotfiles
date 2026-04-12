@@ -42,6 +42,13 @@ if command -v oh-my-posh > /dev/null
     end
 
     oh-my-posh init fish --config $omp_config | source
+
+    # The init script hardcodes the absolute Nix store path in $_omp_executable,
+    # which breaks in long-lived shells after nixos-rebuild garbage-collects the
+    # old store path. Override with the stable profile symlink so existing shells
+    # survive rebuilds. On non-Nix systems $omp_binary is already the real path,
+    # so this is a no-op in effect.
+    set --global _omp_executable $omp_binary
 end
 
 # override fish_mode_prompt for oh-my-posh vi mode support (must be after work scripts)
