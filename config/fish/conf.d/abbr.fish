@@ -32,7 +32,10 @@ abbr --add ts tmux-sessionizer
 abbr --add matrix cmatrix -s -r
 abbr --add lg lazygit 
 abbr --add c claude
+abbr --add claude-danger 'claude --dangerously-skip-permissions'
+abbr --add gemini-danger 'gemini --yolo'
+abbr --add fish-source 'source ~/.config/fish/config.fish'
 
-# REPLACEMENTS REPLACEMENTS
+# REPLACEMENT
 abbr --add cat bat
 abbr --add more most
