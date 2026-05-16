@@ -28,7 +28,17 @@
     };
 
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk4 = {
+      extraConfig.gtk-application-prefer-dark-theme = 1;
+      theme = {
+        name = "catppuccin-mocha-mauve-standard";
+        package = pkgs.catppuccin-gtk.override {
+          variant = "mocha";
+          accents = [ "mauve" ];
+          size = "standard";
+        };
+      };
+    };
   };
 
   qt = {

@@ -68,11 +68,11 @@
     pyright # python
     marksman # markdown
     yaml-language-server # yamlls
-    nodePackages.bash-language-server # bashls
+    bash-language-server # bashls
     elixir-ls # elixirls
     gopls # go
     rust-analyzer # rust
-    nodePackages.vscode-langservers-extracted # jsonls, html, cssls, eslint
+    vscode-langservers-extracted # jsonls, html, cssls, eslint
     stylua # lua
     nixfmt # nix
 
