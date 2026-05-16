@@ -1,41 +1,59 @@
 #!/usr/bin/env bash
 
-# Get battery level from connected game controllers via bluetoothctl
+# Get battery level from connected game controllers.
+# Bluetooth controllers (e.g. Xbox Wireless) report battery via bluetoothctl.
+# Steam Controller / Puck (Valve, USB 28de:1304) has no kernel battery support
+# yet, so we just show a connection indicator when Steam Input is emulating it.
 
-get_controller_battery() {
-    # Get list of connected devices
-    while read -r line; do
-        if [[ "$line" =~ Device\ ([0-9A-F:]+) ]]; then
-            mac="${BASH_REMATCH[1]}"
+ICON="󰖺"
 
-            # Get device info
-            info=$(bluetoothctl info "$mac" 2>/dev/null)
-
-            # Check if it's a game controller and connected
-            if echo "$info" | grep -q "Icon: input-gaming" && \
-               echo "$info" | grep -q "Connected: yes"; then
-
-                # Get device name
-                name=$(echo "$info" | grep "Name:" | head -1 | cut -d: -f2- | xargs)
-
-                # Get battery percentage (format: "Battery Percentage: 0x5a (90)")
-                battery_line=$(echo "$info" | grep "Battery Percentage:")
-                if [[ -n "$battery_line" ]]; then
-                    # Extract the decimal value in parentheses
-                    capacity=$(echo "$battery_line" | grep -oP '\((\d+)\)' | tr -d '()')
-
-                    if [[ -n "$capacity" ]]; then
-                        icon="󰖺"
-                        echo "{\"text\": \"$icon $capacity%\", \"tooltip\": \"$name\\nBattery: $capacity%\", \"class\": \"controller\"}"
-                        return 0
-                    fi
-                fi
-            fi
-        fi
-    done < <(bluetoothctl devices 2>/dev/null)
-
-    # No controller found - output empty (module will hide)
-    echo "{\"text\": \"\", \"tooltip\": \"\", \"class\": \"empty\"}"
+emit() {
+    local text="$1" tooltip="$2" class="$3"
+    echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\", \"class\": \"$class\"}"
 }
 
-get_controller_battery
+try_bluetooth_controller() {
+    while read -r line; do
+        [[ "$line" =~ Device\ ([0-9A-F:]+) ]] || continue
+        local mac="${BASH_REMATCH[1]}"
+        local info
+        info=$(bluetoothctl info "$mac" 2>/dev/null)
+
+        echo "$info" | grep -q "Icon: input-gaming" || continue
+        echo "$info" | grep -q "Connected: yes" || continue
+
+        local name battery_line capacity
+        name=$(echo "$info" | grep "Name:" | head -1 | cut -d: -f2- | xargs)
+        battery_line=$(echo "$info" | grep "Battery Percentage:")
+        [[ -n "$battery_line" ]] || continue
+
+        capacity=$(echo "$battery_line" | grep -oP '\((\d+)\)' | tr -d '()')
+        [[ -n "$capacity" ]] || continue
+
+        emit "$ICON $capacity%" "$name\\nBattery: $capacity%" "controller"
+        return 0
+    done < <(bluetoothctl devices 2>/dev/null)
+    return 1
+}
+
+try_steam_controller() {
+    # Look for a Steam Input virtual gamepad: Valve vendor (28de) on a virtual
+    # input device exposing a js handler. The Puck dongle itself (28de:1304)
+    # only registers kbd/mouse/hidraw, so a js handler means a controller is
+    # paired AND Steam Input is active.
+    awk '
+        BEGIN { RS = "" }
+        /Vendor=28de/ && /Handlers=.*js[0-9]/ && /Sysfs=\/devices\/virtual\// {
+            found = 1
+            exit
+        }
+        END { exit found ? 0 : 1 }
+    ' /proc/bus/input/devices || return 1
+
+    emit "$ICON" "Steam Controller connected\\nBattery level not available" "controller"
+    return 0
+}
+
+try_bluetooth_controller && exit 0
+try_steam_controller && exit 0
+emit "" "" "empty"

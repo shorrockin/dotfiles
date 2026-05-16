@@ -101,6 +101,7 @@
     slack # communication tool
     discord # communication tool
     obsidian # note taking app
+    hidapi # library for communicating with USB and Bluetooth HID devices
     mangohud # game overlap for fps
     google-chrome # web browser
     vivaldi # web browser

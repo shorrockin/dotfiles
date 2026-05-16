@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     stow # symlink manager
     zsh # needed at system level for tool compatibility
+    steam-devices-udev-rules # udev rules for Steam controllers and other gaming hardware
   ];
 
   # programs.zsh.enable = true;
@@ -17,5 +18,6 @@
   # - mangohud %command%
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;
+  programs.steam.extest.enable = true;
   programs.gamemode.enable = true;
 }

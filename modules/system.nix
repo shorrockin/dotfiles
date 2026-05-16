@@ -7,6 +7,8 @@
     powerOnBoot = true;
   };
 
+  services.upower.enable = true;
+
   # Enable suspend and hibernate support
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "performance";

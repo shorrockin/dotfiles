@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Report Logitech mouse battery via the kernel hidpp driver.
+# HID++ devices appear as /sys/class/power_supply/hidpp_battery_N.
+# Many Logitech mice (incl. MX Vertical) only expose a discrete level
+# (Full/Normal/Low/Critical), not a percentage.
+
+ICON="󰍽"
+
+emit() {
+    local text="$1" tooltip="$2" class="$3"
+    echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\", \"class\": \"$class\"}"
+}
+
+for dir in /sys/class/power_supply/hidpp_battery_*/; do
+    [[ -d "$dir" ]] || continue
+
+    level=$(cat "$dir/capacity_level" 2>/dev/null)
+    [[ -n "$level" && "$level" != "Unknown" ]] || continue
+
+    model=$(cat "$dir/model_name" 2>/dev/null)
+    status=$(cat "$dir/status" 2>/dev/null)
+    capacity=$(cat "$dir/capacity" 2>/dev/null)
+
+    case "$level" in
+        Critical) class="critical" ;;
+        Low)      class="low" ;;
+        *)        class="ok" ;;
+    esac
+
+    tooltip="${model:-Logitech mouse}\\nBattery: $level"
+    [[ -n "$capacity" ]] && tooltip="$tooltip ($capacity%)"
+    [[ -n "$status" ]] && tooltip="$tooltip\\nStatus: $status"
+
+    emit "$ICON" "$tooltip" "$class"
+    exit 0
+done
+
+emit "" "" "empty"
