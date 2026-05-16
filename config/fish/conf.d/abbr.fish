@@ -23,6 +23,7 @@ abbr --add lt eza --tree --level 3 --long --icons --no-permissions
 
 # NIXOS
 abbr --add nix-rebuild "sudo nixos-rebuild switch --flake .#$hostname"
+abbr --add nix-update "nix flake update && sudo nixos-rebuild switch --flake .#$hostname"
 
 # OTHER
 abbr --add vim nvim

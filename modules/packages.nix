@@ -20,4 +20,5 @@
   programs.steam.gamescopeSession.enable = true;
   programs.steam.extest.enable = true;
   programs.gamemode.enable = true;
+  hardware.steam-hardware.enable = true;
 }
