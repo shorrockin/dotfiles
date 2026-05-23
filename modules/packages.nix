@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   # System-level packages only (user packages are in home/packages.nix)
   environment.systemPackages = with pkgs; [
     stow # symlink manager

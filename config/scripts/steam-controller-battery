@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+# Read battery level from a Valve "Steam Controller Puck" (USB 28de:1304),
+# the wireless dongle for the 2025 Steam Controller. The in-tree hid-steam
+# driver doesn't recognise this PID yet, so there's no /sys/class/power_supply
+# entry; we talk to the device directly via hidraw.
+#
+# Protocol (reverse-engineered):
+#   The Puck streams report 0x43 (15 bytes) at ~0.27 Hz containing the battery
+#   telemetry — no feature-report query needed, the controller broadcasts it
+#   as long as it's paired and powered on. Layout:
+#
+#     [ 0]    0x43         report ID
+#     [ 1]    0x01         constant (telemetry type?)
+#     [ 2]    0x30         flags / charging status (observed steady)
+#     [ 3:5]  uint16 LE    battery voltage (mV)
+#     [ 5:7]  uint16 LE    max / design voltage (mV), used as 100% reference
+#     [ 7:13] 0x00 padding
+#     [13:15] uint16 LE    checksum / counter (observed steady)
+#
+# stdout: integer 0-100 on success; nothing on failure.
+# exit:   0 = battery read, 1 = no controller / no response.
+
+import errno
+import glob
+import os
+import select
+import sys
+import time
+
+VID = 0x28DE
+PID = 0x1304
+HID_SYSFS_GLOB = f"/sys/bus/hid/devices/0003:{VID:04X}:{PID:04X}.*"
+
+REPORT_ID = 0x43
+REPORT_LEN = 15
+TIMEOUT = 5.0  # one telemetry packet arrives every ~3.75 s
+
+# LiPo single-cell voltage → state-of-charge curve. Non-linear because LiPos
+# spend most of their useful capacity between 3.7 V and 4.0 V. Anchored at
+# 4080 mV = 100% because that's the design max the controller reports.
+VOLT_CURVE = (
+    (4080, 100),
+    (4000,  85),
+    (3950,  75),
+    (3900,  65),
+    (3850,  55),
+    (3800,  45),
+    (3750,  30),
+    (3700,  20),
+    (3650,  12),
+    (3600,   8),
+    (3500,   3),
+    (3300,   0),
+)
+
+
+def voltage_to_percent(mv: int) -> int:
+    if mv >= VOLT_CURVE[0][0]:
+        return VOLT_CURVE[0][1]
+    if mv <= VOLT_CURVE[-1][0]:
+        return VOLT_CURVE[-1][1]
+    for (v_hi, p_hi), (v_lo, p_lo) in zip(VOLT_CURVE, VOLT_CURVE[1:]):
+        if v_lo <= mv <= v_hi:
+            t = (mv - v_lo) / (v_hi - v_lo)
+            return round(p_lo + t * (p_hi - p_lo))
+    return 0
+
+
+def find_hidraw_nodes():
+    nodes = []
+    for hid_path in glob.glob(HID_SYSFS_GLOB):
+        for hr in glob.glob(os.path.join(hid_path, "hidraw", "hidraw*")):
+            nodes.append("/dev/" + os.path.basename(hr))
+    nodes.sort()
+    return nodes
+
+
+def read_battery_mv() -> int | None:
+    # Open every slot and wait for the first 0x43 report from any of them —
+    # the active controller can be on any wireless slot.
+    fds = []
+    try:
+        for path in find_hidraw_nodes():
+            try:
+                fds.append(os.open(path, os.O_RDONLY | os.O_NONBLOCK))
+            except OSError:
+                continue
+        if not fds:
+            return None
+        deadline = time.monotonic() + TIMEOUT
+        while time.monotonic() < deadline:
+            remaining = max(0.0, deadline - time.monotonic())
+            ready, _, _ = select.select(fds, [], [], remaining)
+            for fd in ready:
+                try:
+                    data = os.read(fd, 64)
+                except OSError as e:
+                    if e.errno in (errno.EAGAIN, errno.EWOULDBLOCK):
+                        continue
+                    return None
+                if (
+                    data
+                    and len(data) >= REPORT_LEN
+                    and data[0] == REPORT_ID
+                ):
+                    return int.from_bytes(data[3:5], "little")
+        return None
+    finally:
+        for fd in fds:
+            try:
+                os.close(fd)
+            except OSError:
+                pass
+
+
+def main() -> int:
+    mv = read_battery_mv()
+    if mv is None or mv < 2000 or mv > 5000:
+        return 1
+    print(voltage_to_percent(mv))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

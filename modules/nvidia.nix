@@ -49,7 +49,7 @@
     # Only available from driver 515.43.04+
     # Recommended for RTX 20+ series, especially on Wayland, as it moves firmware 
     # to the GSP for better power management and stability.
-    open = true;
+    open = false;
 
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.

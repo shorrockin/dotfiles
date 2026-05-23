@@ -3,7 +3,7 @@
 # Get battery level from connected game controllers.
 # Bluetooth controllers (e.g. Xbox Wireless) report battery via bluetoothctl.
 # Steam Controller / Puck (Valve, USB 28de:1304) has no kernel battery support
-# yet, so we just show a connection indicator when Steam Input is emulating it.
+# yet — we read it directly via hidraw with steam-controller-battery.
 
 ICON="󰖺"
 
@@ -37,20 +37,11 @@ try_bluetooth_controller() {
 }
 
 try_steam_controller() {
-    # Look for a Steam Input virtual gamepad: Valve vendor (28de) on a virtual
-    # input device exposing a js handler. The Puck dongle itself (28de:1304)
-    # only registers kbd/mouse/hidraw, so a js handler means a controller is
-    # paired AND Steam Input is active.
-    awk '
-        BEGIN { RS = "" }
-        /Vendor=28de/ && /Handlers=.*js[0-9]/ && /Sysfs=\/devices\/virtual\// {
-            found = 1
-            exit
-        }
-        END { exit found ? 0 : 1 }
-    ' /proc/bus/input/devices || return 1
+    local capacity
+    capacity=$(python3 ~/.config/scripts/steam-controller-battery 2>/dev/null) || return 1
+    [[ "$capacity" =~ ^[0-9]+$ ]] || return 1
 
-    emit "$ICON" "Steam Controller connected\\nBattery level not available" "controller"
+    emit "$ICON $capacity%" "Steam Controller\\nBattery: $capacity%" "controller"
     return 0
 }
 
