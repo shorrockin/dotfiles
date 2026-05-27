@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 
-# History file for tracking recency
-HISTORY_FILE="$HOME/.cache/tmux-sessionizer-history"
 CONFIG_FILE="$HOME/.tmux-sessionizer.conf"
-
-# Ensure cache directory exists
-mkdir -p "$(dirname "$HISTORY_FILE")"
 
 # Show help message
 show_help() {
@@ -48,7 +43,8 @@ CONFIGURATION:
 
 FEATURES:
     • Configuration-driven: Only shows projects you explicitly configure
-    • History-based sorting: Most recently used sessions appear first
+    • Active session sorting: Open tmux sessions appear first, newest access first
+    • Config sorting: Closed configured sessions appear alphabetically
     • Session list: Shows existing tmux sessions (marked with ●) alongside configured projects
     • Fast startup: No file system scanning or preview overhead, near-instant (10-30ms)
     • Interactive fuzzy search: Quickly find and switch between sessions
@@ -78,7 +74,6 @@ EXAMPLES:
 
 FILES:
     ~/.tmux-sessionizer.conf            Configuration file (session_name=directory pairs)
-    ~/.cache/tmux-sessionizer-history   History file (50 most recent selections)
 
 SEE ALSO:
     tmux(1), fzf(1)
@@ -109,53 +104,6 @@ read_config() {
     done < "$CONFIG_FILE"
 }
 
-# Function to update history with the selected item
-update_history() {
-    local item="$1"
-    local temp_file="${HISTORY_FILE}.tmp.$$"
-
-    # Single pass: add new item to front, remove duplicates, truncate to 50
-    {
-        echo "$item"
-        if [[ -f "$HISTORY_FILE" ]]; then
-            grep -vF "$item" "$HISTORY_FILE" 2>/dev/null | head -49
-        fi
-    } > "$temp_file"
-
-    mv "$temp_file" "$HISTORY_FILE"
-}
-
-# Function to get items sorted by recency
-get_sorted_items() {
-    local all_items="$1"
-
-    if [[ ! -f "$HISTORY_FILE" ]]; then
-        echo "$all_items"
-        return
-    fi
-
-    # Build associative array for O(1) lookups
-    declare -A all_map
-    while IFS= read -r item; do
-        [[ -n "$item" ]] && all_map["$item"]=1
-    done <<< "$all_items"
-
-    # Read history into array and iterate in reverse (newest to oldest)
-    mapfile -t history_items < "$HISTORY_FILE"
-    for ((i=${#history_items[@]}-1; i>=0; i--)); do
-        item="${history_items[i]}"
-        if [[ -n "$item" ]] && [[ -n "${all_map[$item]}" ]]; then
-            echo "$item"
-            unset all_map["$item"]
-        fi
-    done
-
-    # Output remaining non-history items
-    for item in "${!all_map[@]}"; do
-        echo "$item"
-    done
-}
-
 # Handle help command
 if [[ "$1" == "help" ]] || [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
     show_help
@@ -168,24 +116,25 @@ else
     # Get configured directories from config file
     config_entries=$(read_config)
 
-    # Get existing tmux sessions (with ● marker)
+    # Get existing tmux sessions, sorted by last access descending.
     declare -A existing_sessions
-    sessions=$(tmux ls -F "#{session_name}" 2>/dev/null)
-    if [[ -n "$sessions" ]]; then
-        while IFS= read -r session; do
+    session_records=$(tmux ls -F "#{session_last_attached}	#{session_name}" 2>/dev/null | sort -rn -k1,1)
+    if [[ -n "$session_records" ]]; then
+        while IFS=$'\t' read -r _last_attached session; do
+            [[ -z "$session" ]] && continue
             existing_sessions["$session"]=1
-        done <<< "$sessions"
+        done <<< "$session_records"
     fi
 
-    # Build two separate lists: active sessions and config entries
-    # Each group is sorted by recency, but active sessions always come first
+    # Build two separate lists: active sessions and closed config entries.
     session_items=()
     config_items=()
 
-    if [[ -n "$sessions" ]]; then
-        while IFS= read -r session; do
+    if [[ -n "$session_records" ]]; then
+        while IFS=$'\t' read -r _last_attached session; do
+            [[ -z "$session" ]] && continue
             session_items+=("● ${session}")  # Mark tmux sessions with ● and space
-        done <<< "$sessions"
+        done <<< "$session_records"
     fi
 
     while IFS=: read -r session_name directory; do
@@ -196,16 +145,16 @@ else
         fi
     done <<< "$config_entries"
 
-    # Sort each group by recency separately, then concatenate
+    # Active sessions are already sorted by tmux last access; closed configs are alphabetical.
     sorted_sessions=""
     sorted_configs=""
 
     if [[ ${#session_items[@]} -gt 0 ]]; then
-        sorted_sessions=$(get_sorted_items "$(printf '%s\n' "${session_items[@]}")")
+        sorted_sessions=$(printf '%s\n' "${session_items[@]}")
     fi
 
     if [[ ${#config_items[@]} -gt 0 ]]; then
-        sorted_configs=$(get_sorted_items "$(printf '%s\n' "${config_items[@]}")")
+        sorted_configs=$(printf '%s\n' "${config_items[@]}" | sort)
     fi
 
     # Active sessions first, then config entries
@@ -217,7 +166,7 @@ else
     fi
 
     # Display with fzf (no preview for speed, --no-info skips match count for faster render)
-    selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --scheme=history --tiebreak=index --no-info | awk 'END {print}')
+    selected=$(echo "$sorted_items" | fzf --height=100% --layout=reverse --no-sort --no-info | awk 'END {print}')
 fi
 
 if [[ -z $selected ]]; then
@@ -228,7 +177,6 @@ fi
 if [[ "$selected" =~ ^●[[:space:]](.+)$ ]]; then
     # Existing tmux session
     session_name="${BASH_REMATCH[1]}"
-    update_history "● ${session_name}"
 elif [[ "$selected" =~ ^(.+)[[:space:]]\((.+)\)$ ]]; then
     # Configured directory entry: session_name (directory)
     session_name="${BASH_REMATCH[1]}"
@@ -238,8 +186,6 @@ elif [[ "$selected" =~ ^(.+)[[:space:]]\((.+)\)$ ]]; then
         echo "Error: Invalid directory path for session $session_name: $selected_path" >&2
         exit 1
     fi
-
-    update_history "$selected"
 
     # Create session if it doesn't exist
     if ! tmux has-session -t="$session_name" 2> /dev/null; then
