@@ -113,7 +113,7 @@
     "format": "{}",
     "return-type": "json",
     "exec": "~/.config/scripts/mouse-battery",
-    "interval": 600,
+    "interval": 120,
     "tooltip": true
   },
 

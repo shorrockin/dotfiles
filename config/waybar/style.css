@@ -219,6 +219,10 @@ tooltip label {
   color: @red;
 }
 
+#custom-mouse.stale {
+  opacity: 0.45;
+}
+
 /* Module specific styling */
 #pulseaudio:hover,
 #mpris:hover,
