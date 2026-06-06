@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-# Report Logitech mouse battery via the kernel hidpp driver.
-# HID++ devices appear as /sys/class/power_supply/hidpp_battery_N.
-# Many Logitech mice (incl. MX Vertical) only expose a discrete level
-# (Full/Normal/Low/Critical), not a percentage.
+# Report Logitech mouse battery via solaar.
+#
+# solaar queries the device live over HID++, so we get a real percentage and
+# fresh data on each poll. The kernel's /sys/class/power_supply/hidpp_battery_*
+# only exposes a coarse capacity_level (Full/Normal/Low/Critical) that is
+# updated when the mouse pushes an event — typically only on reconnect — so it
+# can stay "Full" for days while the battery actually drains.
+#
+# Requires hardware.logitech.wireless.{enable,enableGraphical} = true in NixOS
+# (installs solaar + the udev rules that grant the seat user hidraw access).
 
 ICON="󰍽"
 
@@ -12,28 +18,26 @@ emit() {
     echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\", \"class\": \"$class\"}"
 }
 
-for dir in /sys/class/power_supply/hidpp_battery_*/; do
-    [[ -d "$dir" ]] || continue
+out=$(solaar show 2>/dev/null) || true
 
-    level=$(cat "$dir/capacity_level" 2>/dev/null)
-    [[ -n "$level" && "$level" != "Unknown" ]] || continue
+percent=$(echo "$out" | grep -oE 'Battery: [0-9]+%' | head -n1 | grep -oE '[0-9]+')
+model=$(echo "$out"  | awk -F': +' '/^ +Name:/ { print $2; exit }')
+status=$(echo "$out" | grep -oE 'BatteryStatus\.[A-Z]+' | head -n1 | cut -d. -f2)
 
-    model=$(cat "$dir/model_name" 2>/dev/null)
-    status=$(cat "$dir/status" 2>/dev/null)
-    capacity=$(cat "$dir/capacity" 2>/dev/null)
-
-    case "$level" in
-        Critical) class="critical" ;;
-        Low)      class="low" ;;
-        *)        class="ok" ;;
-    esac
-
-    tooltip="${model:-Logitech mouse}\\nBattery: $level"
-    [[ -n "$capacity" ]] && tooltip="$tooltip ($capacity%)"
-    [[ -n "$status" ]] && tooltip="$tooltip\\nStatus: $status"
-
-    emit "$ICON" "$tooltip" "$class"
+if [[ -z "$percent" ]]; then
+    emit "" "" "empty"
     exit 0
-done
+fi
 
-emit "" "" "empty"
+if (( percent <= 15 )); then
+    class="critical"
+elif (( percent <= 30 )); then
+    class="low"
+else
+    class="ok"
+fi
+
+tooltip="${model:-Logitech mouse}\\nBattery: ${percent}%"
+[[ -n "$status" ]] && tooltip="$tooltip\\nStatus: $status"
+
+emit "$ICON" "$tooltip" "$class"
