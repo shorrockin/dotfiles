@@ -22,5 +22,6 @@ echo "$WALLPAPER" > "$CACHE_FILE"
 # Create symlink for hyprlock to use
 ln -sf "$WALLPAPER" "$HOME/.cache/current_wallpaper.png"
 
-# Apply the selected wallpaper (empty monitor = all monitors)
-/run/current-system/sw/bin/hyprctl hyprpaper wallpaper ",$WALLPAPER"
+# swaybg renders ~/.cache/current_wallpaper.png (the symlink updated above) and
+# is managed as a systemd user service. Restarting it picks up the new image.
+systemctl --user restart swaybg

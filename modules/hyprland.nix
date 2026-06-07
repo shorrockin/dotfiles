@@ -1,6 +1,6 @@
 { config, pkgs, pkgs-unstable, ... }: {
   environment.systemPackages = [
-    pkgs-unstable.hyprpaper
+    pkgs.swaybg
     (pkgs.catppuccin-sddm.override {
       flavor = "mocha";
       accent = "mauve";
