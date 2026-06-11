@@ -28,7 +28,7 @@ return {
 				lualine_z = { "location" },
 			},
 			options = {
-				theme = "catppuccin",
+				theme = "catppuccin-nvim",
 				-- ... the rest of your lualine config
 			},
 		})
