@@ -7,6 +7,14 @@
     powerOnBoot = true;
   };
 
+  # Keep the Bluetooth radio powered full-time. The Intel btusb radio
+  # autosuspends when idle, and waking it for a quiet link (e.g. the MX Vertical
+  # mouse between movements) intermittently fails and drops the connection,
+  # freezing the cursor for a few seconds while it reconnects.
+  boot.extraModprobeConfig = ''
+    options btusb enable_autosuspend=0
+  '';
+
   services.upower.enable = true;
 
   # Enable suspend and hibernate support
