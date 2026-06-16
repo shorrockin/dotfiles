@@ -1,7 +1,7 @@
 return {
 	-- LuaLine: https://github.com/nvim-lualine/lualine.nvim - status line
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim" },
 	config = function()
 		local macro_recording = function(str)
 			local recording_register = vim.fn.reg_recording()
@@ -28,7 +28,7 @@ return {
 				lualine_z = { "location" },
 			},
 			options = {
-				theme = "catppuccin",
+				theme = "catppuccin-mocha",
 				-- ... the rest of your lualine config
 			},
 		})
