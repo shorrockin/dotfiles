@@ -8,6 +8,7 @@
 #
 # ctrl-shift-, to reload
 theme = catppuccin-mocha.conf
+# theme = "Catppuccin Latte"
 
 window-padding-x = 16,16
 window-padding-y = 16,16

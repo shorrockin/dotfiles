@@ -1,0 +1,112 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "os": "#9CA0B0",
+    "closer": "p:os",
+    "pink": "#EA76CB",
+    "lavender": "#7287FD",
+    "blue": "#1E66F5",
+    "green": "#40A02B",
+    "yellow": "#DF8E1D",
+    "red": "#D20F39",
+    "sky": "#04A5E5",
+    "mauve": "#8839EF",
+    "peach": "#FE640B",
+    "text": "#4C4F69"
+  },
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "p:os",
+          "style": "plain",
+          "template": "{{.Icon}} ",
+          "type": "os"
+        },
+        {
+          "foreground": "p:pink",
+          "options": {
+            "folder_icon": "....",
+            "home_icon": "~",
+            "style": "agnoster_short"
+          },
+          "style": "plain",
+          "template": "{{ .Path }} ",
+          "type": "path"
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "foreground": "p:blue",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:sky{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:red{{ end }}",
+            "{{ if gt .Ahead 0 }}p:sky{{ end }}",
+            "{{ if gt .Behind 0 }}p:pink{{ end }}"
+          ],
+          "background": "transparent",
+          "template": "{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} <p:yellow>󰆓 {{ .StashCount }}</>{{ end }} ",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "ignore_status": [
+              "~/stripe/mint",
+              "~/stripe/pay-server",
+              "~/stripe/zoolander",
+              "~/stripe/gocode",
+              "/pay/src/mint",
+              "/pay/src/pay-server",
+              "/pay/src/zoolander",
+              "/pay/src/gocode"
+            ],
+            "branch_icon": " ",
+            "branch_identical_icon": "",
+            "branch_ahead_icon": "⇡",
+            "branch_behind_icon": "⇣",
+            "branch_gone_icon": "✘",
+            "commit_icon": " ",
+            "tag_icon": " ",
+            "rebase_icon": " ",
+            "cherry_pick_icon": " ",
+            "revert_icon": " ",
+            "merge_icon": " ",
+            "no_commits_icon": " "
+          }
+        },
+        {
+          "type": "status",
+          "style": "plain",
+          "foreground": "p:red",
+          "foreground_templates": [
+            "{{ if eq .Env.OMP_FISH_BIND_MODE \"default\" }}p:os{{ end }}",
+            "{{ if eq .Env.OMP_FISH_BIND_MODE \"visual\" }}p:mauve{{ end }}",
+            "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace_one\" }}p:red{{ end }}",
+            "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace\" }}p:red{{ end }}",
+            "{{ if gt .Code 0 }}p:red{{ end }}"
+          ],
+          "background": "transparent",
+          "template": "❯",
+          "properties": {
+            "always_enabled": true
+          }
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "p:red",
+    "foreground_templates": [
+      "{{ if eq .Env.OMP_FISH_BIND_MODE \"default\" }}p:os{{ end }}",
+      "{{ if eq .Env.OMP_FISH_BIND_MODE \"visual\" }}p:mauve{{ end }}",
+      "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace_one\" }}p:red{{ end }}",
+      "{{ if eq .Env.OMP_FISH_BIND_MODE \"replace\" }}p:red{{ end }}",
+      "{{ if gt .Code 0 }}p:red{{ end }}"
+    ],
+    "template": "❯ "
+  },
+  "final_space": true,
+  "version": 4
+}
