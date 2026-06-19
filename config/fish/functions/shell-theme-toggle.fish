@@ -16,7 +16,7 @@ function shell-theme-toggle
     if test $target_mode = light
         # --- Ghostty ---
         if test -f $ghostty_config
-            sed -i '' \
+            _sed_inplace \
                 -e 's/^theme = catppuccin-mocha\.conf/# theme = catppuccin-mocha.conf/' \
                 -e 's/^# theme = "Catppuccin Latte"/theme = "Catppuccin Latte"/' \
                 $ghostty_config
@@ -27,7 +27,7 @@ function shell-theme-toggle
 
         # --- Alacritty ---
         if test -f $alacritty_config
-            sed -i '' \
+            _sed_inplace \
                 -e 's|^    "~/.config/alacritty/catppuccin-mocha.toml"|    # "~/.config/alacritty/catppuccin-mocha.toml"|' \
                 -e 's|^    # "~/.config/alacritty/catppuccin-latte.toml"|    "~/.config/alacritty/catppuccin-latte.toml"|' \
                 $alacritty_config
@@ -45,7 +45,7 @@ function shell-theme-toggle
     else
         # --- Ghostty ---
         if test -f $ghostty_config
-            sed -i '' \
+            _sed_inplace \
                 -e 's/^# theme = catppuccin-mocha\.conf/theme = catppuccin-mocha.conf/' \
                 -e 's/^theme = "Catppuccin Latte"/# theme = "Catppuccin Latte"/' \
                 $ghostty_config
@@ -56,7 +56,7 @@ function shell-theme-toggle
 
         # --- Alacritty ---
         if test -f $alacritty_config
-            sed -i '' \
+            _sed_inplace \
                 -e 's|^    "~/.config/alacritty/catppuccin-latte.toml"|    # "~/.config/alacritty/catppuccin-latte.toml"|' \
                 -e 's|^    # "~/.config/alacritty/catppuccin-mocha.toml"|    "~/.config/alacritty/catppuccin-mocha.toml"|' \
                 $alacritty_config
@@ -75,6 +75,15 @@ function shell-theme-toggle
 
     # Re-initialize oh-my-posh in this shell
     oh-my-posh init fish --config $OMP_CONFIG | source
+end
+
+# Portable sed -i: BSD (macOS) requires an explicit empty suffix; GNU sed does not.
+function _sed_inplace
+    if test (uname) = Darwin
+        sed -i '' $argv
+    else
+        sed -i $argv
+    end
 end
 
 # Emits OSC escape sequences to repaint terminal colors in the current session.
