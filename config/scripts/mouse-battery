@@ -32,7 +32,11 @@ class_for() {
     fi
 }
 
-out=$(solaar show 2>/dev/null) || true
+# TEMP EXPERIMENT (2026-06-14): skip the live solaar/HID++ probe to test whether
+# 2-min battery polling is destabilizing the MX Vertical's Bluetooth link.
+# Restore the line below to re-enable live battery readings.
+# out=$(solaar show 2>/dev/null) || true
+out=""
 
 percent=$(echo "$out" | grep -oE 'Battery: [0-9]+%' | head -n1 | grep -oE '[0-9]+')
 model=$(echo "$out"  | awk -F': +' '/^ +Name:/ { print $2; exit }')
