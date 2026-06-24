@@ -162,5 +162,15 @@ return {
 
 		-- Enable all loaded LSP servers using native vim.lsp.enable
 		vim.lsp.enable(lsp_configs)
+
+		-- Workaround for Neovim 0.11.x bug: publishDiagnostics handler crashes when
+		-- diagnostics is nil (valid per LSP spec, means "clear diagnostics").
+		local orig_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+		vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+			if result and result.diagnostics == nil then
+				result.diagnostics = {}
+			end
+			orig_handler(err, result, ctx, config)
+		end
 	end,
 }

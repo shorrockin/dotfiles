@@ -54,6 +54,18 @@ if status is-interactive
         set --global _omp_executable $omp_binary
     end
 
+    # Apply dark Mocha colors on startup in non-Ghostty terminals (Ghostty manages its own background).
+    # Without this, the dark background only appears after toggling light→dark via shell-theme-toggle.
+    if not set -q GHOSTTY_RESOURCES_DIR; and not set -q SHELL_THEME
+        printf "\033]11;%s\007" "#1E1E2E"
+        printf "\033]10;%s\007" "#CDD6F4"
+        for i in (seq 0 15)
+            set -l mocha_palette "#45475A" "#F38BA8" "#A6E3A1" "#F9E2AF" "#89B4FA" "#F5C2E7" "#94E2D5" "#BAC2DE" "#585B70" "#F38BA8" "#A6E3A1" "#F9E2AF" "#89B4FA" "#F5C2E7" "#94E2D5" "#A6ADC8"
+            printf "\033]4;%d;%s\007" $i $mocha_palette[(math $i + 1)]
+        end
+        set -gx SHELL_THEME dark
+    end
+
     # override fish_mode_prompt for oh-my-posh vi mode support (must be after work scripts)
     function fish_mode_prompt
         set -gx OMP_FISH_BIND_MODE $fish_bind_mode
