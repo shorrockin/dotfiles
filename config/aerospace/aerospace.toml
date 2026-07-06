@@ -69,6 +69,7 @@ outer.right = 5
 # Window management
 cmd-ctrl-f = 'fullscreen'
 cmd-shift-b = 'balance-sizes'
+alt-f = 'layout floating tiling'
 
 # Focus movement
 cmd-left = 'focus left'
@@ -159,4 +160,9 @@ run = 'move-node-to-workspace 6'
 
 [[on-window-detected]]
 if.app-id = 'com.pais.handy'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+if.window-title-regex-substring = 'Google Slides'
 run = 'layout floating'

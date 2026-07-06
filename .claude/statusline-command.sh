@@ -140,6 +140,22 @@ pad_val() {
     printf "%s%s%s%*s" "$color" "$val" "$R" "$pad" ""
 }
 
+# ── Budget cache (async refresh if stale) ────────────────────────────────
+budget_cache="$HOME/.claude/.agent-budget-cache"
+budget_refresh="$HOME/.config/scripts/claude-budget-refresh"
+if [ -f "$budget_refresh" ]; then
+    age=0
+    if [ -f "$budget_cache" ]; then
+        age=$(( $(date +%s) - $(stat -f %m "$budget_cache" 2>/dev/null || stat -c %Y "$budget_cache" 2>/dev/null || echo 0) ))
+    fi
+    if (( age >= 60 )); then
+        touch "$budget_cache" 2>/dev/null
+        ( "$budget_refresh" >/dev/null 2>&1 & )
+    fi
+fi
+budget_str=""
+[ -f "$budget_cache" ] && budget_str=$(cat "$budget_cache")
+
 # ── Computed Values ──────────────────────────────────────────────────────
 project=$(basename "$project_dir")
 path=$("$HOME/dotfiles/config/scripts/short-path" "$cwd")
@@ -317,4 +333,5 @@ bline "$b1" "$W"
 [[ -n "$b_block" ]] && bline "$b_block" "$W"
 [[ -n "$b_week" ]] && bline "$b_week" "$W"
 [[ -n "$b2" ]] && bline "$b2" "$W"
+[[ -n "$budget_str" ]] && bline "${PINK}BUDGET${R}  ${YELLOW}${budget_str}${R}" "$W"
 hborder "$W" "└" "┘"
