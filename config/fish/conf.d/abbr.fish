@@ -31,6 +31,7 @@ abbr --add vi nvim
 abbr --add v nvim
 abbr --add ts tmux-sessionizer
 abbr --add matrix cmatrix -s -r
+abbr --add calc qalc
 abbr --add lg lazygit 
 abbr --add c claude
 abbr --add yolo-claude 'claude --dangerously-skip-permissions'

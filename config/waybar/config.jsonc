@@ -6,7 +6,7 @@
 
   "modules-left": [
     "custom/notifications",
-    // "tray",
+    "tray",
     "pulseaudio",
     "custom/controller",
     "custom/mouse"
