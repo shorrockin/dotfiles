@@ -58,7 +58,8 @@
               "/pay/src/mint",
               "/pay/src/pay-server",
               "/pay/src/zoolander",
-              "/pay/src/gocode"
+              "/pay/src/gocode",
+              "/pay/src"
             ],
             "branch_icon": " ",
             "branch_identical_icon": "",
