@@ -58,7 +58,7 @@
     gnumake # build tool
     nodejs_22 # javascript runtime
     python3 # python programming language
-    pkgs-unstable.gemini-cli # gemini ai cli
+    pkgs-unstable.antigravity-cli # gemini ai cli - "agy"
     pkgs-unstable.opencode # opencode ai cli
 
     # Neovim & LSP Support
