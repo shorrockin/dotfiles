@@ -35,12 +35,12 @@ MONITOR_CONFIGS = {
     "LG ULTRAWIDE": {
         "enabled": True,
         "monitor_width": 3440,
-        "single_window_width": 1920,
+        "single_window_width": 2200,
     },
     "PA34VCNV": {
         "enabled": True,
         "monitor_width": 3440,
-        "single_window_width": 1920,
+        "single_window_width": 2200,
     },
     "Default": {
         "enabled": False,
