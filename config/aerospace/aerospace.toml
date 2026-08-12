@@ -29,11 +29,10 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
 automatically-unhide-macos-hidden-apps = false
 
-# need to revisit, does not appear to be working
-# on-focus-changed = ['exec-and-forget ~/.config/scripts/aerospace-dynamic-gaps.py']
-# on layout keybinds = ['layout ...', 'exec-and-forget ~/.config/scripts/aerospace-dynamic-gaps.py']
+on-focus-changed = ['exec-and-forget ~/.config/scripts/aerospace-dynamic-gaps.py']
 
 after-startup-command = [
+    'exec-and-forget ~/.config/scripts/aerospace-dynamic-gaps.py',
     # JankyBorders has a built-in detection of already running process,
     # so it won't be run twice on AeroSpace restart
     'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=7.5 style=round',
@@ -55,10 +54,10 @@ preset = 'qwerty'
 [gaps]
 inner.horizontal = 12
 inner.vertical = 12
-outer.left = 5
+outer.left = [{ monitor."LG ULTRAWIDE" = 5 }, 5]
 outer.bottom = 5
 outer.top = 5
-outer.right = 5
+outer.right = [{ monitor."LG ULTRAWIDE" = 5 }, 5]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
