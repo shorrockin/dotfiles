@@ -163,17 +163,22 @@ def get_monitor_width(monitor_name: str, config: dict[str, Any]) -> int:
     raise RuntimeError("MONITOR WIDTH NOT FOUND")
 
 
-def count_windows() -> int:
+def count_tiled_windows() -> int:
     output = run_aerospace([
         "list-windows",
         "--workspace",
         "focused",
         "--json",
         "--format",
-        "%{window-id} %{window-is-fullscreen}",
+        "%{window-id} %{window-layout} %{window-is-fullscreen}",
     ])
     windows = json.loads(output) if output.strip() else []
-    return len([window for window in windows if not window.get("window-is-fullscreen", False)])
+    return len([
+        window
+        for window in windows
+        if window.get("window-layout") != "floating"
+        and not window.get("window-is-fullscreen", False)
+    ])
 
 
 def calculate_gap(monitor_width: int, window_count: int, config: dict[str, Any]) -> int:
@@ -212,7 +217,7 @@ def main() -> int:
             return 0
 
         monitor_width = get_monitor_width(monitor_name, monitor_config)
-        window_count = count_windows()
+        window_count = count_tiled_windows()
         new_gap = calculate_gap(monitor_width, window_count, monitor_config)
 
         if update_config(new_gap):
