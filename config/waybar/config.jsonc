@@ -8,8 +8,9 @@
     "custom/notifications",
     "tray",
     "pulseaudio",
-    "custom/controller",
-    "custom/mouse"
+    "custom/controller"
+    // "custom/mouse"  // disabled 2026-08-09 while testing whether the
+    // solaar battery poll causes mouse freezes; re-add to restore
   ],
 
   "modules-center": [
