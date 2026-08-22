@@ -1,0 +1,7 @@
+-- Personal Hyprland overrides for Omarchy boxes.
+--
+-- Loaded from ~/.config/hypr/hyprland.lua via `require("hypr.overrides")`,
+-- after Omarchy's defaults and after monitors/input/bindings/looknfeel/autostart.
+-- Everything else in ~/.config/hypr (bindings.lua, monitors.lua, etc.) is left
+-- as Omarchy's own local, untracked config — this is the one file from that
+-- directory that's actually version-controlled.

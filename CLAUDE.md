@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - [Repository Overview](#repository-overview)
 - [NixOS Environment Notes](#nixos-environment-notes)
+- [Omarchy Support](#omarchy-support)
 - [Common Commands](#common-commands)
   - [NixOS System Management](#nixos-system-management)
   - [Traditional Dotfile Management](#traditional-dotfile-management)
@@ -22,15 +23,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a **cross-platform dotfiles repository** designed for both NixOS and macOS systems with hybrid configuration management:
+This is a **cross-platform dotfiles repository** designed for NixOS, macOS, and Omarchy (Arch + Hyprland) systems with hybrid configuration management:
 
 - **NixOS System Configuration**: Declarative system configuration using Nix flakes (Linux)
 - **Home Manager**: Declarative user-level configuration for packages, services, and themes (NixOS only)
-- **Traditional Dotfiles**: GNU Stow-based symlink management for application configs (works on both NixOS and macOS)
+- **Traditional Dotfiles**: GNU Stow-based symlink management for application configs (works on NixOS, macOS, and Omarchy)
+- **Omarchy Support**: A third `dots` platform profile plus `omarchy/install.sh` for bootstrapping an [Omarchy](https://omarchy.org/) box — see [Omarchy Support](#omarchy-support) below
 
 The repository assumes it's cloned to `~/dotfiles`.
 
-**IMPORTANT**: This configuration supports both NixOS (Linux) and macOS environments. Application configs (Fish, Neovim, Tmux, Hyprland, etc.) are portable via Stow-managed symlinks. Home Manager handles user packages, systemd services, and theming on NixOS.
+**IMPORTANT**: This configuration supports NixOS, macOS, and Omarchy environments. Application configs (Fish, Neovim, Tmux, Ghostty, etc.) are portable via Stow-managed symlinks. Home Manager handles user packages, systemd services, and theming on NixOS only — it does not run on Omarchy. Nix/NixOS-specific files (`flake.nix`, `hosts/`, `modules/`, `home/`) are irrelevant on Omarchy and macOS.
 
 ## NixOS Environment Notes
 
@@ -43,6 +45,57 @@ The repository assumes it's cloned to `~/dotfiles`.
 ```bash
 sudo nixos-rebuild switch --flake .#gustave
 ```
+
+## Omarchy Support
+
+[Omarchy](https://omarchy.org/) is Arch Linux + Hyprland with its own opinionated
+config layer (Lua-based Hyprland config, a Quickshell-based bar/launcher/notification
+shell, its own theme system). This repo treats it as a third platform alongside
+NixOS and macOS, but deliberately does **not** try to port the NixOS raw-Hyprland
+stack onto it — Omarchy already owns that layer, and fighting it causes conflicts
+(duplicate bars, stale Lua vs. conf-format Hyprland config, etc).
+
+**Bootstrap a new Omarchy box:**
+```bash
+omarchy/install.sh
+```
+This installs missing packages (`fish`, `git-delta`, `stow`, `ttf-meslo-nerd`,
+`oh-my-posh-bin`), sets fish as the default shell, runs `config/scripts/dots
+stow`, installs tmux's plugin manager (tpm) and its plugins, and wires one
+`require("hypr.overrides")` line into the live `~/.config/hypr/hyprland.lua`.
+It's safe to re-run as it grows — every step checks current state first.
+
+Two gotchas this uncovered on first run, fixed at the config level (not
+Omarchy-specific, apply on every platform):
+- tmux prefers `~/.config/tmux/tmux.conf` (XDG) over legacy `~/.tmux.conf` —
+  the repo's tmux config now lives at `config/tmux/tmux.conf` instead of
+  `dots/dot-tmux.conf` so it isn't shadowed by a stock XDG file.
+- `chsh` only takes effect for a *new* login session — a graphical session
+  already running keeps its original `$SHELL`. `config/ghostty/config` sets
+  `command = fish` explicitly so new terminal windows are correct immediately,
+  without needing a logout.
+
+`dots` itself handles the "fresh Omarchy install already has real stock config
+files" problem: before each stow, it dry-runs and moves any pre-existing real
+file/dir that would conflict (Omarchy's stock LazyVim starter at
+`~/.config/nvim`, stock `btop.conf`, `ghostty/config`, etc.) aside to
+`*.pre-stow-backup.<timestamp>` — never deletes, so nothing is lost.
+
+**What's excluded on Omarchy** (stays NixOS-only, handled by the `dots` script's
+platform detection): `hypr`, `hyprpanel`, `waybar`, `swaync`, `wlogout`, `rofi`,
+`walker`, `quickshell`, `vicinae`, and the `dictation` script. Omarchy's own
+Quickshell shell, Lua Hyprland config, and `voxtype` dictation replace these.
+
+**Hypr overrides**: Omarchy's `hyprland.lua` already loads user files after its
+own defaults (`require("hypr.bindings")`, `require("hypr.monitors")`, etc.) —
+those six files stay local/untracked on purpose, using Omarchy's defaults as-is.
+The only tracked file is `omarchy/hypr/overrides.lua` (stowed to
+`~/.config/hypr/overrides.lua`), loaded via one appended
+`require("hypr.overrides")` line — a small hook for future tweaks without
+adopting Omarchy's whole config into git.
+
+**No Alacritty**: removed from the repo entirely (all platforms) — Ghostty is
+the terminal everywhere now.
 
 ## Common Commands
 
@@ -108,7 +161,7 @@ config/scripts/dots restow
 config/scripts/dots delete
 ```
 
-The `dots` script is platform-aware: on macOS it skips Linux-only configs (Hyprland, Waybar, etc.), and on Linux it skips macOS-only configs (Aerospace).
+The `dots` script is platform-aware across three profiles: on macOS it skips Linux-only configs (Hyprland, Waybar, etc.); on Omarchy it additionally skips the raw-Hyprland/bar stack (Omarchy owns that layer itself — see [Omarchy Support](#omarchy-support)); on plain NixOS/Linux it skips macOS-only configs (Aerospace) and stows everything else, including the raw-Hyprland stack.
 
 **Validation:**
 ```bash
@@ -136,8 +189,10 @@ stow -n -d ~/dotfiles/config -t ~/.config/ .
   - See [Home Manager Modules](#home-manager-modules) for details
 - `config/`: Application configs that get **symlinked to `~/.config/`** via stow
   - **Important**: Files here are symlinked, not copied. Changes to `~/dotfiles/config/*` appear immediately in `~/.config/`
+  - Includes the NixOS-only raw-Hyprland stack (`hypr`, `waybar`, `hyprpanel`, `swaync`, `wlogout`, `rofi`, `walker`, `quickshell`, `vicinae`) — excluded on Omarchy, see [Omarchy Support](#omarchy-support)
 - `dots/`: Home directory dotfiles that get **symlinked to `~/`** via stow
   - Examples: `.gitconfig`, `.tmux.conf`, etc.
+- `omarchy/`: Omarchy-only overrides + `install.sh` bootstrap — see [Omarchy Support](#omarchy-support)
 
 ### Key Configuration Modules
 
@@ -168,12 +223,13 @@ Core application configurations located in `config/` (symlinked to `~/.config/` 
 - **Shell**: Fish (primary) with oh-my-posh prompt
 - **Editor**: Neovim with Lazy.nvim plugin manager
   - Plugin configuration: `config/nvim/lua/plugins/`
-- **Terminal**: Multiple options (Ghostty, Alacritty, Kitty) managed via Hyprland
-- **Desktop**: Hyprland + HyprPanel on Wayland with automated wallpaper rotation
+- **Terminal**: Ghostty everywhere (Kitty config also present); Alacritty was removed from the repo
+- **Desktop (NixOS only)**: Hyprland + HyprPanel on Wayland with automated wallpaper rotation
   - Hyprland config: `config/hypr/hyprland.conf`
   - System-level setup: `modules/hyprland.nix`
   - Wallpaper service: `home/services/random-wallpaper.nix`
   - Scripts: `config/scripts/random-wallpaper`, `config/scripts/hypr-focus-or-run`
+  - Not used on Omarchy — see [Omarchy Support](#omarchy-support)
 
 ## Common File Patterns
 

@@ -17,7 +17,12 @@ background-opacity = 0.9
 background-blur-radius = 20
 
 font-family = "MesloLGS Nerd Font Mono"
-font-size = 16
+font-size = 12
+
+# Launch fish explicitly rather than relying on $SHELL/passwd — a running
+# graphical session keeps the shell that was active at login until you log
+# out and back in, so this makes new windows correct immediately.
+command = fish
 
 # macOS font rendering improvements (no effect on Linux)
 # strength is a value between 0 and 255
