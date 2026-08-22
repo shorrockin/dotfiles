@@ -2,7 +2,7 @@ return {
 	-- blink.cmp: Fast completion plugin with LSP, snippet, and path support
 	-- https://github.com/saghen/blink.cmp
 	"saghen/blink.cmp",
-	version = "v0.*",
+	version = "1.*",
 	event = "InsertEnter",
 	dependencies = {
 		-- Keep LuaSnip for existing custom snippets
