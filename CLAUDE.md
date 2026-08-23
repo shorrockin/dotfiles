@@ -124,10 +124,21 @@ will fail.
 
 Separate from this repo's own `CLAUDE.md`/`AGENT.md` files — `common/dots/dot-agents/`
 (→ `~/.agents`, contains `AGENTS.md` + a `skills/` directory for future use)
-and `common/dots/dot-claude/` (→ `~/.claude`, contains only `CLAUDE.md` as a
-relative symlink to `../.agents/AGENTS.md`) are personal cross-tool agent
-configuration deployed to every machine via the normal `common/dots/` stow
-mechanism.
+and `common/dots/dot-claude/` (→ `~/.claude`, contains only `CLAUDE.md`) are
+personal cross-tool agent configuration deployed to every machine via the
+normal `common/dots/` stow mechanism.
+
+`dot-claude/CLAUDE.md` is a symlink to `../dot-agents/AGENTS.md` — i.e. it
+points at the sibling package's file *within the repo*, not at `~/.agents/AGENTS.md`
+directly. This matters: a relative symlink committed as stow package content
+resolves relative to its own on-disk location in the repo (stow only adds
+one symlink hop from the target into the repo; it never copies or relocates
+the file), so a target-relative path like `../.agents/AGENTS.md` would
+resolve relative to `common/dots/dot-claude/` and land on a nonexistent
+`common/dots/.agents/AGENTS.md` — exactly the bug this had until it was
+caught live. Pointing at the sibling package's real file instead means both
+`~/.claude/CLAUDE.md` and `~/.agents/AGENTS.md` independently resolve (via
+their own stow-created hop) to the same real file.
 
 **Skills are intentionally *not* symlinked between the two yet.**
 `~/.claude/skills/` already exists as a real, populated directory on a live
