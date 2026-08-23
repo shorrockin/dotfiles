@@ -19,16 +19,19 @@ it causes conflicts (duplicate bars, stale Lua vs. conf-format Hyprland config, 
   - `30-tmux-plugins.sh` — installs tmux's plugin manager (tpm) and its plugins
   - `40-steam-controller-udev.sh` — installs the Steam controller udev rule + `input` group membership
   - `50-hypr-overrides.sh` — wires `require("hypr.overrides")` into the live `~/.config/hypr/hyprland.lua`, validates via `hyprctl` if running
-  - `60-host-setup.sh` — dispatches to `hosts/$(hostname)/setup.sh` if present
+  - `60-host-setup.sh` — runs every script in `hosts/$(hostname)/setup.d/`, if present, in order
 - `config/`: Omarchy-only `~/.config` overlay, stowed as the `omarchy` platform
   root. Currently just `hypr/overrides.lua` — a hook Omarchy's own
   `hyprland.lua` loads (see below), not a full config replacement.
 - `hosts/<hostname>/`: per-machine setup, mirroring NixOS's `hosts/<name>.nix`
-  pattern. Each host directory can have a `setup.sh` (run by
+  pattern. Each host directory can have a `setup.d/` (numbered scripts, same
+  convention as the top-level `install.d/`, run in order by
   `install.d/60-host-setup.sh` only when the current hostname matches) and,
   if ever needed, a `config/` subfolder (stowed after `omarchy/config/`, so
   it can override individual files for that one machine). Today: `gustave/`
-  only, enabling NVIDIA hibernate/suspend systemd units.
+  only —`setup.d/10-nvidia-hibernate.sh` (NVIDIA hibernate/suspend systemd
+  units), `setup.d/20-nas-mount.sh` (Synology NAS CIFS mount, see below), and
+  `setup.d/30-nautilus-nas-bookmark.sh` (sidebar bookmark for that mount).
 - `udev/99-uinput-steam-controller.rules`: static udev rule (see below)
 - `backgrounds/catppuccin/`: wallpapers
 
@@ -86,6 +89,31 @@ only tracked file is `config/hypr/overrides.lua` (stowed to
 `~/.config/hypr/overrides.lua`), loaded via one appended
 `require("hypr.overrides")` line — a small hook for future tweaks without
 adopting Omarchy's whole config into git.
+
+## Synology NAS mount (gustave)
+
+`hosts/gustave/setup.d/20-nas-mount.sh` adds a CIFS mount of the Synology at
+`192.168.7.107` (`//192.168.7.107/Upload` → `/mnt/nas`) via `/etc/fstab`,
+using `x-systemd.automount,noauto,nofail,_netdev` so it mounts lazily on
+first access rather than blocking boot if the NAS is offline. This mirrors
+the mount this machine had when it ran NixOS (`nixos/modules/synology.nix`,
+now stale since gustave moved to Omarchy — that file isn't applied here).
+
+Credentials are **not** committed to the repo. The script creates a
+placeholder at `/etc/samba/smb-secrets` (root-only, mode 600) with empty
+`username=`/`password=` lines, and — only the first time it creates either
+the credentials file or the `fstab` entry — prints the exact follow-up
+commands (edit the credentials file, `daemon-reload`, then `cd /mnt/nas` or
+`sudo mount /mnt/nas` to trigger the automount). Re-running it once both
+already exist is silent/idempotent. If the NAS's IP, share name, or this
+machine's NAS-mount UID/GID ever change, edit the `NAS_*` variables at the
+top of the script *and* the already-written `fstab` line by hand — the
+script only ever appends, never rewrites, an existing entry.
+
+`setup.d/30-nautilus-nas-bookmark.sh` appends `/mnt/nas` to
+`~/.config/gtk-3.0/bookmarks` (Nautilus/GNOME Files' sidebar bookmark file,
+not stow-managed — it's real user data, not a dotfile) so the mount shows in
+the file manager sidebar. Idempotent like the others.
 
 ## No Alacritty
 
