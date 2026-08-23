@@ -4,10 +4,10 @@ config:
   icon-position: "left"
 
 icons:
-  claude:      ""
+  claude: ""
   claude-code: ""
-  ollama:      ""
-  codex:       ""
-  pay:         ""
-  nix:         "󱄅"
+  ollama: ""
+  codex: ""
+  pay: ""
+  nix: "󱄅"
   git-wrapper: ""
