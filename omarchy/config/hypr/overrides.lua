@@ -18,3 +18,11 @@ o.window({ class = "^steam_app_" }, { idle_inhibit = "always" })
 -- idle for any fullscreen window instead, which covers native games (almost
 -- always played fullscreen) without needing to know their class up front.
 o.window({ class = ".*" }, { idle_inhibit = "fullscreen" })
+
+-- Omarchy's default steam.lua floats the whole "steam" class, which also
+-- covers friend-message/achievement toast popups (same class, different
+-- title) -- those should stay floating. Tile only the main window and
+-- Friends List by title; this loads after that default rule, and an
+-- explicit `tile` rule is what overrides a broader `float` match.
+o.window({ class = "steam", title = "Steam" }, { tile = true })
+o.window({ class = "steam", title = "Friends List" }, { tile = true })
