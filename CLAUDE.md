@@ -61,9 +61,11 @@ omarchy/install.sh
 ```
 This installs missing packages (`fish`, `git-delta`, `stow`, `ttf-meslo-nerd`,
 `oh-my-posh-bin`), sets fish as the default shell, runs `config/scripts/dots
-stow`, installs tmux's plugin manager (tpm) and its plugins, and wires one
-`require("hypr.overrides")` line into the live `~/.config/hypr/hyprland.lua`.
-It's safe to re-run as it grows — every step checks current state first.
+stow`, installs tmux's plugin manager (tpm) and its plugins, installs a udev
+rule + `input` group membership for the Steam controller (see below), and
+wires one `require("hypr.overrides")` line into the live
+`~/.config/hypr/hyprland.lua`. It's safe to re-run as it grows — every step
+checks current state first.
 
 Two gotchas this uncovered on first run, fixed at the config level (not
 Omarchy-specific, apply on every platform):
@@ -74,6 +76,14 @@ Omarchy-specific, apply on every platform):
   already running keeps its original `$SHELL`. `config/ghostty/config` sets
   `command = fish` explicitly so new terminal windows are correct immediately,
   without needing a logout.
+
+**Steam controller udev rule**: Arch's `steam-devices` package grants
+`/dev/uinput` access via a dynamic `uaccess` ACL tied to the logind seat
+session, which doesn't reliably apply in time for Steam's controller "Desktop
+Configuration" virtual-gamepad emulation. `omarchy/udev/99-uinput-steam-controller.rules`
+is a static fallback (permanent `input` group ownership, mode 0660) that
+`install.sh` copies to `/etc/udev/rules.d/`, reloading udev and adding the
+user to the `input` group as needed.
 
 `dots` itself handles the "fresh Omarchy install already has real stock config
 files" problem: before each stow, it dry-runs and moves any pre-existing real

@@ -1,0 +1,6 @@
+# steam-devices' own 60-steam-input.rules grants /dev/uinput access via a
+# dynamic uaccess ACL tied to the logind seat session, which doesn't always
+# apply in time for Steam's controller "Desktop Configuration" virtual-gamepad
+# emulation. This is a static fallback: permanently group-own /dev/uinput so
+# any member of the `input` group gets access regardless of seat ACL timing.
+KERNEL=="uinput", SUBSYSTEM=="misc", GROUP="input", MODE="0660"

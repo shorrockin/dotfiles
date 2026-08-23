@@ -2,11 +2,12 @@
 #
 # Bootstrap this dotfiles repo on an Omarchy box: installs missing packages,
 # backs up stock config that would conflict with stow, symlinks everything via
-# `dots`, and wires the one Hyprland override hook into hyprland.lua.
+# `dots`, installs the Steam controller udev rule, and wires the one Hyprland
+# override hook into hyprland.lua.
 #
-# Safe to re-run: package installs, the tmux plugin clone, and the
-# hyprland.lua edit are all idempotent, and `dots` only backs up a target
-# when it's a real (non-symlink) file/dir in the way of stow.
+# Safe to re-run: package installs, the tmux plugin clone, the udev rule
+# install, and the hyprland.lua edit are all idempotent, and `dots` only
+# backs up a target when it's a real (non-symlink) file/dir in the way of stow.
 
 set -e
 
@@ -40,6 +41,24 @@ if [ ! -d ~/.tmux/plugins/tpm ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 ~/.tmux/plugins/tpm/bin/install_plugins
+
+echo "== Installing Steam controller udev rule =="
+UDEV_RULE_SRC="$DOTFILES_DIR/omarchy/udev/99-uinput-steam-controller.rules"
+UDEV_RULE_DST=/etc/udev/rules.d/99-uinput-steam-controller.rules
+if ! cmp -s "$UDEV_RULE_SRC" "$UDEV_RULE_DST" 2>/dev/null; then
+  sudo cp "$UDEV_RULE_SRC" "$UDEV_RULE_DST"
+  sudo udevadm control --reload-rules
+  sudo udevadm trigger
+  echo "  Installed and reloaded udev rules."
+else
+  echo "  Already up to date."
+fi
+if ! id -nG "$USER" | grep -qw input; then
+  sudo usermod -aG input "$USER"
+  echo "  Added $USER to the 'input' group. Log out and back in for it to take effect."
+else
+  echo "  $USER already in the 'input' group."
+fi
 
 echo "== Wiring hypr override hook into hyprland.lua =="
 HYPRLAND_LUA=~/.config/hypr/hyprland.lua
