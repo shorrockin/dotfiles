@@ -158,7 +158,7 @@ budget_str=""
 
 # ── Computed Values ──────────────────────────────────────────────────────
 project=$(basename "$project_dir")
-path=$("$HOME/dotfiles/config/scripts/short-path" "$cwd")
+path=$("$HOME/dotfiles/common/config/scripts/short-path" "$cwd")
 
 # Context
 ctx_used=$(( input_tokens + cache_read + cache_write ))
