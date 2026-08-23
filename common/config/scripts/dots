@@ -29,9 +29,12 @@ fi
 
 echo "Platform: $PLATFORM"
 
-# Stow refuses to link over a pre-existing real file/dir (e.g. stock configs
-# on a fresh install). Rather than hard-failing, move those aside so stow can
-# proceed — never deletes anything, just renames with a timestamp suffix.
+# Stow refuses to link over two kinds of pre-existing target: a real file/dir
+# (e.g. stock configs on a fresh install) and a symlink it doesn't recognize
+# as its own (e.g. a stale symlink left over from a repo restructuring, still
+# pointing at a path that no longer exists). Rather than hard-failing on
+# either, move those aside so stow can proceed — never deletes anything, just
+# renames with a timestamp suffix.
 resolve_stow_conflicts() {
   local dir="$1" target="$2" pkg="$3"
   shift 3
@@ -42,13 +45,15 @@ resolve_stow_conflicts() {
     output=$(stow -n --dir="$dir" --target="$target" "${ignore_args[@]}" "$pkg" 2>&1) || true
 
     local conflicts
-    conflicts=$(printf '%s\n' "$output" | sed -n 's/.*over existing target \(.*\) since neither a link.*/\1/p')
+    conflicts=$(printf '%s\n' "$output" | sed -n \
+      -e 's/.*over existing target \(.*\) since neither a link.*/\1/p' \
+      -e 's/.*existing target is not owned by stow: \(.*\)/\1/p')
     [ -z "$conflicts" ] && return 0
 
     while IFS= read -r rel; do
       [ -z "$rel" ] && continue
       local full="$target/$rel"
-      if [ -e "$full" ] && [ ! -L "$full" ]; then
+      if [ -e "$full" ] || [ -L "$full" ]; then
         local backup="${full}.pre-stow-backup.$(date +%s)"
         echo "  Existing config would conflict, backing up: $full → $backup"
         mkdir -p "$(dirname "$backup")"
