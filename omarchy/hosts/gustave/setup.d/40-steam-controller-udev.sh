@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-UDEV_RULE_SRC="$DOTFILES_DIR/omarchy/udev/99-uinput-steam-controller.rules"
+UDEV_RULE_SRC="$DOTFILES_DIR/omarchy/hosts/gustave/udev/99-uinput-steam-controller.rules"
 UDEV_RULE_DST=/etc/udev/rules.d/99-uinput-steam-controller.rules
 if ! cmp -s "$UDEV_RULE_SRC" "$UDEV_RULE_DST" 2>/dev/null; then
   sudo cp "$UDEV_RULE_SRC" "$UDEV_RULE_DST"

@@ -17,22 +17,25 @@ it causes conflicts (duplicate bars, stale Lua vs. conf-format Hyprland config, 
   - `10-shell.sh` — sets fish as the default shell
   - `20-stow.sh` — runs `common/config/scripts/dots stow`
   - `30-tmux-plugins.sh` — installs tmux's plugin manager (tpm) and its plugins
-  - `40-steam-controller-udev.sh` — installs the Steam controller udev rule + `input` group membership
-  - `50-hypr-overrides.sh` — wires `require("hypr.overrides")` into the live `~/.config/hypr/hyprland.lua`, validates via `hyprctl` if running
-  - `60-host-setup.sh` — runs every script in `hosts/$(hostname)/setup.d/`, if present, in order
+  - `40-hypr-overrides.sh` — wires `require("hypr.overrides")` into the live `~/.config/hypr/hyprland.lua`, validates via `hyprctl` if running
+  - `50-host-setup.sh` — runs every script in `hosts/$(hostname)/setup.d/`, if present, in order
 - `config/`: Omarchy-only `~/.config` overlay, stowed as the `omarchy` platform
   root. Currently just `hypr/overrides.lua` — a hook Omarchy's own
   `hyprland.lua` loads (see below), not a full config replacement.
 - `hosts/<hostname>/`: per-machine setup, mirroring NixOS's `hosts/<name>.nix`
   pattern. Each host directory can have a `setup.d/` (numbered scripts, same
   convention as the top-level `install.d/`, run in order by
-  `install.d/60-host-setup.sh` only when the current hostname matches) and,
-  if ever needed, a `config/` subfolder (stowed after `omarchy/config/`, so
-  it can override individual files for that one machine). Today: `gustave/`
-  only —`setup.d/10-nvidia-hibernate.sh` (NVIDIA hibernate/suspend systemd
-  units), `setup.d/20-nas-mount.sh` (Synology NAS CIFS mount, see below), and
-  `setup.d/30-nautilus-nas-bookmark.sh` (sidebar bookmark for that mount).
-- `udev/99-uinput-steam-controller.rules`: static udev rule (see below)
+  `install.d/50-host-setup.sh` only when the current hostname matches),
+  a `udev/` subfolder for host-specific udev rules referenced by one of those
+  scripts, and, if ever needed, a `config/` subfolder (stowed after
+  `omarchy/config/`, so it can override individual files for that one
+  machine). Today: `gustave/` only — `setup.d/10-nvidia-hibernate.sh` (NVIDIA
+  hibernate/suspend systemd units), `setup.d/20-nas-mount.sh` (Synology NAS
+  CIFS mount, see below), `setup.d/30-nautilus-nas-bookmark.sh` (sidebar
+  bookmark for that mount), and `setup.d/40-steam-controller-udev.sh` +
+  `udev/99-uinput-steam-controller.rules` (Steam controller udev rule, see
+  below — gustave-specific because that's the only machine with a Steam
+  controller).
 - `backgrounds/catppuccin/`: wallpapers
 
 ## Bootstrap a new Omarchy box
@@ -53,15 +56,18 @@ Omarchy-specific, apply on every platform):
   sets `command = fish` explicitly so new terminal windows are correct
   immediately, without needing a logout.
 
-## Steam controller udev rule
+## Steam controller udev rule (gustave)
 
 Arch's `steam-devices` package grants `/dev/uinput` access via a dynamic
 `uaccess` ACL tied to the logind seat session, which doesn't reliably apply
 in time for Steam's controller "Desktop Configuration" virtual-gamepad
-emulation. `udev/99-uinput-steam-controller.rules` is a static fallback
-(permanent `input` group ownership, mode 0660) that
-`install.d/40-steam-controller-udev.sh` copies to `/etc/udev/rules.d/`,
-reloading udev and adding the user to the `input` group as needed.
+emulation. `hosts/gustave/udev/99-uinput-steam-controller.rules` is a static
+fallback (permanent `input` group ownership, mode 0660) that
+`hosts/gustave/setup.d/40-steam-controller-udev.sh` copies to
+`/etc/udev/rules.d/`, reloading udev and adding the user to the `input`
+group as needed. Gustave-specific (not top-level `install.d/`) because it's
+the only machine with a physical Steam controller — a different host that
+picks one up should have this promoted back to a shared `install.d/` step.
 
 ## What `common/config/scripts/dots` does on Omarchy
 
