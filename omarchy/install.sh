@@ -56,6 +56,9 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
   hyprctl configerrors
 fi
 
+echo "== Running machine-specific setup =="
+"$DOTFILES_DIR/omarchy/gustave.sh"
+
 echo "== Done =="
 echo "Backed-up stock configs (safe to delete once you've confirmed you don't need them): find ~/.config -name '*.pre-stow-backup.*'"
 echo "fish: run 'omarchy restart terminal' or open a new terminal to pick it up."
