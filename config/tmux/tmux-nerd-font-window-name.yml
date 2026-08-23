@@ -6,6 +6,7 @@ config:
 icons:
   claude: ""
   claude-code: ""
+  agy: ""
   ollama: ""
   codex: ""
   pay: ""
