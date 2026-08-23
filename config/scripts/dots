@@ -119,7 +119,9 @@ if [ -d "$DOTFILES_DIR/config" ]; then
   # (Lua-based hypr config + its own Quickshell bar/launcher/notifications), so
   # never stow these on Omarchy or they'll sit as dead/conflicting config next
   # to Omarchy's own.
-  OMARCHY_EXCLUDE=("hypr" "hyprpanel" "waybar" "swaync" "wlogout" "rofi" "walker" "quickshell" "vicinae")
+  # fastfetch is here too: our config is NixOS-tailored, and Omarchy's stock
+  # fastfetch (no config file — just its built-in default) should stand as-is.
+  OMARCHY_EXCLUDE=("hypr" "hyprpanel" "waybar" "swaync" "wlogout" "rofi" "walker" "quickshell" "vicinae" "fastfetch")
 
   # Files that are NixOS-only regardless of directory (voice dictation is
   # handled by Omarchy's own voxtype there instead)

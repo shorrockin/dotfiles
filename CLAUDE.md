@@ -85,6 +85,9 @@ file/dir that would conflict (Omarchy's stock LazyVim starter at
 platform detection): `hypr`, `hyprpanel`, `waybar`, `swaync`, `wlogout`, `rofi`,
 `walker`, `quickshell`, `vicinae`, and the `dictation` script. Omarchy's own
 Quickshell shell, Lua Hyprland config, and `voxtype` dictation replace these.
+`fastfetch` is excluded too — Omarchy ships no config of its own for it (just
+fastfetch's built-in default), so the repo's NixOS-tailored config shouldn't
+override that.
 
 **Hypr overrides**: Omarchy's `hyprland.lua` already loads user files after its
 own defaults (`require("hypr.bindings")`, `require("hypr.monitors")`, etc.) —
