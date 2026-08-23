@@ -5,176 +5,60 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Table of Contents
 
 - [Repository Overview](#repository-overview)
-- [NixOS Environment Notes](#nixos-environment-notes)
-- [Omarchy Support](#omarchy-support)
+- [Platform-First Directory Layout](#platform-first-directory-layout)
 - [Common Commands](#common-commands)
-  - [NixOS System Management](#nixos-system-management)
-  - [Traditional Dotfile Management](#traditional-dotfile-management)
-- [Architecture](#architecture)
-  - [Directory Structure](#directory-structure)
-  - [Key Configuration Modules](#key-configuration-modules)
-  - [Home Manager Modules](#home-manager-modules)
-  - [Application Configurations](#application-configurations)
-- [Common File Patterns](#common-file-patterns)
-- [Configuration Management Notes](#configuration-management-notes)
-  - [Symlink Management](#symlink-management)
-  - [Git Integration](#git-integration)
+- [Symlink Management](#symlink-management)
+- [Git Integration](#git-integration)
 - [Development Conventions](#development-conventions)
+- [Platform-Specific Docs](#platform-specific-docs)
 
 ## Repository Overview
 
-This is a **cross-platform dotfiles repository** designed for NixOS, macOS, and Omarchy (Arch + Hyprland) systems with hybrid configuration management:
-
-- **NixOS System Configuration**: Declarative system configuration using Nix flakes (Linux)
-- **Home Manager**: Declarative user-level configuration for packages, services, and themes (NixOS only)
-- **Traditional Dotfiles**: GNU Stow-based symlink management for application configs (works on NixOS, macOS, and Omarchy)
-- **Omarchy Support**: A third `dots` platform profile plus `omarchy/install.sh` for bootstrapping an [Omarchy](https://omarchy.org/) box — see [Omarchy Support](#omarchy-support) below
+This is a **cross-platform dotfiles repository** for NixOS, macOS, and
+Omarchy (Arch + Hyprland), managed with GNU Stow. The directory structure
+itself is the source of truth for what belongs to which platform — see
+below — rather than that being encoded in ignore-lists inside a script.
 
 The repository assumes it's cloned to `~/dotfiles`.
 
-**IMPORTANT**: This configuration supports NixOS, macOS, and Omarchy environments. Application configs (Fish, Neovim, Tmux, Ghostty, etc.) are portable via Stow-managed symlinks. Home Manager handles user packages, systemd services, and theming on NixOS only — it does not run on Omarchy. Nix/NixOS-specific files (`flake.nix`, `hosts/`, `modules/`, `home/`) are irrelevant on Omarchy and macOS.
+## Platform-First Directory Layout
 
-## NixOS Environment Notes
-
-**Command Locations**: On NixOS, system commands are not in traditional locations (`/bin`, `/usr/bin`). If a command fails to run, use the full path from `/run/current-system/sw/bin/`. For example:
-- `/run/current-system/sw/bin/ls`
-- `/run/current-system/sw/bin/cat`
-- `/run/current-system/sw/bin/grep`
-
-**CRITICAL: Never run `nixos-rebuild` directly** - it requires sudo password input which Claude cannot provide. **ALWAYS instruct the user to run the rebuild command themselves.** Make the necessary config file changes, then explicitly ask the user to run:
-```bash
-sudo nixos-rebuild switch --flake .#gustave
+```
+~/dotfiles/
+├── common/     # ships on every platform — dots/ (→ ~) and config/ (→ ~/.config)
+├── nixos/      # NixOS-only: flake.nix, hosts/, modules/, home/ (Home Manager), config/
+├── macos/      # macOS-only: dots/, config/
+└── omarchy/    # Omarchy-only: install.sh, install.d/, config/, hosts/<hostname>/
 ```
 
-## Omarchy Support
+Every platform directory that has home-directory dotfiles or `~/.config`
+content uses the exact same two stow package names — `dots` and `config` —
+stowed from that root. `common/config/scripts/dots` (the stow wrapper)
+always stows `common/` first, then whichever platform root matches the
+current machine (detected via `$OSTYPE` and the presence of
+`/usr/share/omarchy`). This means a directory's *location* in the repo is
+what determines whether it ships on a given machine — nothing else decides
+this, and there are no per-directory ignore-lists to keep in sync.
 
-[Omarchy](https://omarchy.org/) is Arch Linux + Hyprland with its own opinionated
-config layer (Lua-based Hyprland config, a Quickshell-based bar/launcher/notification
-shell, its own theme system). This repo treats it as a third platform alongside
-NixOS and macOS, but deliberately does **not** try to port the NixOS raw-Hyprland
-stack onto it — Omarchy already owns that layer, and fighting it causes conflicts
-(duplicate bars, stale Lua vs. conf-format Hyprland config, etc).
-
-**Bootstrap a new Omarchy box:**
-```bash
-omarchy/install.sh
-```
-This installs missing packages (`fish`, `git-delta`, `stow`, `ttf-meslo-nerd`,
-`oh-my-posh-bin`), sets fish as the default shell, runs `config/scripts/dots
-stow`, installs tmux's plugin manager (tpm) and its plugins, installs a udev
-rule + `input` group membership for the Steam controller (see below), and
-wires one `require("hypr.overrides")` line into the live
-`~/.config/hypr/hyprland.lua`. It's safe to re-run as it grows — every step
-checks current state first.
-
-Two gotchas this uncovered on first run, fixed at the config level (not
-Omarchy-specific, apply on every platform):
-- tmux prefers `~/.config/tmux/tmux.conf` (XDG) over legacy `~/.tmux.conf` —
-  the repo's tmux config now lives at `config/tmux/tmux.conf` instead of
-  `dots/dot-tmux.conf` so it isn't shadowed by a stock XDG file.
-- `chsh` only takes effect for a *new* login session — a graphical session
-  already running keeps its original `$SHELL`. `config/ghostty/config` sets
-  `command = fish` explicitly so new terminal windows are correct immediately,
-  without needing a logout.
-
-**Steam controller udev rule**: Arch's `steam-devices` package grants
-`/dev/uinput` access via a dynamic `uaccess` ACL tied to the logind seat
-session, which doesn't reliably apply in time for Steam's controller "Desktop
-Configuration" virtual-gamepad emulation. `omarchy/udev/99-uinput-steam-controller.rules`
-is a static fallback (permanent `input` group ownership, mode 0660) that
-`install.sh` copies to `/etc/udev/rules.d/`, reloading udev and adding the
-user to the `input` group as needed.
-
-`dots` itself handles the "fresh Omarchy install already has real stock config
-files" problem: before each stow, it dry-runs and moves any pre-existing real
-file/dir that would conflict (Omarchy's stock LazyVim starter at
-`~/.config/nvim`, stock `btop.conf`, `ghostty/config`, etc.) aside to
-`*.pre-stow-backup.<timestamp>` — never deletes, so nothing is lost.
-
-**What's excluded on Omarchy** (stays NixOS-only, handled by the `dots` script's
-platform detection): `hypr`, `hyprpanel`, `waybar`, `swaync`, `wlogout`, `rofi`,
-`walker`, `quickshell`, `vicinae`, and the `dictation` script. Omarchy's own
-Quickshell shell, Lua Hyprland config, and `voxtype` dictation replace these.
-`fastfetch` is excluded too — Omarchy ships no config of its own for it (just
-fastfetch's built-in default), so the repo's NixOS-tailored config shouldn't
-override that.
-
-**Hypr overrides**: Omarchy's `hyprland.lua` already loads user files after its
-own defaults (`require("hypr.bindings")`, `require("hypr.monitors")`, etc.) —
-those six files stay local/untracked on purpose, using Omarchy's defaults as-is.
-The only tracked file is `omarchy/hypr/overrides.lua` (stowed to
-`~/.config/hypr/overrides.lua`), loaded via one appended
-`require("hypr.overrides")` line — a small hook for future tweaks without
-adopting Omarchy's whole config into git.
-
-**No Alacritty**: removed from the repo entirely (all platforms) — Ghostty is
-the terminal everywhere now.
+See each platform directory's own `CLAUDE.md` for what it actually contains
+and platform-specific setup/notes — [Platform-Specific Docs](#platform-specific-docs) below.
 
 ## Common Commands
 
-### NixOS System Management
-
-**Rebuild NixOS system (includes Home Manager):**
+**Initial setup — symlinks everything applicable to this platform:**
 ```bash
-# User must run manually - Claude cannot execute this
-sudo nixos-rebuild switch --flake .#gustave
-```
-
-**Expected output (successful):**
-```
-building the system configuration...
-activating the configuration...
-setting up /etc...
-reloading user units...
-setting up tmpfiles
-```
-
-**Update flake inputs:**
-```bash
-nix flake update
-```
-
-**Expected output:**
-```
-warning: updating lock file '/home/username/dotfiles/flake.lock':
-• Updated input 'nixpkgs':
-    'github:NixOS/nixpkgs/abc123...' (2024-01-15)
-  → 'github:NixOS/nixpkgs/def456...' (2024-01-20)
-```
-
-**Validation:**
-```bash
-# Verify flake configuration is valid
-nix flake check
-
-# View current system generation
-nixos-rebuild list-generations
-
-# Check Home Manager status
-systemctl --user status home-manager-*
-
-# List Home Manager managed packages
-home-manager packages
-```
-
-### Traditional Dotfile Management
-
-**Initial setup - symlinks all dotfiles:**
-```bash
-config/scripts/dots stow
+common/config/scripts/dots stow
 ```
 
 **Re-link dotfiles (useful after changes):**
 ```bash
-config/scripts/dots restow
+common/config/scripts/dots restow
 ```
 
 **Remove all symlinks:**
 ```bash
-config/scripts/dots delete
+common/config/scripts/dots delete
 ```
-
-The `dots` script is platform-aware across three profiles: on macOS it skips Linux-only configs (Hyprland, Waybar, etc.); on Omarchy it additionally skips the raw-Hyprland/bar stack (Omarchy owns that layer itself — see [Omarchy Support](#omarchy-support)); on plain NixOS/Linux it skips macOS-only configs (Aerospace) and stows everything else, including the raw-Hyprland stack.
 
 **Validation:**
 ```bash
@@ -183,153 +67,83 @@ ls -la ~/.config/ | grep "\->"
 
 # Verify a specific symlink target
 readlink ~/.config/fish/config.fish
-# Should return: /home/username/dotfiles/config/fish/config.fish
+# Should return: /home/username/dotfiles/common/config/fish/config.fish (or nixos/macos/omarchy, depending)
 
 # Check for stow conflicts (dry run before actual stow)
-stow -n -d ~/dotfiles -t ~/ dots
-stow -n -d ~/dotfiles/config -t ~/.config/ .
+stow -n --dir=~/dotfiles/common --target=~/.config config
 ```
 
-## Architecture
+For NixOS-specific commands (rebuild, flake update, Home Manager) see
+`nixos/CLAUDE.md`. For Omarchy bootstrap see `omarchy/CLAUDE.md`.
 
-### Directory Structure
+## Symlink Management
 
-- `flake.nix` + `flake.lock`: Nix flake system definition with Home Manager integration
-- `hosts/`: Host-specific NixOS configurations (currently `gustave.nix`)
-- `modules/`: System-level NixOS configuration components
-  - See [Key Configuration Modules](#key-configuration-modules) for details
-- `home/`: Home Manager user-level configurations (NixOS only)
-  - See [Home Manager Modules](#home-manager-modules) for details
-- `config/`: Application configs that get **symlinked to `~/.config/`** via stow
-  - **Important**: Files here are symlinked, not copied. Changes to `~/dotfiles/config/*` appear immediately in `~/.config/`
-  - Includes the NixOS-only raw-Hyprland stack (`hypr`, `waybar`, `hyprpanel`, `swaync`, `wlogout`, `rofi`, `walker`, `quickshell`, `vicinae`) — excluded on Omarchy, see [Omarchy Support](#omarchy-support)
-- `dots/`: Home directory dotfiles that get **symlinked to `~/`** via stow
-  - Examples: `.gitconfig`, `.tmux.conf`, etc.
-- `omarchy/`: Omarchy-only overrides + `install.sh` bootstrap — see [Omarchy Support](#omarchy-support)
-
-### Key Configuration Modules
-
-These are system-level NixOS modules located in `modules/`:
-
-- `modules/system.nix`: Core system settings and services
-- `modules/packages.nix`: System-level package declarations and program enablement (fish, firefox, steam)
-- `modules/hyprland.nix`: Wayland compositor setup, SDDM display manager, XDG portals
-- `modules/nvidia.nix`: GPU drivers and configuration
-- `modules/users.nix`: User account, shell, and groups
-- `modules/synology.nix`: NAS SMB mount configuration
-- `modules/bambustudio.nix`: 3D printer slicer AppImage wrapper
-
-### Home Manager Modules
-
-These are user-level configurations managed by Home Manager, located in `home/`:
-
-- `home/default.nix`: Main Home Manager entry point
-- `home/packages.nix`: User-level package declarations (CLI tools, dev languages, editors, GUI apps)
-- `home/services/random-wallpaper.nix`: Systemd user service/timer for wallpaper rotation
-- `home/services/gtk.nix`: GTK/Qt theming, cursor theme, dconf settings, environment variables
-- `home/programs/hyprflow.nix`: Custom voice-to-text tool built from source
-
-### Application Configurations
-
-Core application configurations located in `config/` (symlinked to `~/.config/` via Stow):
-
-- **Shell**: Fish (primary) with oh-my-posh prompt
-- **Editor**: Neovim with Lazy.nvim plugin manager
-  - Plugin configuration: `config/nvim/lua/plugins/`
-- **Terminal**: Ghostty everywhere (Kitty config also present); Alacritty was removed from the repo
-- **Desktop (NixOS only)**: Hyprland + HyprPanel on Wayland with automated wallpaper rotation
-  - Hyprland config: `config/hypr/hyprland.conf`
-  - System-level setup: `modules/hyprland.nix`
-  - Wallpaper service: `home/services/random-wallpaper.nix`
-  - Scripts: `config/scripts/random-wallpaper`, `config/scripts/hypr-focus-or-run`
-  - Not used on Omarchy — see [Omarchy Support](#omarchy-support)
-
-## Common File Patterns
-
-When making changes, Claude should look for related configurations in these locations:
-
-### Shell Configuration
-- Fish: `config/fish/config.fish`, `config/fish/functions/`
-- Oh-my-posh: `config/oh-my-posh/`
-- Environment variables: `config/fish/conf.d/`
-
-### Editor Configuration
-- Neovim core: `config/nvim/init.lua`, `config/nvim/lua/`
-- Plugins: `config/nvim/lua/plugins/*.lua`
-- LSP config: `config/nvim/lua/plugins/lsp.lua`
-
-### Window Manager / Desktop
-- Hyprland: `config/hypr/hyprland.conf`, `modules/hyprland.nix`
-- HyprPanel: `config/hyprpanel/`
-- Keybindings: `config/hypr/hyprland.conf` (see binds section)
-
-### Custom Scripts
-- Location: `config/scripts/`
-- Common scripts:
-  - `config/scripts/dots`: Stow wrapper for dotfile management (platform-aware)
-
-### NixOS System Configuration
-- Main flake: `flake.nix`
-- Host config: `hosts/gustave.nix`
-- System modules: `modules/*.nix`
-- User modules: `home/*.nix`
-
-### Git Configuration
-- Main config: `dots/.gitconfig`
-- Personal/work separation: `dots/.gitconfig.personal`, etc.
-
-## Configuration Management Notes
-
-### Symlink Management
-
-**Critical Understanding**: The `config/scripts/dots stow` command creates **symbolic links** from this repository to your home directory:
-
-- `~/dotfiles/config/*` → `~/.config/*`
-- `~/dotfiles/dots/*` → `~/*`
+**Critical Understanding**: `common/config/scripts/dots` creates **symbolic
+links** from this repository into your home directory — `<root>/dots/dot-X`
+→ `~/.X`, `<root>/config/Y` → `~/.config/Y` — for `<root>` = `common` and
+whichever platform root applies.
 
 This means:
-- Changes made to files in `~/dotfiles/config/` are **immediately reflected** in `~/.config/`
-- You don't need to "re-install" configs after editing them
-- If you modify a file through `~/.config/`, you're actually editing the file in `~/dotfiles/config/`
+- Changes made to files in this repo are **immediately reflected** at their
+  symlink target — no "re-install" needed after editing.
+- If you modify a file through `~/.config/` or `~`, you're actually editing
+  the file in this repo.
+- Running `dots stow`/`restow` on multiple roots into the same target
+  (e.g. `common/config/` and `nixos/config/` both symlinking into
+  `~/.config/`) is safe: stow's bookkeeping is derived by walking the target
+  and resolving existing symlinks, not by keeping cross-invocation state, and
+  by construction each `~/.config` subdirectory is owned by exactly one root.
+  The one deliberately multi-root case is `~/.config/scripts/`, a real
+  pre-created directory that multiple roots plant individual file-level
+  symlinks into.
+- **Platform-switch caveat**: if a machine's detected platform ever changes
+  (e.g. a box reprovisioned from Omarchy to NixOS), symlinks from the old
+  platform root won't be cleaned up by a plain `stow`/`restow` — run
+  `dots delete` on the old checkout first, or manually prune dangling links.
 
-The stow script is platform-aware and skips configs that don't apply to the current OS.
+`dots` also handles the "fresh install already has real stock config files"
+problem: before each stow, it dry-runs and moves any pre-existing real
+file/dir that would conflict aside to `*.pre-stow-backup.<timestamp>` —
+never deletes, so nothing is lost.
 
-### Git Integration
-- NixOS system changes via `nix flake update` and manual `nixos-rebuild` (user-initiated only)
+## Git Integration
+
 - Standard git workflows for dotfile changes
-- Multiple gitconfig files for personal/work separation
-- Delta configured for enhanced git diffs
+- Multiple gitconfig files for personal/work separation (`common/dots/dot-gitconfig`, `dot-personal.gitconfig`)
+- Delta configured for enhanced git diffs (`common/config/delta/`)
+- NixOS system changes via `nix flake update` and manual `nixos-rebuild` (user-initiated only — see `nixos/CLAUDE.md`)
 
 ## Development Conventions
 
-### Package Management Patterns
-
-- **System packages**: Add to `modules/packages.nix` - for packages that need system-level access or NixOS module enablement (e.g., `programs.steam.enable`)
-- **User packages**: Add to `home/packages.nix` - for CLI tools, editors, dev languages, GUI apps. Managed by Home Manager.
-- **Unstable Packages**: The flake injects `pkgs-unstable` into both NixOS modules and Home Manager via `specialArgs`. Use in Home Manager modules like this:
-  ```nix
-  { config, pkgs, pkgs-unstable, ... }:
-  {
-    home.packages = [ pkgs-unstable.some-new-package ];
-  }
-  ```
-
-### Home Manager Usage
-
-Home Manager is used for NixOS-specific user-level configuration:
-1. **User packages** (`home/packages.nix`): All user-installed software
-2. **User systemd services** (`home/services/`): Wallpaper rotation, theme application
-3. **GTK/Qt theming** (`home/services/gtk.nix`): Declarative theme, icon, and cursor configuration
-4. **Custom packages** (`home/programs/`): Packages built from source (e.g., hyprflow)
-
-Application config files (Hyprland, Waybar, Fish, Neovim, etc.) are still managed via Stow for instant editing without rebuilds.
-
-Home Manager is integrated as a NixOS module - a single `sudo nixos-rebuild switch --flake .#gustave` rebuilds both system and user configuration.
-
 ### Shell Script Shebangs
-**Always use `#!/usr/bin/env bash`** (not `#!/bin/bash`) when creating or modifying shell scripts. NixOS does not have `/bin/bash`, so hardcoded paths will fail.
+**Always use `#!/usr/bin/env bash`** (not `#!/bin/bash`) when creating or
+modifying shell scripts. NixOS does not have `/bin/bash`, so hardcoded paths
+will fail.
 
-### Neovim Configuration Strategy
-The `dots` script specifically pre-creates subdirectories for Neovim (`~/.config/nvim/lua`, `plugins`, etc.) *before* stowing.
-- **Why**: This allows mixing symlinked public config with private/local files that aren't in the repo across different environments and operating system
-- **Implication**: When adding new Neovim directories, ensure they are compatible with this "partial stow" approach.
+### Shared Agent Config (`~/.agents`, `~/.claude`)
+
+Separate from this repo's own `CLAUDE.md`/`AGENT.md` files — `common/dots/dot-agents/`
+(→ `~/.agents`, contains `AGENTS.md` + a `skills/` directory for future use)
+and `common/dots/dot-claude/` (→ `~/.claude`, contains only `CLAUDE.md` as a
+relative symlink to `../.agents/AGENTS.md`) are personal cross-tool agent
+configuration deployed to every machine via the normal `common/dots/` stow
+mechanism.
+
+**Skills are intentionally *not* symlinked between the two yet.**
+`~/.claude/skills/` already exists as a real, populated directory on a live
+Claude Code install (on Omarchy it's individual per-skill symlinks to
+`/usr/share/omarchy/default/agents/skills/...`) — stow can't safely fold a
+directory-level `skills` symlink into an already-real directory it doesn't
+own (confirmed the hard way: it crashes stow's unstow phase with
+`unstow_contents() called with non-directory path`, mid-restow, on a live
+machine). Sharing skills between `~/.claude` and `~/.agents` needs either
+per-skill symlinks (enumerated individually, `--adopt`, or handled outside
+stow) or some other mechanism — left as a deliberate follow-up, not attempted
+here.
+
+## Platform-Specific Docs
+
+- [`common/CLAUDE.md`](common/CLAUDE.md) — shared config, Neovim strategy, scripts convention
+- [`nixos/CLAUDE.md`](nixos/CLAUDE.md) — flake/modules/Home Manager, rebuild commands, package management patterns
+- [`macos/CLAUDE.md`](macos/CLAUDE.md) — Aerospace/yabai/skhd
+- [`omarchy/CLAUDE.md`](omarchy/CLAUDE.md) — bootstrap (`install.sh`/`install.d/`), host profiles, udev rule, hypr overrides

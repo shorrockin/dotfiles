@@ -29,7 +29,7 @@
   hardware.steam-hardware.enable = true;
 
   # Logitech wireless devices: udev rules (so the mouse's hidraw is user-accessible)
-  # and solaar (used by config/scripts/mouse-battery to query battery % over HID++,
+  # and solaar (used by common/config/scripts/mouse-battery to query battery % over HID++,
   # since the kernel only caches a coarse capacity_level on reconnect).
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true;

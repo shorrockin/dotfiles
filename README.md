@@ -1,31 +1,44 @@
 # Dotfiles
-This contains all the dotfiles used across various environments. 
+
+This contains all the dotfiles used across various environments (NixOS,
+macOS, Omarchy). The directory layout is platform-first — `common/`,
+`nixos/`, `macos/`, `omarchy/` — see `CLAUDE.md` for the full explanation.
 A lot of the instructions and scripts assume it is git cloned in your home directory.
 
 ## Stow
-This uses [gnu stow](https://www.gnu.org/software/stow/) to symlink all dotfiles to the home directory. 
-You can install things (on osx) with:
+This uses [gnu stow](https://www.gnu.org/software/stow/) to symlink dotfiles
+into the home directory. You can install it (on macOS) with:
 ```
 > brew install stow
 ```
-The setup script is only needed for environments where you may have a separate overlay collection of 
-scripts (work env) that may be needed. Then you can use it to symlink the dotfiles.
+Symlink everything applicable to the current platform:
 ```
-> config/scripts/dots stow
+> common/config/scripts/dots stow
 ```
 Clean them up with:
 ```
-> config/scripts/dots delete
+> common/config/scripts/dots delete
 ```
 Restow with:
 ```
-> config/scripts/dots restow
+> common/config/scripts/dots restow
 ```
 
-`dots` should be in the path after the first stow, at which point you should not need to fully qualify it.
+`dots` should be on your `PATH` after the first stow (it's inside
+`common/config/scripts/`, which gets symlinked to `~/.config/scripts/`), at
+which point you shouldn't need to fully qualify it.
 
 ## NixOS
-Once you get this on nix you can rebuild the normal way or through the nix-rebuild script in config/scripts
+```
+sudo nixos-rebuild switch --flake ~/dotfiles/nixos#gustave
+```
+See `nixos/CLAUDE.md` for more (flake update, validation, Home Manager).
+
+## Omarchy
+```
+omarchy/install.sh
+```
+See `omarchy/CLAUDE.md` for what it does and the host-profile convention.
 
 ## Claude Code
 Claude Code is installed via npm (not nixpkgs) for faster access to new releases and working `claude update` support.
@@ -45,5 +58,5 @@ claude update
 ## Quirks
 A few other things to note:
 - `bat` requires a `bat cache --build`
-- `tmux` needs it's plugins installed with `I
-- when running `git stow` you can ignore files with `--ignore=.gitconfig`
+- `tmux` needs its plugins installed with the tmux-prefix + `I` (capital i) once tpm is cloned
+- you can pass `--ignore=<pattern>` to any `stow` invocation to skip specific files

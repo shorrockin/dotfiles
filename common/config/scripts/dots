@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Configurable base directory
+DOTFILES_DIR=~/dotfiles
+
+# Default action is "stow"
+USER_ACTION=${1:-stow}  # Accepts: stow, restow, delete
+
+case "$USER_ACTION" in
+  stow|restow|delete)
+    echo "Action is valid: $USER_ACTION"
+    ;;
+  *)
+    echo "Usage: $0 [stow|restow|delete]"
+    exit 1
+    ;;
+esac
+
+# Detect platform
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  PLATFORM="macos"
+elif [ -d /usr/share/omarchy ]; then
+  PLATFORM="omarchy"
+else
+  PLATFORM="nixos"
+fi
+
+echo "Platform: $PLATFORM"
+
+# Stow refuses to link over a pre-existing real file/dir (e.g. stock configs
+# on a fresh install). Rather than hard-failing, move those aside so stow can
+# proceed — never deletes anything, just renames with a timestamp suffix.
+resolve_stow_conflicts() {
+  local dir="$1" target="$2" pkg="$3"
+  shift 3
+  local ignore_args=("$@")
+
+  for _ in 1 2 3 4 5; do
+    local output
+    output=$(stow -n --dir="$dir" --target="$target" "${ignore_args[@]}" "$pkg" 2>&1) || true
+
+    local conflicts
+    conflicts=$(printf '%s\n' "$output" | sed -n 's/.*over existing target \(.*\) since neither a link.*/\1/p')
+    [ -z "$conflicts" ] && return 0
+
+    while IFS= read -r rel; do
+      [ -z "$rel" ] && continue
+      local full="$target/$rel"
+      if [ -e "$full" ] && [ ! -L "$full" ]; then
+        local backup="${full}.pre-stow-backup.$(date +%s)"
+        echo "  Existing config would conflict, backing up: $full → $backup"
+        mkdir -p "$(dirname "$backup")"
+        mv "$full" "$backup"
+      fi
+    done <<< "$conflicts"
+  done
+
+  echo "Warning: could not resolve all stow conflicts for '$pkg' after several passes." >&2
+}
+
+# Stow one platform root's `dots/` (→ $HOME) and/or `config/` (→ ~/.config)
+# package, if present. Every root uses the same two package names, so no
+# per-directory ignore-lists are needed anywhere — platform ownership is
+# determined entirely by which root a file lives under.
+stow_root() {
+  local base="$1"
+  local dir="$DOTFILES_DIR/$base"
+
+  if [ -d "$dir/dots" ]; then
+    echo "  $USER_ACTION: $base/dots → $HOME"
+    if [[ "$USER_ACTION" != "delete" ]]; then
+      resolve_stow_conflicts "$dir" "$HOME" dots --dotfiles
+    fi
+    stow --dotfiles --dir="$dir" --target="$HOME" --$USER_ACTION dots
+  fi
+
+  if [ -d "$dir/config" ]; then
+    echo "  $USER_ACTION: $base/config → ~/.config"
+    if [[ "$USER_ACTION" != "delete" ]]; then
+      resolve_stow_conflicts "$dir" "$HOME/.config" config
+    fi
+    stow --dir="$dir" --target="$HOME/.config" --$USER_ACTION config
+  fi
+}
+
+# Creating the ~/.config directory for nvim, scripts, etc
+mkdir -p ~/.config
+
+# Creating ~/.config/scripts directory so we can link directory to the script, not the directory
+mkdir -p ~/.config/scripts
+
+# Creating ~/.config/zsh directory which we will auto-load as part of zshrc
+mkdir -p ~/.config/zsh
+
+# Creating ~/.claude directory so we can symlink into it
+mkdir -p ~/.claude
+
+# Creating ~/.config/nvim/ directories for lua scripts, so that we don't link nvim wholesale, allowing private modules
+mkdir -p ~/.config/nvim/lua
+mkdir -p ~/.config/nvim/lua/lsp
+mkdir -p ~/.config/nvim/lua/plugins
+mkdir -p ~/.config/nvim/after/plugin
+mkdir -p ~/.config/nvim/after/ftplugin
+mkdir -p ~/.config/oh-my-posh
+
+echo "Running '$USER_ACTION' for dotfiles..."
+
+stow_root common
+
+case "$PLATFORM" in
+  macos)
+    stow_root macos
+    ;;
+  nixos)
+    stow_root nixos
+    ;;
+  omarchy)
+    stow_root omarchy
+
+    # Host-specific overlay, e.g. omarchy/hosts/gustave/config/ — only stowed
+    # when it exists for the current hostname, layered on top of omarchy/config/.
+    HOST_DIR="$DOTFILES_DIR/omarchy/hosts/$(hostname)"
+    if [ -d "$HOST_DIR/config" ]; then
+      echo "  $USER_ACTION: omarchy/hosts/$(hostname)/config → ~/.config"
+      if [[ "$USER_ACTION" != "delete" ]]; then
+        resolve_stow_conflicts "$HOST_DIR" "$HOME/.config" config
+      fi
+      stow --dir="$HOST_DIR" --target="$HOME/.config" --$USER_ACTION config
+    fi
+    ;;
+esac
