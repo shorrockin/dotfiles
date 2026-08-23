@@ -26,3 +26,9 @@ o.window({ class = ".*" }, { idle_inhibit = "fullscreen" })
 -- explicit `tile` rule is what overrides a broader `float` match.
 o.window({ class = "steam", title = "Steam" }, { tile = true })
 o.window({ class = "steam", title = "Friends List" }, { tile = true })
+
+-- Power button: hibernate immediately instead of opening the power menu.
+-- Was bound to "Power menu" (omarchy-menu toggle system) by Omarchy's
+-- default utilities.lua; unbind before overriding since it's locked.
+hl.unbind("XF86PowerOff")
+o.bind("XF86PowerOff", "Hibernate", "omarchy-hibernation-available && systemctl hibernate", { locked = true })
