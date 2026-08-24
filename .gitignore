@@ -6,3 +6,4 @@ __pycache__/
 config/fish/fish_variables
 config/fish/conf.d/fish_frozen_key_bindings.fish
 config/fish/conf.d/fish_frozen_theme.fish
+fish_variables

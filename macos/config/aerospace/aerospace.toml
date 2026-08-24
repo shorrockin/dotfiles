@@ -1,3 +1,4 @@
+
 config-version = 2
 
 # Keep the numbered workspaces alive even when they are empty.
@@ -60,10 +61,10 @@ preset = 'qwerty'
 [gaps]
 inner.horizontal = 12
 inner.vertical = 12
-outer.left = [{ monitor."LG ULTRAWIDE" = 620 }, 5]
+outer.left = [{ monitor."LG ULTRAWIDE" = 5 }, 5]
 outer.bottom = 5
 outer.top = 5
-outer.right = [{ monitor."LG ULTRAWIDE" = 620 }, 5]
+outer.right = [{ monitor."LG ULTRAWIDE" = 5 }, 5]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
