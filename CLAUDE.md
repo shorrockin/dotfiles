@@ -4,19 +4,20 @@ Guidance for Claude Code when working in this repo.
 
 ## Layout
 
-Cross-platform dotfiles for NixOS, macOS, and Omarchy (Arch + Hyprland), managed with GNU Stow. A directory's location determines what ships where — not an ignore-list.
+Cross-platform dotfiles for Linux, NixOS, macOS, and Omarchy, managed with GNU Stow. Directory location determines where each file ships.
 
 ```
 ~/dotfiles/
-├── common/     # ships everywhere — dots/ (→ ~) and config/ (→ ~/.config)
+├── common/     # shared config source
+├── linux/      # selected common config for headless Linux
 ├── nixos/      # NixOS only: flake.nix, hosts/, modules/, home/, config/
 ├── macos/      # macOS only: dots/, config/
 └── omarchy/    # Omarchy only: install.sh, install.d/, config/, hosts/<hostname>/
 ```
 
-Every platform root that has home-directory or `~/.config` content uses the same two stow package names, `dots` and `config`. `common/config/scripts/dots` (the stow wrapper) always stows `common/` first, then whichever platform root matches the current machine (detected via `$OSTYPE` and the presence of `/usr/share/omarchy`).
+Each stow root uses `dots` for home-directory files and `config` for `~/.config`. The `dots` wrapper stows `common` plus the detected macOS, NixOS, or Omarchy root. On generic Linux it stows `linux`, whose entries link to the selected files in `common`.
 
-Platform details: [common](common/CLAUDE.md), [nixos](nixos/CLAUDE.md), [macos](macos/CLAUDE.md), [omarchy](omarchy/CLAUDE.md).
+Platform details: [common](common/CLAUDE.md), [linux](linux/CLAUDE.md), [nixos](nixos/CLAUDE.md), [macos](macos/CLAUDE.md), [omarchy](omarchy/CLAUDE.md).
 
 ## Commands
 

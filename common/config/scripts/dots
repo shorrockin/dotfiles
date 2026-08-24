@@ -23,8 +23,10 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   PLATFORM="macos"
 elif [ -d /usr/share/omarchy ]; then
   PLATFORM="omarchy"
-else
+elif [ -e /etc/NIXOS ]; then
   PLATFORM="nixos"
+else
+  PLATFORM="linux"
 fi
 
 echo "Platform: $PLATFORM"
@@ -112,9 +114,14 @@ mkdir -p ~/.config/oh-my-posh
 
 echo "Running '$USER_ACTION' for dotfiles..."
 
-stow_root common
+if [[ "$PLATFORM" != "linux" ]]; then
+  stow_root common
+fi
 
 case "$PLATFORM" in
+  linux)
+    stow_root linux
+    ;;
   macos)
     stow_root macos
     ;;

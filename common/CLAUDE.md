@@ -1,6 +1,6 @@
-# common/ — shared across every platform
+# common shared config
 
-Ships identically on NixOS, macOS, and Omarchy — `common` stows first, before whichever platform root matches the machine (see repo root CLAUDE.md).
+NixOS, macOS, and Omarchy stow this directory before their platform root. Generic Linux gets the entries linked from `linux/`.
 
 ## Directory contents
 

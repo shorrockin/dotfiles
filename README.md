@@ -1,9 +1,8 @@
 # Dotfiles
 
-This contains all the dotfiles used across various environments (NixOS,
-macOS, Omarchy). The directory layout is platform-first — `common/`,
-`nixos/`, `macos/`, `omarchy/` — see `CLAUDE.md` for the full explanation.
-A lot of the instructions and scripts assume it is git cloned in your home directory.
+This contains dotfiles for Linux, NixOS, macOS, and Omarchy. `common/` holds shared config, while each platform directory defines what ships there. See `CLAUDE.md` for the layout.
+
+Scripts assume the repository is cloned at `~/dotfiles`.
 
 ## Stow
 This uses [gnu stow](https://www.gnu.org/software/stow/) to symlink dotfiles
