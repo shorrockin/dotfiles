@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 # Runs after `omarchy theme set` (theme slug in $1).
 #
-# omarchy-theme-set-tmux repaints every tmux pane with an explicit background
-# (`window-style bg=<theme background>`). An explicitly-coloured cell defeats
-# Ghostty's window transparency + blur, so tmux shows up as a slightly darker
-# rectangle floating over the desktop. Re-assert `bg=default` so panes fall
-# through to the terminal's real (transparent, blurred) background.
+# omarchy-theme-set-tmux fights Ghostty's window transparency in two ways:
+#
+#   1. It sets `window-style` / `window-active-style` to an explicit hex bg.
+#   2. Its sync_tmux_pane_colors writes OSC 10/11 (set fg/bg) straight to every
+#      pane's tty, which gives each *existing* pane an explicit `pane_bg`.
+#
+# Either makes tmux paint an opaque rectangle over the desktop instead of
+# falling through to the terminal's real (transparent, blurred) background.
+# (2) is why the problem returns on a theme change and only clears when you
+# open a new pane. Undo both: reset the window styles, and send OSC 110/111
+# (reset fg/bg) to every existing pane so pane_bg/pane_fg go back to `default`.
 
 tmux list-sessions >/dev/null 2>&1 || exit 0
 
@@ -13,5 +19,9 @@ tmux set-option -g  window-style        "bg=default,fg=default"
 tmux set-option -g  window-active-style "bg=default,fg=default"
 tmux set-option -gu window-status-style
 
-# Repaint currently-visible panes immediately.
-tmux refresh-client -S 2>/dev/null || true
+while IFS= read -r pane_tty; do
+  [[ $pane_tty == /dev/pts/* ]] || continue
+  printf '\033]111\033\\\033]110\033\\' >"$pane_tty" 2>/dev/null || true
+done < <(tmux list-panes -a -F '#{pane_tty}' 2>/dev/null | sort -u)
+
+tmux refresh-client 2>/dev/null || true
