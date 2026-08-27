@@ -101,8 +101,10 @@ mkdir -p ~/.config/scripts
 # Creating ~/.config/zsh directory which we will auto-load as part of zshrc
 mkdir -p ~/.config/zsh
 
-# Creating ~/.claude directory so we can symlink into it
-mkdir -p ~/.claude
+# Omarchy owns personal Claude config and symlinks individual files into this directory
+if [[ "$PLATFORM" == "omarchy" ]]; then
+  mkdir -p ~/.claude
+fi
 
 # Creating ~/.config/nvim/ directories for lua scripts, so that we don't link nvim wholesale, allowing private modules
 mkdir -p ~/.config/nvim/lua

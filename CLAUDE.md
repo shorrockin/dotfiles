@@ -42,4 +42,4 @@ If a machine's platform ever changes (e.g. Omarchy → NixOS), run `dots delete`
 ## Conventions
 
 - Shell script shebangs: always `#!/usr/bin/env bash`, never `#!/bin/bash` — NixOS has no `/bin/bash`.
-- Personal cross-tool agent config (`~/.agents`, `~/.claude`) is documented in `common/CLAUDE.md`.
+- Personal cross-tool agent config (`~/.agents`, `~/.claude`) is platform-owned. Document it in the owning platform's `CLAUDE.md`; platforms without those entries do not install it.
