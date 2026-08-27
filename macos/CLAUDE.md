@@ -4,7 +4,6 @@ macOS uses the shared application configs with a small platform-specific overlay
 
 ## Directory contents
 
-- `dots/dot-tmux.conf`: compatibility link from `~/.tmux.conf` to the shared XDG tmux config
 - `config/aerospace/`: Aerospace tiling window manager config
 - `config/scripts/`: `aerospace-dynamic-gaps.py`, `close-duplicate-tabs` (Chrome tab dedup via `osascript`), `kill-apps-for-sleep` (quits IntelliJ/Zoom/Camo Studio via `osascript` before sleep)
 

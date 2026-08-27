@@ -69,24 +69,6 @@
   nix.gc.options = "--delete-older-than 10d";
   nix.settings.auto-optimise-store = true;
 
-  # system.activationscripts.tpm = {
-  #   text = ''
-  #     mkdir -p /home/chris/.tmux/plugins
-  #     if [ ! -d "/home/chris/.tmux/plugins/tpm" ]; then
-  #       git clone https://github.com/tmux-plugins/tpm /home/chris/.tmux/plugins/tpm
-  #     fi
-  #     chown -r chris:users /home/chris/.tmux
-  #   '';
-  # };
-  # environment.etc."tmux.conf".source = /home/chris/dotfiles/tmux.conf;
-  #
-  # system.activationscripts.linktmuxconf = {
-  #   text = ''
-  #     ln -sf /etc/tmux.conf /home/chris/.tmux.conf
-  #     chown chris:users /home/chris/.tmux.conf
-  #   '';
-  # };
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

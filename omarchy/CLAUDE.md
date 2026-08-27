@@ -23,7 +23,7 @@ omarchy/install.sh
 Safe to re-run.
 
 Two config-level fixes apply on every platform, not just Omarchy:
-- The canonical tmux config lives at `common/config/tmux/tmux.conf`. macOS also links it to the legacy `~/.tmux.conf` path for compatibility.
+- The canonical tmux config lives at `common/config/tmux/tmux.conf` and tmux loads it from `~/.config/tmux/tmux.conf`.
 - `chsh` only affects new login sessions. `common/config/ghostty/config` sets `command = fish` so new terminal windows use fish immediately, without a logout.
 
 ## What `common/config/scripts/dots` does here

@@ -3,10 +3,10 @@ onboarding = false
 # Place this file at ~/.config/herdr/config.toml
 
 [keys]
-# Match tmux's prefix (backtick instead of ctrl+b — Kinesis ergonomics, see dots/dot-tmux.conf)
+# Match tmux's prefix (backtick instead of ctrl+b — Kinesis ergonomics)
 prefix = "backtick"
 
-# tmux binds prefix+r to reload ~/.tmux.conf. herdr's default reload_config slot is
+# tmux binds prefix+r to reload its config. herdr's default reload_config slot is
 # prefix+shift+r and prefix+r is resize_mode by default — swap them to keep the
 # reload muscle memory and free up shift+r for resize.
 reload_config = "prefix+r"
