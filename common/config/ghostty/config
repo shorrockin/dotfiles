@@ -16,6 +16,11 @@ window-decoration = "none"
 background-opacity = 0.9
 background-blur-radius = 20
 
+# Apply background-opacity even to cells with an explicit background color.
+# Without this, tmux/neovim repaint the whole screen with an opaque theme
+# background and transparency/blur is lost the moment they start.
+background-opacity-cells = true
+
 font-family = "MesloLGS Nerd Font Mono"
 font-size = 12
 
