@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Runs after `omarchy theme set` (theme slug in $1).
+#
+# omarchy-theme-set-tmux repaints every tmux pane with an explicit background
+# (`window-style bg=<theme background>`). An explicitly-coloured cell defeats
+# Ghostty's window transparency + blur, so tmux shows up as a slightly darker
+# rectangle floating over the desktop. Re-assert `bg=default` so panes fall
+# through to the terminal's real (transparent, blurred) background.
+
+tmux list-sessions >/dev/null 2>&1 || exit 0
+
+tmux set-option -g  window-style        "bg=default,fg=default"
+tmux set-option -g  window-active-style "bg=default,fg=default"
+tmux set-option -gu window-status-style
+
+# Repaint currently-visible panes immediately.
+tmux refresh-client -S 2>/dev/null || true

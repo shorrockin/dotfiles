@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Runs after `omarchy theme set` (theme slug in $1).
+#
+# Splice the theme-generated palette (themed/oh-my-posh-palette.json.tpl ->
+# oh-my-posh-palette.json) into a copy of the base oh-my-posh config. fish is
+# pointed at the result, and oh-my-posh re-reads its --config file on every
+# prompt, so running shells pick up the new colours on their next prompt.
+
+set -euo pipefail
+
+state="$HOME/.local/state/omarchy/current/theme"
+base="$HOME/.config/oh-my-posh/config.json"
+palette="$state/oh-my-posh-palette.json"
+out="$state/oh-my-posh.json"
+
+[[ -f $base && -f $palette ]] || exit 0
+command -v jq >/dev/null 2>&1 || exit 0
+
+jq --slurpfile p "$palette" '.palette = $p[0].palette' "$base" >"$out.tmp" && mv "$out.tmp" "$out"
