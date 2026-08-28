@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Applies the "remote passthrough" styling from tmux.conf's C-\ toggle to a
+# session. Single source of truth so scripts that pre-set this mode on a
+# freshly created session (e.g. dotfiles.stripe's remote-new/remote-existing)
+# don't hand-copy the look and feel and drift from the real toggle.
+set -euo pipefail
+
+target=()
+if [[ "${1:-}" == "-t" ]]; then
+  target=(-t "$2")
+fi
+
+tmux set-option "${target[@]}" prefix None
+tmux set-option "${target[@]}" key-table off
+tmux set-option "${target[@]}" status 2
+tmux set-option "${target[@]}" status-style "bg=default,fg=colour8"
+tmux set-option "${target[@]}" status-position bottom
+tmux set-option "${target[@]}" 'status-format[0]' ""
+tmux set-option "${target[@]}" 'status-format[1]' \
+  "#[align=left]#[fg=colour1,bold] REMOTE #[fg=colour8]| #[fg=colour4,bold]#S #[align=right]#[fg=colour8]C-\\ to exit passthrough "
+tmux set-option "${target[@]}" pane-active-border-style "fg=colour1"
+tmux refresh-client -S
