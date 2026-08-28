@@ -62,7 +62,10 @@ if status is-interactive
 
     # Apply dark Mocha colors on startup in non-Ghostty terminals (Ghostty manages its own background).
     # Without this, the dark background only appears after toggling light→dark via shell-theme-toggle.
-    if not set -q GHOSTTY_RESOURCES_DIR; and not set -q SHELL_THEME
+    # Skip over SSH: GHOSTTY_RESOURCES_DIR never survives the hop, so a remote shell would otherwise
+    # think it's not Ghostty and paint an explicit OSC 11 background, killing local Ghostty's opacity
+    # for the rest of that pane/pty, even nested inside tmux.
+    if not set -q GHOSTTY_RESOURCES_DIR; and not set -q SHELL_THEME; and not set -q SSH_CONNECTION
         printf "\033]11;%s\007" "#1E1E2E"
         printf "\033]10;%s\007" "#CDD6F4"
         for i in (seq 0 15)
