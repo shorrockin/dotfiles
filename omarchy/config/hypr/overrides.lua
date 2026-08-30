@@ -64,3 +64,27 @@ o.window({ class = "steam", title = "Friends List" }, { tile = true })
 -- default utilities.lua; unbind before overriding since it's locked.
 hl.unbind("XF86PowerOff")
 o.bind("XF86PowerOff", "Suspend", "systemctl suspend", { locked = true })
+
+-- Launch-or-focus: SUPER+ALT+<key> jumps to an app, starting it if it's not
+-- running. The matcher (omarchy-launch-or-focus) does a case-insensitive,
+-- word-boundary substring match against window class OR title -- no regex
+-- anchors. Check a class with: hyprctl clients -j | jq -r '.[].class'
+-- SUPER+ALT + {F,S,G,K,SLASH,MINUS,EQUAL,arrows,SPACE,RETURN} are taken by
+-- stock bindings, so this cluster avoids them.
+o.bind("SUPER + ALT + T", "Steam", { launch = "steam", focus = "steam" })
+o.bind("SUPER + ALT + L", "Slack", { launch = "slack", focus = "slack" })
+o.bind("SUPER + ALT + W", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = true })
+o.bind("SUPER + ALT + Y", "YouTube", { webapp = "https://youtube.com/", focus = true })
+o.bind("SUPER + ALT + D", "Discord", { webapp = "https://discord.com/channels/@me", focus = true })
+o.bind("SUPER + ALT + Z", "Zoom", { launch = "omarchy-webapp-handler-zoom", focus = "zoom" })
+
+-- Default browser per xdg-settings (currently Brave Origin). The focus pattern
+-- is Brave-specific -- update it if the default browser changes. Uses the raw
+-- helper (not the table form) so the launch side runs omarchy-launch-browser
+-- directly rather than through uwsm-app.
+o.bind("SUPER + ALT + B", "Browser", "omarchy-launch-or-focus brave omarchy-launch-browser")
+
+-- SUPER+ALT+G was stock "Move active window out of group" (tiling.lua); repoint
+-- it at Ghostty. SUPER+G (toggle grouping) and SUPER+ALT+arrows are unaffected.
+hl.unbind("SUPER + ALT + G")
+o.bind("SUPER + ALT + G", "Ghostty", { launch = "ghostty --gtk-single-instance=true", focus = "ghostty" })
