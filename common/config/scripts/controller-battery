@@ -37,8 +37,12 @@ try_bluetooth_controller() {
 }
 
 try_steam_controller() {
-    local capacity
-    capacity=$(python3 ~/.config/scripts/steam-controller-battery 2>/dev/null) || return 1
+    local capacity python
+    # GUI callers (e.g. the Omarchy shell) run with a minimal PATH that has no
+    # mise/pyenv shim, so fall back to the system interpreter.
+    python=$(command -v python3 || true)
+    [[ -n "$python" ]] || python=/usr/bin/python3
+    capacity=$("$python" ~/.config/scripts/steam-controller-battery 2>/dev/null) || return 1
     [[ "$capacity" =~ ^[0-9]+$ ]] || return 1
 
     emit "$ICON $capacity%" "Steam Controller\\nBattery: $capacity%" "controller"

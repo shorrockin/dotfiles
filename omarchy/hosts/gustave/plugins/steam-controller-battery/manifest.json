@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "steam-controller-battery",
+  "name": "Steam Controller Battery",
+  "version": "1.0.0",
+  "author": "chris",
+  "license": "MIT",
+  "description": "Shows the Steam Controller battery level in the bar, only while the controller is powered on",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Steam Controller Battery",
+    "description": "Battery pill that appears only while a game controller is connected",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
