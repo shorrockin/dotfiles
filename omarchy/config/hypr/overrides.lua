@@ -78,6 +78,10 @@ o.bind("SUPER + ALT + Y", "YouTube", { webapp = "https://youtube.com/", focus = 
 o.bind("SUPER + ALT + D", "Discord", { webapp = "https://discord.com/channels/@me", focus = true })
 o.bind("SUPER + ALT + Z", "Zoom", { launch = "omarchy-webapp-handler-zoom", focus = "zoom" })
 
+-- Replace Omarchy's ChatGPT web-app shortcut with the installed desktop app.
+hl.unbind("SUPER + SHIFT + A")
+o.bind("SUPER + SHIFT + A", "ChatGPT", { launch = "chatgpt" })
+
 -- Default browser per xdg-settings (currently Brave Origin). The focus pattern
 -- is Brave-specific -- update it if the default browser changes. Uses the raw
 -- helper (not the table form) so the launch side runs omarchy-launch-browser
