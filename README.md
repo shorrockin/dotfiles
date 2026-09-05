@@ -1,6 +1,6 @@
 # Dotfiles
 
-This contains dotfiles for Linux, NixOS, macOS, and Omarchy. `common/` holds shared config, while each platform directory defines what ships there. See `CLAUDE.md` for the layout.
+This contains dotfiles for Linux, NixOS, macOS, and Omarchy. `common/` holds shared config, while each platform directory defines what ships there. See the [repository instructions](AGENTS.md) for the layout.
 
 Scripts assume the repository is cloned at `~/dotfiles`.
 
@@ -31,13 +31,13 @@ which point you shouldn't need to fully qualify it.
 ```
 sudo nixos-rebuild switch --flake ~/dotfiles/nixos#gustave
 ```
-See `nixos/CLAUDE.md` for more (flake update, validation, Home Manager).
+See the [NixOS instructions](nixos/AGENTS.md) for flake updates, validation, and Home Manager details.
 
 ## Omarchy
 ```
 omarchy/install.sh
 ```
-See `omarchy/CLAUDE.md` for what it does and the host-profile convention.
+See the [Omarchy instructions](omarchy/AGENTS.md) for bootstrap and host-profile details.
 
 ## Claude Code
 Claude Code is installed via npm (not nixpkgs) for faster access to new releases and working `claude update` support.
