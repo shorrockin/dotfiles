@@ -1,5 +1,8 @@
 [include]
     path = ~/.personal.gitconfig
     path = ~/.stripe.gitconfig
+    # Optional machine-specific identity, loaded last so it can override the
+    # shared personal identity without duplicating the rest of this config.
+    path = ~/.config/git/identity
 [color]
 	ui = true

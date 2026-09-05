@@ -6,38 +6,6 @@
 -- as Omarchy's own local, untracked config — this is the one file from that
 -- directory that's actually version-controlled.
 
--- Kinesis 360 keyboard has MINUS and EQUAL swapped relative to a standard
--- layout, so Omarchy's default resize bindings (tiling.lua) feel backwards.
--- Swap what each key does across every modifier variant (plain, SHIFT, ALT,
--- CTRL, and their combinations) so the scheme stays internally consistent.
-hl.unbind("SUPER + code:20")
-hl.unbind("SUPER + code:21")
-hl.unbind("SUPER + SHIFT + code:20")
-hl.unbind("SUPER + SHIFT + code:21")
-hl.unbind("SUPER + ALT + code:20")
-hl.unbind("SUPER + ALT + code:21")
-hl.unbind("SUPER + SHIFT + ALT + code:20")
-hl.unbind("SUPER + SHIFT + ALT + code:21")
-hl.unbind("SUPER + CTRL + code:20")
-hl.unbind("SUPER + CTRL + code:21")
-hl.unbind("SUPER + CTRL + SHIFT + code:20")
-hl.unbind("SUPER + CTRL + SHIFT + code:21")
-
-o.bind("SUPER + code:21", "Expand window left", hl.dsp.window.resize({ x = -100, y = 0, relative = true }))
-o.bind("SUPER + code:20", "Shrink window left", hl.dsp.window.resize({ x = 100, y = 0, relative = true }))
-o.bind("SUPER + SHIFT + code:21", "Shrink window up", hl.dsp.window.resize({ x = 0, y = -100, relative = true }))
-o.bind("SUPER + SHIFT + code:20", "Expand window down", hl.dsp.window.resize({ x = 0, y = 100, relative = true }))
-
-o.bind("SUPER + ALT + code:21", "Expand window left a little", hl.dsp.window.resize({ x = -25, y = 0, relative = true }))
-o.bind("SUPER + ALT + code:20", "Shrink window left a little", hl.dsp.window.resize({ x = 25, y = 0, relative = true }))
-o.bind("SUPER + SHIFT + ALT + code:21", "Shrink window up a little", hl.dsp.window.resize({ x = 0, y = -25, relative = true }))
-o.bind("SUPER + SHIFT + ALT + code:20", "Expand window down a little", hl.dsp.window.resize({ x = 0, y = 25, relative = true }))
-
-o.bind("SUPER + CTRL + code:21", "Expand window left a lot", hl.dsp.window.resize({ x = -300, y = 0, relative = true }))
-o.bind("SUPER + CTRL + code:20", "Shrink window left a lot", hl.dsp.window.resize({ x = 300, y = 0, relative = true }))
-o.bind("SUPER + CTRL + SHIFT + code:21", "Shrink window up a lot", hl.dsp.window.resize({ x = 0, y = -300, relative = true }))
-o.bind("SUPER + CTRL + SHIFT + code:20", "Expand window down a lot", hl.dsp.window.resize({ x = 0, y = 300, relative = true }))
-
 -- Controller input (Steam Input) is read directly via evdev/uinput and never
 -- reaches Wayland, so Hyprland's idle timer keeps counting during gameplay
 -- and the screensaver/lock can fire mid-game. Proton titles all share the
@@ -65,31 +33,11 @@ o.window({ class = "steam", title = "Friends List" }, { tile = true })
 hl.unbind("XF86PowerOff")
 o.bind("XF86PowerOff", "Suspend", "systemctl suspend", { locked = true })
 
--- Launch-or-focus: SUPER+ALT+<key> jumps to an app, starting it if it's not
--- running. The matcher (omarchy-launch-or-focus) does a case-insensitive regex
--- match against window class OR title. Check a class with:
--- hyprctl clients -j | jq -r '.[].class'
--- SUPER+ALT + {F,S,G,K,SLASH,MINUS,EQUAL,arrows,SPACE,RETURN} are taken by
--- stock bindings, so this cluster avoids them.
-o.bind("SUPER + ALT + A", "ChatGPT", { launch = "chatgpt", focus = "^Chatgpt$" })
-o.bind("SUPER + ALT + T", "Steam", { launch = "steam", focus = "steam" })
-o.bind("SUPER + ALT + L", "Slack", { launch = "slack", focus = "slack" })
-o.bind("SUPER + ALT + W", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = true })
-o.bind("SUPER + ALT + Y", "YouTube", { webapp = "https://youtube.com/", focus = true })
-o.bind("SUPER + ALT + D", "Discord", { webapp = "https://discord.com/channels/@me", focus = true })
-o.bind("SUPER + ALT + Z", "Zoom", { launch = "omarchy-webapp-handler-zoom", focus = "zoom" })
-
--- Replace Omarchy's ChatGPT web-app shortcut with the installed desktop app.
-hl.unbind("SUPER + SHIFT + A")
-o.bind("SUPER + SHIFT + A", "ChatGPT", { launch = "chatgpt" })
-
--- Default browser per xdg-settings (currently Brave Origin). The focus pattern
--- is Brave-specific -- update it if the default browser changes. Uses the raw
--- helper (not the table form) so the launch side runs omarchy-launch-browser
--- directly rather than through uwsm-app.
-o.bind("SUPER + ALT + B", "Browser", "omarchy-launch-or-focus brave omarchy-launch-browser")
-
--- SUPER+ALT+G was stock "Move active window out of group" (tiling.lua); repoint
--- it at Ghostty. SUPER+G (toggle grouping) and SUPER+ALT+arrows are unaffected.
-hl.unbind("SUPER + ALT + G")
-o.bind("SUPER + ALT + G", "Ghostty", { launch = "ghostty --gtk-single-instance=true", focus = "ghostty" })
+-- Load a machine-specific layer when the host profile provides one. Check for
+-- the file first so a real error inside it still reaches Hyprland.
+local host_override_path = os.getenv("HOME") .. "/.config/hypr/host.lua"
+local host_override = io.open(host_override_path, "r")
+if host_override then
+  host_override:close()
+  require("hypr.host")
+end

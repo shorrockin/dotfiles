@@ -8,10 +8,12 @@
 - `install.d/`: bootstrap steps, each idempotent, reading `$DOTFILES_DIR`:
   - `00-packages.sh`, `10-shell.sh` (sets fish as default), `20-stow.sh`, `30-tmux-plugins.sh` (tpm)
   - `40-hypr-overrides.sh` — wires `require("hypr.overrides")` into the live `~/.config/hypr/hyprland.lua`, validates via `hyprctl` if running
+  - `45-nas-mount.sh`, `46-nautilus-nas-bookmark.sh` — configures the Synology share used by both desktops
+  - `47-disable-locking.sh` — keeps both desktop sessions password-free while leaving the screensaver enabled
   - `50-host-setup.sh` — runs `hosts/$(hostname)/setup.d/*.sh`, if present, in order
 - `dots/`: Omarchy-only home files, including personal cross-tool agent config and `dot-tmux-sessionizer.conf`
 - `config/`: Omarchy-only `~/.config` overlay. Currently just `hypr/overrides.lua`, a hook Omarchy's `hyprland.lua` loads (see below).
-- `hosts/<hostname>/`: per-machine setup (mirrors NixOS's `hosts/<name>.nix`), can have `setup.d/`, `udev/`, `config/`. See [`hosts/gustave/CLAUDE.md`](hosts/gustave/CLAUDE.md) for that host's specifics.
+- `hosts/<hostname>/`: per-machine setup (mirrors NixOS's `hosts/<name>.nix`), can have `setup.d/`, `udev/`, `config/`. Current profiles: [`gustave`](hosts/gustave/CLAUDE.md) and [`maelle`](hosts/maelle/CLAUDE.md).
 - `backgrounds/catppuccin/`: wallpapers
 
 ## Bootstrap a new box
@@ -20,7 +22,9 @@
 omarchy/install.sh
 ```
 
-Safe to re-run.
+Safe to re-run. Host overlays use the exact output of `hostname`, so set the
+machine hostname before running the installer. A machine named `maelle`, for
+example, loads `hosts/maelle/`.
 
 Two config-level fixes apply on every platform, not just Omarchy:
 - The canonical tmux config lives at `common/config/tmux/tmux.conf` and tmux loads it from `~/.config/tmux/tmux.conf`.
@@ -39,6 +43,10 @@ Same pre-existing-file backup behavior as elsewhere (see repo root CLAUDE.md), t
 ## Hypr overrides
 
 Omarchy's `hyprland.lua` loads user files after its own defaults (`require("hypr.bindings")`, etc.) — those stay local/untracked, using Omarchy's defaults as-is. Only `config/hypr/overrides.lua` (→ `~/.config/hypr/overrides.lua`) is tracked, loaded via one appended `require("hypr.overrides")` line.
+
+The shared override loads `~/.config/hypr/host.lua` when a host profile supplies
+one. Keep rules used by every Omarchy machine in `overrides.lua`; put keyboard,
+application, or other machine-specific bindings in the host file.
 
 ## No Alacritty
 

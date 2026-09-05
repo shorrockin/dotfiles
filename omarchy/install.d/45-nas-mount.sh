@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-#
-# Synology NAS mount (gustave-specific — same NAS the old NixOS config on
-# this machine mounted, before it moved to Omarchy). Credentials live outside
-# the repo since they're a secret, not a dotfile; this only creates a
-# placeholder the user fills in by hand.
+# Configure the Synology share used by both Omarchy desktops. Credentials stay
+# outside the repository and are filled in once on each machine.
 
 set -e
 
@@ -14,7 +11,7 @@ NAS_CREDENTIALS=/etc/samba/smb-secrets
 
 CREDENTIALS_JUST_CREATED=0
 if [ ! -f "$NAS_CREDENTIALS" ]; then
-  printf 'username=\npassword=\n' | sudo install -D -m 600 -o root -g root /dev/stdin "$NAS_CREDENTIALS"
+  printf 'username=chris\npassword=\n' | sudo install -D -m 600 -o root -g root /dev/stdin "$NAS_CREDENTIALS"
   CREDENTIALS_JUST_CREATED=1
   echo "  Created NAS credentials placeholder at $NAS_CREDENTIALS"
 fi
@@ -34,11 +31,11 @@ fi
 if [ "$CREDENTIALS_JUST_CREATED" = 1 ] || [ "$FSTAB_JUST_ADDED" = 1 ]; then
   cat <<EOF
 
-  NAS mount configured but not yet usable — one manual step left:
+  NAS mount configured but not yet usable. One manual step remains:
 
     sudo nvim $NAS_CREDENTIALS
       # fill in:
-      #   username=<your synology username>
+      #   username=chris
       #   password=<your synology password>
 
   Then mount it:

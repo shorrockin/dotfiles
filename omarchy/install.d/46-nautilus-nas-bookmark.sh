@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-#
-# Bookmarks the Synology NAS mount (set up by 20-nas-mount.sh) in Nautilus
-# (GNOME Files, gustave's default file manager) so it shows in the sidebar.
+# Add the shared NAS mount to the Files sidebar.
 
 set -e
 
@@ -13,7 +11,7 @@ touch "$BOOKMARKS"
 
 if ! grep -qF "file:///mnt/nas" "$BOOKMARKS"; then
   echo "$BOOKMARK_LINE" >> "$BOOKMARKS"
-  echo "  Added /mnt/nas to Nautilus bookmarks (restart Nautilus / open Files to see it)"
+  echo "  Added /mnt/nas to Nautilus bookmarks"
 else
   echo "  /mnt/nas already bookmarked in Nautilus"
 fi
