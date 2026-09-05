@@ -66,12 +66,12 @@ hl.unbind("XF86PowerOff")
 o.bind("XF86PowerOff", "Suspend", "systemctl suspend", { locked = true })
 
 -- Launch-or-focus: SUPER+ALT+<key> jumps to an app, starting it if it's not
--- running. The matcher (omarchy-launch-or-focus) does a case-insensitive,
--- word-boundary substring match against window class OR title -- no regex
--- anchors. Check a class with: hyprctl clients -j | jq -r '.[].class'
+-- running. The matcher (omarchy-launch-or-focus) does a case-insensitive regex
+-- match against window class OR title. Check a class with:
+-- hyprctl clients -j | jq -r '.[].class'
 -- SUPER+ALT + {F,S,G,K,SLASH,MINUS,EQUAL,arrows,SPACE,RETURN} are taken by
 -- stock bindings, so this cluster avoids them.
-o.bind("SUPER + ALT + A", "ChatGPT", { launch = "chatgpt", focus = "Chatgpt" })
+o.bind("SUPER + ALT + A", "ChatGPT", { launch = "chatgpt", focus = "^Chatgpt$" })
 o.bind("SUPER + ALT + T", "Steam", { launch = "steam", focus = "steam" })
 o.bind("SUPER + ALT + L", "Slack", { launch = "slack", focus = "slack" })
 o.bind("SUPER + ALT + W", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = true })
