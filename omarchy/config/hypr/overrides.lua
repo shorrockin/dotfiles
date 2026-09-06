@@ -19,6 +19,10 @@ o.window({ class = "^steam_app_" }, { idle_inhibit = "always" })
 -- always played fullscreen) without needing to know their class up front.
 o.window({ class = ".*" }, { idle_inhibit = "fullscreen" })
 
+-- Omarchy's screensaver is also fullscreen, but it must not inherit the game
+-- rule above or it prevents hypridle's later suspend timeout from ever firing.
+o.window({ class = "^org\\.omarchy\\.screensaver$" }, { idle_inhibit = "none" })
+
 -- Omarchy's default steam.lua floats the whole "steam" class, which also
 -- covers friend-message/achievement toast popups (same class, different
 -- title) -- those should stay floating. Tile only the main window and
