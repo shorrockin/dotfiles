@@ -22,7 +22,8 @@ Add files here only when `maelle` must differ from another Omarchy machine:
 Do not copy `gustave`'s NVIDIA hibernate fix, Steam Controller support, monitor
 scale, Kinesis key remaps, or application shortcuts. The shared layer already
 provides the general Steam rules, suspend power button, Synology mount, and
-password-free lock policy requested for both desktops.
+password-free lock policy and one-hour idle suspend requested for both
+desktops.
 
 The Synology credentials and mounted file ownership both use the `chris`
 account. Only the password remains a manual first-install step.

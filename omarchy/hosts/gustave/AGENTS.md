@@ -14,8 +14,8 @@ Depends on the hidraw access from the udev rule above. `common/config/scripts/co
 
 ## Shared desktop behavior
 
-The password-free lock policy and Synology mount now live in the shared
-`install.d/` layer because Maelle uses them too.
+The password-free lock policy, one-hour idle suspend, and Synology mount now
+live in the shared layer because Maelle uses them too.
 
 ## Hyprland
 
