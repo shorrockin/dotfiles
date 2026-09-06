@@ -31,31 +31,9 @@ o.window({ class = "^org\\.omarchy\\.screensaver$" }, { idle_inhibit = "none" })
 o.window({ class = "steam", title = "Steam" }, { tile = true })
 o.window({ class = "steam", title = "Friends List" }, { tile = true })
 
--- Use the mouse side buttons to move between workspaces on the desktop, but
--- leave them available to games. auto_consuming passes the original mouse
--- event to the focused window whenever this handler returns { ok = false }.
-local function workspace_mouse_button(target)
-  return function()
-    local window = hl.get_active_window()
-    local class = window and window.class or ""
-    local initial_class = window and window.initial_class or ""
-    local is_game = window and (
-      window.content_type == "game"
-      or class:match("^steam_app_")
-      or initial_class:match("^steam_app_")
-      or window.fullscreen > 0
-    )
-
-    if is_game then
-      return { ok = false }
-    end
-
-    hl.dispatch(hl.dsp.focus({ workspace = target }))
-  end
-end
-
-o.bind("mouse:275", "Previous workspace", workspace_mouse_button("e-1"), { auto_consuming = true })
-o.bind("mouse:276", "Next workspace", workspace_mouse_button("e+1"), { auto_consuming = true })
+-- Keep unmodified mouse side buttons available to applications and games.
+o.bind("SUPER + mouse:275", "Previous workspace", hl.dsp.focus({ workspace = "e-1" }))
+o.bind("SUPER + mouse:276", "Next workspace", hl.dsp.focus({ workspace = "e+1" }))
 
 -- Power button: suspend immediately instead of opening the power menu.
 -- Was bound to "Power menu" (omarchy-menu toggle system) by Omarchy's
