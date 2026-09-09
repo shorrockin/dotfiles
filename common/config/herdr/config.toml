@@ -32,12 +32,8 @@ command = "stripe.machines.open"
 description = "devbox machines"
 
 [keys]
-# Match tmux's prefix (backtick instead of ctrl+b — Kinesis ergonomics)
 prefix = "backtick"
 
-# tmux binds prefix+r to reload its config. herdr's default reload_config slot is
-# prefix+shift+r and prefix+r is resize_mode by default — swap them to keep the
-# reload muscle memory and free up shift+r for resize.
 reload_config = "prefix+r"
 resize_mode = "prefix+shift+r"
 
@@ -47,21 +43,23 @@ goto = "ctrl+s"
 workspace_picker = "prefix+s"
 navigate_workspace_up = ["up", "k"]
 navigate_workspace_down = ["down", "j"]
-next_workspace = "prefix+0"
-previous_workspace = "prefix+shift+0"
+next_workspace = "ctrl+tab"
+previous_workspace = "ctrl+shift+tab"
 
 # --- Tabs / windows ---
-# tmux: bare ctrl+1..5 and alt+1..5 jump directly to a window, no prefix
 switch_tab = ["prefix+1..9", "ctrl+1..9", "alt+1..9"]
-# tmux: bare shift+Left/Right cycle windows
 previous_tab = ["prefix+p", "shift+left"]
 next_tab = ["prefix+n", "shift+right"]
 
 # --- Panes ---
-split_horizontal = "prefix+minus"       # tmux: bind - (stacked split) — already the herdr default
-split_vertical = "prefix+shift+minus"   # tmux: bind _ (side-by-side split)
+split_horizontal = "prefix+minus"       
+split_vertical = "prefix+shift+minus"  
 
 # -- Agents ---
 focus_agent = "ctrl+shift+1..9"
 next_agent= "ctrl+0"
 previous_agent = "ctrl+shift+0"
+
+[theme]
+name = "dracula"
+auto_switch = false
