@@ -18,8 +18,8 @@ tab_bar_right_separator = " | "
 [ui.sidebar.agents]
 row_gap = 0
 rows = [
-  ["state_icon", "machine", "workspace"],
-  ["agent"],
+  ["state_icon", "agent", "workspace"],
+  ["machine"],
 ]
 
 [ui.sound]
@@ -43,8 +43,8 @@ goto = "ctrl+s"
 workspace_picker = "prefix+s"
 navigate_workspace_up = ["up", "k"]
 navigate_workspace_down = ["down", "j"]
-next_workspace = "ctrl+tab"
-previous_workspace = "ctrl+shift+tab"
+next_workspace = "ctrl+0"
+previous_workspace = "ctrl+shift+0"
 
 # --- Tabs / windows ---
 switch_tab = ["prefix+1..9", "ctrl+1..9", "alt+1..9"]
@@ -57,8 +57,8 @@ split_vertical = "prefix+shift+minus"
 
 # -- Agents ---
 focus_agent = "ctrl+shift+1..9"
-next_agent= "ctrl+0"
-previous_agent = "ctrl+shift+0"
+next_agent= "ctrl+tab"
+previous_agent = "ctrl+shift+tab"
 
 [theme]
 name = "dracula"
