@@ -24,6 +24,10 @@ MIN_GAP = 10
 BASE_GAP = 5
 USER_NAME = os.environ.get("USER") or pwd.getpwuid(os.getuid()).pw_name
 SOCKET_PATH = Path(f"/tmp/bobko.aerospace-{USER_NAME}.sock")
+STATE_FILE = Path(os.environ.get(
+    "AEROSPACE_DYNAMIC_GAPS_STATE",
+    f"/tmp/aerospace-dynamic-gaps-disabled-workspaces-{USER_NAME}.json",
+))
 
 # First matching monitor-name substring wins. Only enabled monitors get dynamic
 # gaps; every other monitor keeps the BASE_GAP fallback in the AeroSpace config.
@@ -116,6 +120,39 @@ def get_focused_monitor() -> str:
     if not monitors:
         raise RuntimeError("NO FOCUSED MONITOR")
     return monitors[0].get("monitor-name", "")
+
+
+def get_focused_workspace() -> str:
+    workspace = run_aerospace([
+        "list-workspaces",
+        "--focused",
+        "--format",
+        "%{workspace}",
+    ]).strip()
+    if not workspace:
+        raise RuntimeError("NO FOCUSED WORKSPACE")
+    return workspace
+
+
+def get_disabled_workspaces() -> set[str]:
+    if not STATE_FILE.exists():
+        return set()
+
+    disabled = json.loads(STATE_FILE.read_text())
+    if not isinstance(disabled, list) or not all(isinstance(item, str) for item in disabled):
+        raise RuntimeError(f"INVALID STATE FILE: {STATE_FILE}")
+    return set(disabled)
+
+
+def toggle_workspace(workspace: str) -> set[str]:
+    disabled = get_disabled_workspaces()
+    if workspace in disabled:
+        disabled.remove(workspace)
+    else:
+        disabled.add(workspace)
+
+    STATE_FILE.write_text(json.dumps(sorted(disabled)))
+    return disabled
 
 
 def get_monitor_config(monitor_name: str) -> dict[str, Any]:
@@ -211,6 +248,17 @@ def update_config(new_gap: int) -> bool:
 
 def main() -> int:
     try:
+        toggle_requested = sys.argv[1:] == ["--toggle-workspace"]
+        if sys.argv[1:] and not toggle_requested:
+            raise RuntimeError(f"UNKNOWN ARGUMENTS: {' '.join(sys.argv[1:])}")
+
+        workspace = get_focused_workspace()
+        disabled_workspaces = (
+            toggle_workspace(workspace)
+            if toggle_requested
+            else get_disabled_workspaces()
+        )
+
         monitor_name = get_focused_monitor()
         monitor_config = get_monitor_config(monitor_name)
         if not monitor_config.get("enabled"):
@@ -218,7 +266,11 @@ def main() -> int:
 
         monitor_width = get_monitor_width(monitor_name, monitor_config)
         window_count = count_tiled_windows()
-        new_gap = calculate_gap(monitor_width, window_count, monitor_config)
+        new_gap = (
+            BASE_GAP
+            if workspace in disabled_workspaces
+            else calculate_gap(monitor_width, window_count, monitor_config)
+        )
 
         if update_config(new_gap):
             run_aerospace(["reload-config", "--no-gui"])

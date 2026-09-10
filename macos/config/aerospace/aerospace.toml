@@ -76,6 +76,7 @@ outer.right = [{ monitor."LG ULTRAWIDE" = 620 }, 5]
 cmd-ctrl-f = 'fullscreen'
 cmd-shift-b = 'balance-sizes'
 alt-f = 'layout floating tiling'
+cmd-l = 'exec-and-forget ~/.config/scripts/aerospace-dynamic-gaps.py --toggle-workspace'
 
 # Focus movement
 cmd-left = 'focus left'
