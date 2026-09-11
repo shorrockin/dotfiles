@@ -10,14 +10,8 @@ default_shell = "fish"
 [ui]
 sidebar_start_collapsed = true
 status_indicators = "symbols"
-
-# Command entries run on the herdr *server* via /bin/sh -lc, so a selected devbox
-# reports its own identity, not the laptop's. Only the final line of output is
-# used and ESC sequences are stripped.
-tab_bar_right = [
-  { type = "command", command = "cat /pay/conf/box-name 2>/dev/null || echo laptop", interval_seconds = 5, timeout_seconds = 2 },
-]
-tab_bar_right_separator = " | "
+agent_panel_sort = "priority"
+show_agent_labels_on_pane_borders = true
 
 [ui.sidebar.agents]
 row_gap = 0
@@ -26,8 +20,12 @@ rows = [
   ["machine"],
 ]
 
+[ui.toast]
+delivery = "system"
+delay_seconds = 1
+
 [ui.sound]
-enabled = false
+enabled = true
 
 [[keys.command]]
 key = "prefix+m"
@@ -40,6 +38,7 @@ prefix = "backtick"
 
 reload_config = "prefix+r"
 resize_mode = "prefix+shift+r"
+last_pane = "prefix+0"
 
 # --- Sessions (prefix+s opens Herdr's picker; ctrl+s opens the global navigator) ---
 settings = "prefix+shift+s"
@@ -47,8 +46,8 @@ goto = "ctrl+s"
 workspace_picker = "prefix+s"
 navigate_workspace_up = ["up", "k"]
 navigate_workspace_down = ["down", "j"]
-next_workspace = "ctrl+0"
-previous_workspace = "ctrl+shift+0"
+next_workspace = "ctrl+tab"
+previous_workspace = "ctrl+shift+tab"
 
 # --- Tabs / windows ---
 switch_tab = ["prefix+1..9", "ctrl+1..9", "alt+1..9"]
@@ -61,9 +60,9 @@ split_vertical = "prefix+shift+minus"
 
 # -- Agents ---
 focus_agent = "ctrl+shift+1..9"
-next_agent= "ctrl+tab"
-previous_agent = "ctrl+shift+tab"
+next_agent= "alt+tab"
+previous_agent = "alt+shift+tab"
 
 [theme]
-name = "dracula"
+name = "solarized"
 auto_switch = false
