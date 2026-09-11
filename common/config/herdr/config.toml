@@ -46,8 +46,8 @@ goto = "ctrl+s"
 workspace_picker = "prefix+s"
 navigate_workspace_up = ["up", "k"]
 navigate_workspace_down = ["down", "j"]
-next_workspace = "ctrl+tab"
-previous_workspace = "ctrl+shift+tab"
+next_workspace = "alt+tab"
+previous_workspace = "alt+shift+tab"
 
 # --- Tabs / windows ---
 switch_tab = ["prefix+1..9", "ctrl+1..9", "alt+1..9"]
@@ -60,8 +60,8 @@ split_vertical = "prefix+shift+minus"
 
 # -- Agents ---
 focus_agent = "ctrl+shift+1..9"
-next_agent= "alt+tab"
-previous_agent = "alt+shift+tab"
+next_agent= "ctrl+tab"
+previous_agent = "ctrl+shift+tab"
 
 [theme]
 name = "solarized"
