@@ -8,6 +8,7 @@ onboarding = false
 default_shell = "fish"
 
 [ui]
+sidebar_start_collapsed = true
 status_indicators = "symbols"
 
 # Command entries run on the herdr *server* via /bin/sh -lc, so a selected devbox
