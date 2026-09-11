@@ -17,7 +17,7 @@ show_agent_labels_on_pane_borders = true
 row_gap = 0
 rows = [
   ["state_icon", "agent", "workspace"],
-  ["machine"],
+  ["$machine"],
 ]
 
 [ui.toast]
