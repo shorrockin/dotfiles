@@ -4,6 +4,9 @@ onboarding = false
 # ~/.config/herdr/config.toml
 # > herdr config check && herdr server reload-config
 
+[terminal]
+default_shell = "fish"
+
 [ui]
 status_indicators = "symbols"
 
