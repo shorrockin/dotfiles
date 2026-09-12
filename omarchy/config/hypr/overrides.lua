@@ -6,6 +6,13 @@
 -- as Omarchy's own local, untracked config — this is the one file from that
 -- directory that's actually version-controlled.
 
+-- Use the niri-like side-scrolling layout by default on every workspace.
+hl.config({
+  general = {
+    layout = "scrolling",
+  },
+})
+
 -- Controller input (Steam Input) is read directly via evdev/uinput and never
 -- reaches Wayland, so Hyprland's idle timer keeps counting during gameplay
 -- and the screensaver/lock can fire mid-game. Proton titles all share the
