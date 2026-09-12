@@ -11,6 +11,7 @@
   - `45-nas-mount.sh`, `46-nautilus-nas-bookmark.sh` — configures the Synology share used by both desktops
   - `47-disable-locking.sh` — keeps both desktop sessions password-free while leaving the screensaver enabled
   - `48-enable-idle-suspend.sh` — enables `hypridle` for suspend after one hour of inactivity
+  - `49-weather-metric.sh` — keeps the Omarchy weather widget on metric units
   - `50-host-setup.sh` — runs `hosts/$(hostname)/setup.d/*.sh`, if present, in order
 - `dots/`: Omarchy-only home files, including personal cross-tool agent config and `dot-tmux-sessionizer.conf`
 - `config/`: Omarchy-only `~/.config` overlay. `hypr/overrides.lua` is loaded by
