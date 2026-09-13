@@ -1,7 +1,24 @@
 # Omarchy application palettes
 
-`install.d/49-app-themes.sh` extends Omarchy's palette to Slack and WhatsApp
+`install.d/49-app-themes.sh` extends Omarchy's palette to Slack, Steam, and WhatsApp
 without downloading or executing third-party theme projects.
+
+## Steam
+
+The installer installs the open-source Millennium framework from the AUR, then
+copies the local CSS-only theme in `steam/` to
+`~/.steam/steam/millennium/themes/omarchy`. It preserves Millennium's other
+settings while selecting that theme in `~/.config/millennium/config.json`.
+
+The theme contains no JavaScript, plugins, remote resources, or update metadata.
+Omarchy's theme hook republishes `omarchy.css` after each palette change. Fully
+quit and reopen Steam to load a newly selected palette.
+
+Millennium itself is a native third-party dependency with the same access as
+Steam. Its Arch package bootstraps by replacing Steam's 32-bit and 64-bit
+`libXtst.so.6` links with Millennium loader links; removing the package removes
+those links. This integration trusts that package, but does not trust or install
+anything from Millennium's theme or plugin marketplace.
 
 ## WhatsApp
 

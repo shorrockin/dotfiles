@@ -1,0 +1,13 @@
+{
+  "name": "Omarchy",
+  "author": "Local dotfiles",
+  "description": "A CSS-only Steam palette generated from the active Omarchy theme.",
+  "version": "1.0.0",
+  "UseDefaultPatches": false,
+  "Patches": [
+    {
+      "MatchRegexString": "^Steam$|^Steam Games List$|Menu$|Supernav$|^notificationtoasts_|\\.ModalDialogPopup|\\.FullModalOverlay|\\.friendsui-container",
+      "TargetCss": "omarchy.css"
+    }
+  ]
+}

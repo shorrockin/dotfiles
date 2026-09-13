@@ -2,4 +2,4 @@
 set -e
 
 omarchy pkg add fish git-delta stow ttf-meslo-nerd most libqalculate cmatrix glow jq cifs-utils hypridle
-omarchy pkg aur add oh-my-posh-bin
+omarchy pkg aur add oh-my-posh-bin millennium

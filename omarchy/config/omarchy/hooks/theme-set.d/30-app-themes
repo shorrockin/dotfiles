@@ -6,6 +6,8 @@ set -u
 
 source_css="$HOME/.local/state/omarchy/current/theme/whatsapp.css"
 extension_dir="$HOME/.local/share/omarchy-app-themes/whatsapp"
+steam_source_css="$HOME/.local/state/omarchy/current/theme/steam.css"
+steam_theme_dir="$HOME/.steam/steam/millennium/themes/omarchy"
 
 if [[ -f $source_css && -d $extension_dir ]]; then
   tmp="$extension_dir/theme.css.tmp"
@@ -13,6 +15,16 @@ if [[ -f $source_css && -d $extension_dir ]]; then
     :
   else
     logger -t omarchy-app-themes "failed to publish the WhatsApp palette"
+    rm -f "$tmp"
+  fi
+fi
+
+if [[ -f $steam_source_css && -d $steam_theme_dir ]]; then
+  tmp="$steam_theme_dir/omarchy.css.tmp"
+  if cp "$steam_source_css" "$tmp" && mv "$tmp" "$steam_theme_dir/omarchy.css"; then
+    :
+  else
+    logger -t omarchy-app-themes "failed to publish the Steam palette"
     rm -f "$tmp"
   fi
 fi

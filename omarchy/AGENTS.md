@@ -11,7 +11,7 @@
   - `45-nas-mount.sh`, `46-nautilus-nas-bookmark.sh` — configures the Synology share used by both desktops
   - `47-disable-locking.sh` — keeps both desktop sessions password-free while leaving the screensaver enabled
   - `48-enable-idle-suspend.sh` — enables `hypridle` for suspend after one hour of inactivity
-  - `49-app-themes.sh` — makes Slack and WhatsApp follow the active Omarchy palette
+  - `49-app-themes.sh` — makes Slack, Steam, and WhatsApp follow the active Omarchy palette
   - `49-weather-metric.sh` — keeps the Omarchy weather widget on metric units
   - `50-host-setup.sh` — runs `hosts/$(hostname)/setup.d/*.sh`, if present, in order
 - `dots/`: Omarchy-only home files, including personal cross-tool agent config and `dot-tmux-sessionizer.conf`
@@ -19,7 +19,7 @@
   Omarchy's `hyprland.lua`; `hypr/hypridle.conf` suspends after one hour idle.
 - `hosts/<hostname>/`: per-machine setup (mirrors NixOS's `hosts/<name>.nix`), can have `setup.d/`, `udev/`, `config/`. Current profiles: [`gustave`](hosts/gustave/AGENTS.md) and [`maelle`](hosts/maelle/AGENTS.md).
 - `backgrounds/catppuccin/`: wallpapers
-- `app-themes/`: locally maintained Slack and WhatsApp theme integration sources
+- `app-themes/`: locally maintained Slack, Steam, and WhatsApp theme integration sources
 
 ## Bootstrap a new box
 
