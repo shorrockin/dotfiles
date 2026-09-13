@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Local Omarchy WhatsApp Palette",
+  "version": "1.0.0",
+  "description": "Applies the current local Omarchy palette to WhatsApp Web.",
+  "content_scripts": [
+    {
+      "matches": ["https://web.whatsapp.com/*"],
+      "js": ["theme.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["theme.css"],
+      "matches": ["https://web.whatsapp.com/*"]
+    }
+  ]
+}

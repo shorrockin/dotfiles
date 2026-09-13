@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Publish generated files that cannot be read directly from Omarchy's theme
+# state. Never make an otherwise successful theme switch fail.
+
+set -u
+
+source_css="$HOME/.local/state/omarchy/current/theme/whatsapp.css"
+extension_dir="$HOME/.local/share/omarchy-app-themes/whatsapp"
+
+if [[ -f $source_css && -d $extension_dir ]]; then
+  tmp="$extension_dir/theme.css.tmp"
+  if cp "$source_css" "$tmp" && mv "$tmp" "$extension_dir/theme.css"; then
+    :
+  else
+    logger -t omarchy-app-themes "failed to publish the WhatsApp palette"
+    rm -f "$tmp"
+  fi
+fi
+
+exit 0
