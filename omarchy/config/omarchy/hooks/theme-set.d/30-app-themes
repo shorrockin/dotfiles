@@ -9,6 +9,21 @@ extension_dir="$HOME/.local/share/omarchy-app-themes/whatsapp"
 steam_source_css="$HOME/.local/state/omarchy/current/theme/steam.css"
 steam_theme_dir="$HOME/.steam/steam/millennium/themes/omarchy"
 
+reload_running_steam_theme() {
+  command -v steam >/dev/null 2>&1 || return 0
+  command -v hyprctl >/dev/null 2>&1 || return 0
+  command -v jq >/dev/null 2>&1 || return 0
+
+  # Re-enabling the active Millennium theme reloads Steam's UI stylesheet.
+  # Only send the URL when Steam already has a window, so a theme switch never
+  # launches Steam unexpectedly.
+  if hyprctl clients -j 2>/dev/null |
+    jq -e 'any(.[]; ((.class // "") | ascii_downcase) == "steam")' >/dev/null; then
+    setsid -f steam steam://millennium/settings/themes/enable/omarchy \
+      >/dev/null 2>&1 || logger -t omarchy-app-themes "failed to reload the Steam palette"
+  fi
+}
+
 if [[ -f $source_css && -d $extension_dir ]]; then
   tmp="$extension_dir/theme.css.tmp"
   if cp "$source_css" "$tmp" && mv "$tmp" "$extension_dir/theme.css"; then
@@ -22,7 +37,7 @@ fi
 if [[ -f $steam_source_css && -d $steam_theme_dir ]]; then
   tmp="$steam_theme_dir/omarchy.css.tmp"
   if cp "$steam_source_css" "$tmp" && mv "$tmp" "$steam_theme_dir/omarchy.css"; then
-    :
+    reload_running_steam_theme
   else
     logger -t omarchy-app-themes "failed to publish the Steam palette"
     rm -f "$tmp"

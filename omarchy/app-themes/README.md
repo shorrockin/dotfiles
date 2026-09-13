@@ -11,8 +11,10 @@ copies the local CSS-only theme in `steam/` to
 settings while selecting that theme in `~/.config/millennium/config.json`.
 
 The theme contains no JavaScript, plugins, remote resources, or update metadata.
-Omarchy's theme hook republishes `omarchy.css` after each palette change. Fully
-quit and reopen Steam to load a newly selected palette.
+Omarchy's theme hook republishes `omarchy.css` after each palette change. If a
+Steam window is open, the hook also uses Millennium's local URL protocol to
+soft-reload the stylesheet; otherwise the new palette loads the next time Steam
+opens. A full Steam restart is only needed after Millennium is first installed.
 
 Millennium itself is a native third-party dependency with the same access as
 Steam. Its Arch package bootstraps by replacing Steam's 32-bit and 64-bit
