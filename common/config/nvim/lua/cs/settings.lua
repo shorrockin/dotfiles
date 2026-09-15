@@ -64,18 +64,26 @@ vim.opt.formatoptions = "tcqrn1"
 --  Does not play well with neoclip
 vim.opt.clipboard = "unnamedplus"
 
--- Enable OSC52 clipboard support for SSH sessions (Neovim 0.10+)
--- This allows copying to local system clipboard when connected via SSH
+-- Enable copy-only OSC 52 clipboard support for SSH sessions (Neovim 0.10+).
+-- Herdr forwards clipboard writes from remote panes, but it does not answer
+-- clipboard-read queries. Keep ordinary `p` on Neovim's local register and
+-- make explicit `"+p` fall back to that register instead of timing out.
 if vim.env.SSH_CONNECTION then
+	vim.opt.clipboard = ""
+
+	local function paste_from_unnamed()
+		return { vim.fn.getreg('"', 1, true), vim.fn.getregtype('"') }
+	end
+
 	vim.g.clipboard = {
-		name = "OSC 52",
+		name = "OSC 52 (copy only)",
 		copy = {
 			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
 			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
 		},
 		paste = {
-			["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-			["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+			["+"] = paste_from_unnamed,
+			["*"] = paste_from_unnamed,
 		},
 	}
 end
