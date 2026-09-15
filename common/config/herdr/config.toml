@@ -16,8 +16,8 @@ show_agent_labels_on_pane_borders = true
 [ui.sidebar.agents]
 row_gap = 0
 rows = [
-  ["state_icon", "agent", "workspace"],
-  ["$machine"],
+  ["state_icon", "workspace", "agent"],
+  ["machine"],
 ]
 
 [ui.toast]
