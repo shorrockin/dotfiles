@@ -40,5 +40,10 @@ abbr --add yolo-codex 'codex --yolo'
 abbr --add fish-source 'source ~/.config/fish/config.fish'
 
 # REPLACEMENT
-abbr --add cat bat
-abbr --add more most
+if type -q bat
+    abbr --add cat bat
+    abbr --add more bat
+else if type -q batcat
+    abbr --add cat batcat
+    abbr --add more batcat
+end
