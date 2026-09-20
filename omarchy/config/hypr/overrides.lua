@@ -30,6 +30,107 @@ o.window({ class = ".*" }, { idle_inhibit = "fullscreen" })
 -- rule above or it prevents hypridle's later suspend timeout from ever firing.
 o.window({ class = "^org\\.omarchy\\.screensaver$" }, { idle_inhibit = "none" })
 
+-- Hyprland always draws pinned windows above the workspace, including above
+-- the fullscreen screensaver. Temporarily unpin them while the screensaver is
+-- visible, then restore both their pin and stacking order when it closes.
+--
+-- This mirrors the upstream Omarchy fix from PR #7876. Keep it here until that
+-- change ships, then remove this block so Omarchy owns the behavior again.
+local screensaver_class = "org.omarchy.screensaver"
+local screensaver_unpinned_tag = "omarchy-screensaver-unpinned"
+
+local function set_window_pin(window, action)
+  hl.dispatch(hl.dsp.window.pin({ action = action, window = window }))
+end
+
+local function set_window_tag(window, tag)
+  hl.dispatch(hl.dsp.window.tag({ tag = tag, window = window }))
+end
+
+local function set_window_zorder(window, mode)
+  hl.dispatch(hl.dsp.window.alter_zorder({ mode = mode, window = window }))
+end
+
+local function screensaver_windows()
+  return hl.get_windows({ class = screensaver_class })
+end
+
+local function screensaver_unpinned_windows()
+  return hl.get_windows({ tag = screensaver_unpinned_tag })
+end
+
+local function unpin_for_screensaver(window)
+  set_window_tag(window, "+" .. screensaver_unpinned_tag)
+  set_window_pin(window, "off")
+end
+
+local function unpin_pinned_windows_for_screensaver()
+  for _, window in ipairs(hl.get_windows()) do
+    if window.pinned and window.class ~= screensaver_class then
+      unpin_for_screensaver(window)
+    end
+  end
+end
+
+local function lower_screensaver_unpinned_windows()
+  for _, window in ipairs(screensaver_unpinned_windows()) do
+    if window.allowed_over_fullscreen then
+      set_window_zorder(window, "bottom")
+    end
+  end
+end
+
+local function restore_screensaver_pins()
+  -- hl.get_windows returns bottom-to-top order. Raising in that same order
+  -- restores the windows' original stacking order.
+  for _, window in ipairs(screensaver_unpinned_windows()) do
+    set_window_zorder(window, "top")
+    set_window_pin(window, "on")
+
+    -- Hyprland refuses to pin fullscreen windows. Leave those tagged so a
+    -- later fullscreen event can retry the restoration.
+    if window.pinned then
+      set_window_tag(window, "-" .. screensaver_unpinned_tag)
+    end
+  end
+end
+
+local function restore_screensaver_pins_if_gone()
+  if #screensaver_unpinned_windows() > 0 and #screensaver_windows() == 0 then
+    restore_screensaver_pins()
+  end
+end
+
+-- Unpin before the screensaver becomes fullscreen; after that point Hyprland
+-- skips pinned windows while hiding the workspace beneath it.
+hl.on("window.open_early", function(window)
+  if window.class == screensaver_class then
+    unpin_pinned_windows_for_screensaver()
+  end
+end)
+
+hl.on("window.open", function(window)
+  if window.class == screensaver_class then
+    unpin_pinned_windows_for_screensaver()
+    lower_screensaver_unpinned_windows()
+  elseif window.pinned and #screensaver_windows() > 0 then
+    unpin_for_screensaver(window)
+    lower_screensaver_unpinned_windows()
+  end
+end)
+
+hl.on("window.pin", function(window)
+  if window.pinned and window.class ~= screensaver_class and #screensaver_windows() > 0 then
+    unpin_for_screensaver(window)
+    lower_screensaver_unpinned_windows()
+  end
+end)
+
+hl.on("window.close", restore_screensaver_pins_if_gone)
+hl.on("window.destroy", restore_screensaver_pins_if_gone)
+hl.on("config.reloaded", restore_screensaver_pins_if_gone)
+hl.on("window.fullscreen", restore_screensaver_pins_if_gone)
+
 -- Omarchy's default steam.lua floats the whole "steam" class, which also
 -- covers friend-message/achievement toast popups (same class, different
 -- title) -- those should stay floating. Tile only the main window and
