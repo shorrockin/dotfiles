@@ -44,3 +44,4 @@ If a machine's platform ever changes (e.g. Omarchy → NixOS), run `dots delete`
 - Shell script shebangs: always `#!/usr/bin/env bash`, never `#!/bin/bash` — NixOS has no `/bin/bash`.
 - Personal cross-tool agent config (`~/.agents`, `~/.claude`) is platform-owned. Document it in the owning platform's instructions; platforms without those entries do not install it.
 - When a directory needs scoped agent instructions, put the canonical content in `AGENTS.md` and add a relative `CLAUDE.md` symlink to it. Never create the singular `AGENT.md`. In prose, refer to "repository instructions" or "directory instructions" instead of naming a tool-specific compatibility file.
+- Any change that adds, changes, moves, or removes an Omarchy-specific customization must update `omarchy/customizations.toml` in the same change. Group inventory entries by user-visible intent rather than by file; record upstream watch paths and an objective `retire_when` condition for workarounds.

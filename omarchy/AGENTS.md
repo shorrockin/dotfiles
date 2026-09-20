@@ -5,6 +5,11 @@
 ## Directory contents
 
 - `install.sh`: orchestrator — runs each `install.d/*.sh` in order.
+- `customizations.toml`: source-of-truth inventory of Omarchy-specific preferences,
+  policies, workarounds, hardware adaptations, integrations, and bootstrap behavior.
+  Update it in the same change whenever a customization is added, changed, moved,
+  or removed. The `omarchy-upgrade-audit` skill and post-update report use its
+  package-path watches to identify upgrade impact.
 - `install.d/`: bootstrap steps, each idempotent, reading `$DOTFILES_DIR`:
   - `00-packages.sh` (including `hypridle` for one-hour idle suspend), `10-shell.sh` (sets fish as default), `20-stow.sh`, `30-tmux-plugins.sh` (tpm)
   - `40-hypr-overrides.sh` — wires `require("hypr.overrides")` into the live `~/.config/hypr/hyprland.lua`, validates via `hyprctl` if running
@@ -48,6 +53,10 @@ Same pre-existing-file backup behavior as described in the repository instructio
 `dots/dot-agents/` owns the canonical agent instructions and `skills/<name>/` directories. `dots/dot-claude/` contains compatibility links for tools that use that location. Keep the links relative to their locations in the repo because Stow adds one path hop without relocating the source.
 
 `~/.claude/skills/` is a real, pre-populated directory, so each skill needs its own link. To add one, create `dots/dot-agents/skills/<name>/`, then run `ln -s ../../dot-agents/skills/<name> dots/dot-claude/skills/<name>` and restow.
+
+`omarchy-upgrade-audit` compares cached before/after Omarchy packages with
+`customizations.toml`. Its post-update hook is deliberately non-blocking and
+writes the latest report under `~/.local/state/omarchy-upgrade-audit/`.
 
 ## Hypr overrides
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Upgrade Audit"
+  short_description: "Review upgrades against local customizations"
+  default_prompt: "Use $omarchy-upgrade-audit to review the latest Omarchy upgrade against my tracked customizations."

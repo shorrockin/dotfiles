@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec python "$HOME/.agents/skills/omarchy-upgrade-audit/scripts/audit.py" "$@"

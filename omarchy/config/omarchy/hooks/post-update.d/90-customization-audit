@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Generate evidence for a later human/agent review without ever failing the
+# Omarchy update that invoked this hook.
+
+set -u
+
+state_dir="$HOME/.local/state/omarchy-upgrade-audit"
+report="$state_dir/latest.md"
+error_log="$state_dir/latest.error.log"
+tmp="$state_dir/latest.md.tmp"
+
+mkdir -p "$state_dir"
+if command -v omarchy-upgrade-audit >/dev/null 2>&1 &&
+  omarchy-upgrade-audit >"$tmp" 2>"$error_log"; then
+  mv "$tmp" "$report"
+  rm -f "$error_log"
+  echo "Customization audit saved to $report"
+else
+  rm -f "$tmp"
+  echo "Customization audit could not be generated; see $error_log" >&2
+fi
+
+exit 0

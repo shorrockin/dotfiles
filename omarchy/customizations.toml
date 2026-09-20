@@ -1,0 +1,252 @@
+# Omarchy-specific desired state. Group entries by user-visible intent rather
+# than by file. `watch` values are PACKAGE:PATH globs inside package archives.
+# Update this file whenever an Omarchy customization is added, changed, moved,
+# or removed. Workarounds must state the objective condition for retirement.
+
+schema_version = 1
+
+[[customizations]]
+id = "platform-bootstrap"
+title = "Repeatable Omarchy bootstrap"
+kind = "bootstrap"
+scope = "shared"
+intent = "Provision packages, Stow-managed configuration, tmux plugins, and host-specific setup idempotently."
+implementation = [
+  "omarchy/install.sh",
+  "omarchy/install.d/00-packages.sh",
+  "omarchy/install.d/20-stow.sh",
+  "omarchy/install.d/30-tmux-plugins.sh",
+  "omarchy/install.d/50-host-setup.sh",
+]
+watch = [
+  "omarchy:usr/share/omarchy/bin/omarchy-pkg-*",
+  "omarchy:usr/share/omarchy/install/omarchy-*.packages",
+  "omarchy:usr/share/omarchy/bin/omarchy-update*",
+]
+
+[[customizations]]
+id = "fish-login-shell"
+title = "Fish as the login shell"
+kind = "preference"
+scope = "shared"
+intent = "Use Fish as the default interactive shell on Omarchy machines."
+implementation = ["omarchy/install.d/10-shell.sh"]
+watch = ["omarchy:usr/share/omarchy/install/*shell*", "omarchy-settings:etc/skel/*"]
+
+[[customizations]]
+id = "hypr-user-overlay"
+title = "Stable Hyprland user override layer"
+kind = "integration"
+scope = "shared"
+intent = "Load version-controlled shared and host-specific Hyprland overrides after Omarchy defaults."
+implementation = ["omarchy/install.d/40-hypr-overrides.sh", "omarchy/config/hypr/overrides.lua"]
+watch = [
+  "omarchy-settings:usr/share/omarchy/config/hypr/hyprland.lua",
+  "omarchy-settings:usr/share/omarchy/default/hypr/bootstrap.lua",
+  "omarchy-settings:usr/share/omarchy/default/hypr/helpers.lua",
+]
+
+[[customizations]]
+id = "scrolling-layout"
+title = "Scrolling workspace layout"
+kind = "preference"
+scope = "shared"
+intent = "Use Hyprland's niri-like scrolling layout by default."
+implementation = ["omarchy/config/hypr/overrides.lua"]
+watch = ["omarchy-settings:usr/share/omarchy/default/hypr/looknfeel.lua", "omarchy-settings:usr/share/omarchy/default/hypr/workspace-layouts.lua"]
+
+[[customizations]]
+id = "game-idle-inhibition"
+title = "Prevent idle actions during games"
+kind = "workaround"
+scope = "shared"
+intent = "Keep Steam Input and native fullscreen games from triggering the screensaver or suspend while preserving idle suspend from the screensaver."
+implementation = ["omarchy/config/hypr/overrides.lua"]
+watch = [
+  "omarchy-settings:usr/share/omarchy/default/hypr/apps/steam.lua",
+  "omarchy-settings:usr/share/omarchy/default/hypr/apps/system.lua",
+  "omarchy-settings:usr/share/omarchy/default/hypr/apps/omarchy-shell.lua",
+]
+retire_when = "Omarchy reliably inhibits idle for Proton controller input and arbitrary native fullscreen games without causing its screensaver to inhibit suspend."
+
+[[customizations]]
+id = "steam-window-tiling"
+title = "Tile Steam's primary windows"
+kind = "preference"
+scope = "shared"
+intent = "Tile the Steam main window and Friends List while leaving transient Steam popups floating."
+implementation = ["omarchy/config/hypr/overrides.lua"]
+watch = ["omarchy-settings:usr/share/omarchy/default/hypr/apps/steam.lua"]
+
+[[customizations]]
+id = "mouse-workspace-navigation"
+title = "Mouse side-button workspace navigation"
+kind = "preference"
+scope = "shared"
+intent = "Use Super plus unmodified mouse side buttons to move between workspaces."
+implementation = ["omarchy/config/hypr/overrides.lua"]
+watch = ["omarchy-settings:usr/share/omarchy/default/hypr/bindings/*", "omarchy-settings:usr/share/omarchy/default/hypr/helpers.lua"]
+
+[[customizations]]
+id = "power-button-suspend"
+title = "Suspend from the physical power button"
+kind = "preference"
+scope = "shared"
+intent = "Suspend immediately when XF86PowerOff is pressed instead of opening Omarchy's power menu."
+implementation = ["omarchy/config/hypr/overrides.lua"]
+watch = ["omarchy-settings:usr/share/omarchy/default/hypr/bindings/utilities.lua", "omarchy:usr/share/omarchy/bin/omarchy-system-*"]
+
+[[customizations]]
+id = "password-free-desktop"
+title = "Password-free screensaver and suspend"
+kind = "policy"
+scope = "shared"
+intent = "Keep the screensaver enabled but prevent automatic password locking and lock-before-suspend."
+implementation = ["omarchy/install.d/47-disable-locking.sh"]
+watch = [
+  "omarchy-settings:usr/lib/systemd/user/omarchy-sleep-lock.service",
+  "omarchy:usr/share/omarchy/bin/omarchy-system-sleep-lock",
+  "omarchy:usr/share/omarchy/shell/*",
+  "omarchy-settings:usr/share/omarchy/config/omarchy/shell.json",
+]
+
+[[customizations]]
+id = "one-hour-idle-suspend"
+title = "Suspend after one idle hour"
+kind = "policy"
+scope = "shared"
+intent = "Use hypridle to suspend after one hour while respecting application and system idle inhibitors."
+implementation = ["omarchy/config/hypr/hypridle.conf", "omarchy/install.d/48-enable-idle-suspend.sh"]
+watch = [
+  "omarchy-settings:usr/lib/systemd/user/*idle*",
+  "omarchy-settings:usr/share/omarchy/config/hypr/*idle*",
+  "omarchy:usr/share/omarchy/bin/omarchy-system-*",
+]
+
+[[customizations]]
+id = "synology-nas"
+title = "Synology NAS mount and Files bookmark"
+kind = "integration"
+scope = "shared"
+intent = "Automount the household Synology share and expose it in the Nautilus sidebar."
+implementation = ["omarchy/install.d/45-nas-mount.sh", "omarchy/install.d/46-nautilus-nas-bookmark.sh"]
+watch = ["omarchy:usr/share/omarchy/install/omarchy-*.packages", "omarchy:usr/share/omarchy/bin/omarchy-pkg-*"]
+
+[[customizations]]
+id = "application-theme-sync"
+title = "Omarchy palettes for terminal tools, Slack, Steam, and WhatsApp"
+kind = "integration"
+scope = "shared"
+intent = "Propagate the active Omarchy palette to tmux, Oh My Posh, Slack, Steam, and WhatsApp."
+implementation = [
+  "omarchy/install.d/49-app-themes.sh",
+  "omarchy/config/omarchy/hooks/theme-set.d/10-tmux-transparent-bg",
+  "omarchy/config/omarchy/hooks/theme-set.d/20-oh-my-posh",
+  "omarchy/config/omarchy/hooks/theme-set.d/30-app-themes",
+  "omarchy/config/omarchy/themed",
+  "omarchy/app-themes",
+]
+watch = [
+  "omarchy:usr/share/omarchy/bin/omarchy-theme-*",
+  "omarchy:usr/share/omarchy/bin/omarchy-hook*",
+  "omarchy:usr/share/omarchy/shell/*",
+  "omarchy-settings:usr/share/omarchy/default/omarchy/*",
+]
+
+[[customizations]]
+id = "metric-weather"
+title = "Metric weather units"
+kind = "preference"
+scope = "shared"
+intent = "Keep the Omarchy weather bar widget on metric units."
+implementation = ["omarchy/install.d/49-weather-metric.sh"]
+watch = ["omarchy:usr/share/omarchy/bin/omarchy-bar-*", "omarchy:usr/share/omarchy/shell/*weather*"]
+
+[[customizations]]
+id = "catppuccin-wallpaper-library"
+title = "Catppuccin wallpaper library"
+kind = "preference"
+scope = "shared"
+intent = "Expose the shared wallpaper collection as the backgrounds for the Catppuccin Omarchy theme."
+implementation = ["omarchy/config/omarchy/backgrounds/catppuccin", "common/config/assets/wallpapers"]
+watch = ["omarchy:usr/share/omarchy/bin/omarchy-theme-*", "omarchy:usr/share/omarchy/themes/*"]
+
+[[customizations]]
+id = "gustave-nvidia-hibernate"
+title = "Reliable NVIDIA hibernation on Gustave"
+kind = "workaround"
+scope = "gustave"
+intent = "Preserve NVIDIA video memory and disable forced early NVIDIA loading so hibernation resumes instead of discarding the image."
+implementation = ["omarchy/hosts/gustave/setup.d/10-nvidia-hibernate.sh", "omarchy/hosts/gustave/modprobe.d/nvidia-power-management.conf"]
+watch = [
+  "omarchy:usr/share/omarchy/install/hardware/nvidia.sh",
+  "omarchy:usr/share/omarchy/install/user/hardware/*nvidia*",
+  "omarchy:usr/share/omarchy/migrations/*",
+  "omarchy-settings:etc/mkinitcpio.conf.d/*",
+  "omarchy-settings:usr/share/omarchy/default/hypr/nvidia.lua",
+]
+upstream = "https://github.com/basecamp/omarchy/issues/5554"
+retire_when = "Gustave can repeatedly hibernate and resume with Omarchy's stock NVIDIA mkinitcpio and modprobe configuration."
+
+[[customizations]]
+id = "gustave-controller-support"
+title = "Steam Controller access and battery widget"
+kind = "hardware"
+scope = "gustave"
+intent = "Provide reliable uinput/hidraw access and show the connected Steam Controller battery in the Omarchy bar."
+implementation = [
+  "omarchy/hosts/gustave/setup.d/40-steam-controller-udev.sh",
+  "omarchy/hosts/gustave/udev/99-uinput-steam-controller.rules",
+  "omarchy/hosts/gustave/setup.d/45-steam-controller-bar-widget.sh",
+  "omarchy/hosts/gustave/plugins/steam-controller-battery",
+]
+watch = [
+  "omarchy:usr/share/omarchy/bin/omarchy-plugin-*",
+  "omarchy:usr/share/omarchy/shell/*",
+  "omarchy:usr/share/omarchy/install/omarchy-*.packages",
+]
+
+[[customizations]]
+id = "gustave-display-scale"
+title = "Standard-DPI display scaling on Gustave"
+kind = "hardware"
+scope = "gustave"
+intent = "Override Omarchy's HiDPI-oriented GDK scale for Gustave's standard-DPI ultrawide display."
+implementation = ["omarchy/hosts/gustave/config/hypr/monitors.lua"]
+watch = ["omarchy-settings:usr/share/omarchy/config/hypr/monitors.lua", "omarchy-settings:usr/share/omarchy/default/hypr/envs.lua"]
+
+[[customizations]]
+id = "gustave-input-and-launchers"
+title = "Gustave keyboard remaps and application launchers"
+kind = "hardware"
+scope = "gustave"
+intent = "Compensate for Kinesis key positions and provide machine-specific launch-or-focus shortcuts."
+implementation = ["omarchy/hosts/gustave/config/hypr/host.lua"]
+watch = ["omarchy-settings:usr/share/omarchy/default/hypr/bindings/*", "omarchy-settings:usr/share/omarchy/default/hypr/helpers.lua"]
+
+[[customizations]]
+id = "maelle-input-and-chatgpt"
+title = "Maelle Caps Lock and native ChatGPT bindings"
+kind = "preference"
+scope = "maelle"
+intent = "Map Caps Lock to Escape and launch the native ChatGPT application instead of the stock web app."
+implementation = ["omarchy/hosts/maelle/config/hypr/host.lua"]
+watch = ["omarchy-settings:usr/share/omarchy/default/hypr/input.lua", "omarchy-settings:usr/share/omarchy/default/hypr/bindings/applications.lua"]
+
+[[customizations]]
+id = "upgrade-customization-audit"
+title = "Post-upgrade customization audit"
+kind = "integration"
+scope = "shared"
+intent = "Compare each Omarchy upgrade with this inventory and save a non-blocking compatibility report."
+implementation = [
+  "omarchy/customizations.toml",
+  "omarchy/config/scripts/omarchy-upgrade-audit",
+  "omarchy/config/omarchy/hooks/post-update.d/90-customization-audit",
+  "omarchy/dots/dot-agents/skills/omarchy-upgrade-audit",
+]
+watch = [
+  "omarchy:usr/share/omarchy/bin/omarchy-update",
+  "omarchy:usr/share/omarchy/bin/omarchy-update-pkg-prune",
+  "omarchy:usr/share/omarchy/bin/omarchy-hook*",
+]
