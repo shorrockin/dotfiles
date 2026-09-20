@@ -1,4 +1,14 @@
 gui:
+ nerdFontsVersion: "3"
+ showFileIcons: true
+ showNumstatInFilesView: true
+ expandFocusedSidePanel: true
+ showDivergenceFromBaseBranch: arrowAndNumber
+ scrollOffMargin: 4
+ border: rounded
+ filterMode: fuzzy
+ switchTabsWithPanelJumpKeys: true
+ showRandomTip: false
  # Use the mocha catppuccin theme
  theme:
    activeBorderColor:
@@ -20,3 +30,12 @@ gui:
      - '#cdd6f4'
    searchingActiveBorderColor:
      - '#f9e2af'
+
+disableStartupPopups: true
+
+git:
+ diffRenderers:
+   - name: delta
+     command: delta --dark --paging=never
+   - name: raw
+     type: rawGit
