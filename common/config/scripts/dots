@@ -145,3 +145,20 @@ case "$PLATFORM" in
     fi
     ;;
 esac
+
+# bat registers custom themes in a machine-local cache. Rebuild it after the
+# theme files have been stowed so fresh machines can use them immediately.
+if [[ "$USER_ACTION" != "delete" ]]; then
+  if command -v bat >/dev/null 2>&1; then
+    BAT_COMMAND="bat"
+  elif command -v batcat >/dev/null 2>&1; then
+    BAT_COMMAND="batcat"
+  else
+    BAT_COMMAND=""
+  fi
+
+  if [[ -n "$BAT_COMMAND" ]]; then
+    echo "Rebuilding bat theme cache..."
+    "$BAT_COMMAND" cache --build
+  fi
+fi
