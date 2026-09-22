@@ -48,6 +48,7 @@ navigate_workspace_up = ["up", "k"]
 navigate_workspace_down = ["down", "j"]
 next_workspace = "alt+tab"
 previous_workspace = "alt+shift+tab"
+switch_workspace = "alt+shift+1..9"
 
 # --- Tabs / windows ---
 switch_tab = ["prefix+1..9", "ctrl+1..9", "alt+1..9"]
