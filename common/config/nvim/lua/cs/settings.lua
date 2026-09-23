@@ -66,11 +66,9 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Enable copy-only OSC 52 clipboard support for SSH sessions (Neovim 0.10+).
 -- Herdr forwards clipboard writes from remote panes, but it does not answer
--- clipboard-read queries. Keep ordinary `p` on Neovim's local register and
--- make explicit `"+p` fall back to that register instead of timing out.
+-- clipboard-read queries. Use the unnamed register for reads so ordinary `p`
+-- does not query the terminal.
 if vim.env.SSH_CONNECTION then
-	vim.opt.clipboard = ""
-
 	local function paste_from_unnamed()
 		return { vim.fn.getreg('"', 1, true), vim.fn.getregtype('"') }
 	end
@@ -86,6 +84,8 @@ if vim.env.SSH_CONNECTION then
 			["*"] = paste_from_unnamed,
 		},
 	}
+
+	vim.opt.clipboard = "unnamedplus"
 end
 
 -- preview substitutions live as you type

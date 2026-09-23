@@ -33,6 +33,15 @@ gui:
 
 disableStartupPopups: true
 
+os:
+ # Send clipboard writes through the terminal so they work over SSH and Herdr.
+ copyToClipboardCmd: >-
+   sh -c 'printf "\033]52;c;"; printf %s "$1" | base64 | tr -d "\n"; printf "\a"' sh {{text}} > /dev/tty
+ # OSC 52 clipboard reads are not supported by Herdr. Keep reads working when
+ # Lazygit is running directly on macOS, Wayland, or X11.
+ readFromClipboardCmd: >-
+   sh -c 'if command -v pbpaste >/dev/null 2>&1; then pbpaste; elif [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste >/dev/null 2>&1; then wl-paste --no-newline; elif [ -n "$DISPLAY" ] && command -v xclip >/dev/null 2>&1; then xclip -out -selection clipboard; elif [ -n "$DISPLAY" ] && command -v xsel >/dev/null 2>&1; then xsel --output --clipboard; else exit 1; fi'
+
 git:
  diffRenderers:
    - name: delta
