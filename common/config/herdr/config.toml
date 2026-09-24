@@ -33,6 +33,24 @@ type = "plugin_action"
 command = "stripe.machines.open"
 description = "devbox machines"
 
+[[keys.command]]
+key = "prefix+shift+o"
+type = "plugin_action"
+command = "stripe.orbit.open"
+description = "Orbit sessions"
+
+[[keys.command]]
+key = "ctrl+shift+o"
+type = "plugin_action"
+command = "stripe.orbit.open"
+description = "Orbit sessions"
+
+[[keys.command]]
+key = "ctrl+s"
+type = "plugin_action"
+command = "stripe.picker.open"
+description = "find a workspace"
+
 [keys]
 prefix = "backtick"
 
@@ -40,9 +58,9 @@ reload_config = "prefix+r"
 resize_mode = "prefix+shift+r"
 last_pane = "prefix+0"
 
-# --- Sessions (prefix+s opens Herdr's picker; ctrl+s opens the global navigator) ---
+# Keep the global navigator available for cross-machine selection.
 settings = "prefix+shift+s"
-goto = "ctrl+s"
+goto = ["prefix+g", "ctrl+shift+s"]
 workspace_picker = "prefix+s"
 navigate_workspace_up = ["up", "k"]
 navigate_workspace_down = ["down", "j"]
