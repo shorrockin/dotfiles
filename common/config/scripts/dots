@@ -162,3 +162,19 @@ if [[ "$USER_ACTION" != "delete" ]]; then
     "$BAT_COMMAND" cache --build
   fi
 fi
+
+# Herdr records linked plugins by absolute path in machine-local state, so each
+# machine has to link the repo's plugins itself.
+if command -v herdr >/dev/null 2>&1; then
+  for plugin in "$DOTFILES_DIR"/common/herdr-plugins/*/; do
+    [ -f "$plugin/herdr-plugin.toml" ] || continue
+    if [[ "$USER_ACTION" == "delete" ]]; then
+      plugin_id=$(sed -n 's/^id = "\(.*\)"$/\1/p' "$plugin/herdr-plugin.toml")
+      echo "Unlinking herdr plugin $plugin_id..."
+      herdr plugin unlink "$plugin_id" >/dev/null || true
+    else
+      echo "Linking herdr plugin $(basename "$plugin")..."
+      herdr plugin link "${plugin%/}" >/dev/null
+    fi
+  done
+fi

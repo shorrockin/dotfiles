@@ -7,6 +7,7 @@ NixOS, macOS, and Omarchy stow this directory before their platform root. Generi
 - `dots/`: shared home-directory dotfiles, stowed via `--dotfiles` (dot-X → .X; already-dotted files like `.gitignore` stow as-is): `dot-gitconfig`, `dot-personal.gitconfig`, `.gitignore`, `dot-ideavimrc`, `dot-vimrc`, `dot-tigrc`
 - `config/`: shared app configs → `~/.config/`: `assets/` (wallpapers/logos/avatars), `bat/`, `btop/`, `delta/`, `fish/`, `ghostty/`, `herdr/`, `lazygit/`, `nvim/`, `oh-my-posh/`, `tmux/`, `tuicr/`, `vivaldi/`, `zsh/`
   - `scripts/`: platform-agnostic utilities, including the `dots` wrapper and `dots-check`. Platform-specific scripts live under that platform's own `config/scripts/` instead (e.g. `../nixos/config/scripts/`) — nothing here assumes `hyprctl`, `yabai`, `osascript`, etc.
+- `herdr-plugins/`: Herdr plugin sources, deliberately outside the stow packages. Herdr tracks linked plugins by absolute path in machine-local state, so `dots` runs `herdr plugin link` on each one (and `unlink` on `delete`) whenever `herdr` is installed. They're linked on Linux too, even though `linux/` doesn't stow `common`.
 
 ## Neovim
 
