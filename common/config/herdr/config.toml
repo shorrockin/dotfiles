@@ -48,7 +48,7 @@ description = "Orbit sessions"
 [[keys.command]]
 key = "ctrl+s"
 type = "plugin_action"
-command = "stripe.picker.open"
+command = "shorrock.picker.open"
 description = "find a workspace"
 
 [keys]
