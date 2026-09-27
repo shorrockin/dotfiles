@@ -8,3 +8,6 @@ config/fish/conf.d/fish_frozen_key_bindings.fish
 config/fish/conf.d/fish_frozen_theme.fish
 fish_variables
 .nvimlog
+tmp
+output
+common/config/vivaldi/NativeMessagingHosts
