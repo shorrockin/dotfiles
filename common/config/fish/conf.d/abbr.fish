@@ -38,6 +38,7 @@ abbr --add yolo-claude 'claude --dangerously-skip-permissions'
 abbr --add yolo-gemini 'gemini --yolo'
 abbr --add yolo-codex 'codex --yolo'
 abbr --add fish-source 'source ~/.config/fish/config.fish'
+abbr --add clipboard fish_clipboard_copy
 
 # REPLACEMENT
 if type -q bat
