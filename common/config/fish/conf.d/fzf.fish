@@ -37,15 +37,3 @@ if command -v fzf >/dev/null 2>&1
         echo "fzf version is less than 0.48, skipping fzf keybinding setup"
     end
 end
-
-# Ensure these bindings work in vi mode
-function fish_user_key_bindings
-    # This will add fzf bindings while maintaining vi mode
-    if functions -q fzf_key_bindings
-        fzf_key_bindings
-    end
-
-    # Ensure Ctrl+R works in both vi modes
-    bind -M insert \cr fzf-history-widget
-    bind -M default \cr fzf-history-widget
-end
