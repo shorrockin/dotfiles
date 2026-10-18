@@ -101,7 +101,7 @@ id = "password-free-desktop"
 title = "Password-free screensaver and suspend"
 kind = "policy"
 scope = "shared"
-intent = "Keep the screensaver enabled but prevent automatic password locking and lock-before-suspend."
+intent = "Keep the screensaver enabled while using Omarchy's native disabled lock timeout and preventing lock-before-suspend."
 implementation = ["omarchy/install.d/47-disable-locking.sh"]
 watch = [
   "omarchy-settings:usr/lib/systemd/user/omarchy-sleep-lock.service",

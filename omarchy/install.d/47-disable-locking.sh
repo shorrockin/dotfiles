@@ -13,10 +13,10 @@ else
   echo "  omarchy-sleep-lock.service already masked"
 fi
 
-# Omarchy has no disabled value for idle.lock. Use a timeout long enough that it
-# will not fire on a machine in regular use, while staying within QML's timer.
+# Omarchy 4.0.5 and newer treats an idle.lock value of 0 as disabled while
+# leaving the screensaver timer independent and active.
 SHELL_JSON="$HOME/.config/omarchy/shell.json"
-NEVER=1000000
+LOCK_DISABLED=0
 
 if [ ! -e "$SHELL_JSON" ]; then
   mkdir -p "$(dirname "$SHELL_JSON")"
@@ -27,11 +27,11 @@ if [ ! -e "$SHELL_JSON" ]; then
   fi
 fi
 
-if [ "$(jq -r '.idle.lock // empty' "$SHELL_JSON")" != "$NEVER" ]; then
+if [ "$(jq -r '.idle.lock // empty' "$SHELL_JSON")" != "$LOCK_DISABLED" ]; then
   lock_tmp="$(mktemp)"
-  jq --argjson never "$NEVER" '.idle.lock = $never' "$SHELL_JSON" >"$lock_tmp"
+  jq --argjson disabled "$LOCK_DISABLED" '.idle.lock = $disabled' "$SHELL_JSON" >"$lock_tmp"
   mv "$lock_tmp" "$SHELL_JSON"
-  echo "  Set idle.lock = $NEVER in shell.json"
+  echo "  Set idle.lock = $LOCK_DISABLED in shell.json"
 else
   echo "  idle.lock already disabled in shell.json"
 fi
