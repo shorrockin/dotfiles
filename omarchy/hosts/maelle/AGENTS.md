@@ -23,7 +23,8 @@ Do not copy `gustave`'s NVIDIA hibernate fix, Steam Controller support, monitor
 scale, Kinesis key remaps, or application shortcuts. The shared layer already
 provides the general Steam rules, suspend power button, Synology mount, and
 password-free lock policy and one-hour idle suspend requested for both
-desktops.
+desktops. Maelle's host setup changes the screensaver timeout to ten minutes
+without changing that one-hour suspend timeout.
 
 The Synology credentials and mounted file ownership both use the `chris`
 account. Only the password remains a manual first-install step.

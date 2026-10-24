@@ -225,6 +225,15 @@ implementation = ["omarchy/hosts/gustave/config/hypr/host.lua"]
 watch = ["omarchy-settings:usr/share/omarchy/default/hypr/bindings/*", "omarchy-settings:usr/share/omarchy/default/hypr/helpers.lua"]
 
 [[customizations]]
+id = "maelle-screensaver-timeout"
+title = "Ten-minute screensaver on Maelle"
+kind = "preference"
+scope = "maelle"
+intent = "Show the screensaver after ten idle minutes while retaining the shared one-hour suspend policy."
+implementation = ["omarchy/hosts/maelle/setup.d/10-screensaver-timeout.sh"]
+watch = ["omarchy-settings:usr/share/omarchy/config/omarchy/shell.json", "omarchy:usr/share/omarchy/shell/*"]
+
+[[customizations]]
 id = "maelle-input-and-chatgpt"
 title = "Maelle Caps Lock and native ChatGPT bindings"
 kind = "preference"
