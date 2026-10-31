@@ -34,6 +34,18 @@ implementation = ["omarchy/install.d/10-shell.sh"]
 watch = ["omarchy:usr/share/omarchy/install/*shell*", "omarchy-settings:etc/skel/*"]
 
 [[customizations]]
+id = "shared-shell-plugins"
+title = "Shared Omarchy shell plugins"
+kind = "preference"
+scope = "shared"
+intent = "Install and enable Plugin Manager and Spaces on every Omarchy machine, with Spaces replacing the stock workspace widget."
+implementation = ["omarchy/install.d/35-shell-plugins.sh"]
+watch = [
+  "omarchy:usr/share/omarchy/bin/omarchy-plugin-*",
+  "omarchy:usr/share/omarchy/shell/*",
+]
+
+[[customizations]]
 id = "hypr-user-overlay"
 title = "Stable Hyprland user override layer"
 kind = "integration"
