@@ -1,5 +1,12 @@
 -- Gustave-only Hyprland settings.
 
+-- The Galaxy80 exposes two keyboard interfaces. Swap Alt and Super on both so
+-- the physical keyboard uses the preferred modifier order without affecting
+-- other keyboards or other machines.
+local galaxy80_kb_options = "compose:caps,shift:both_capslock_cancel,altwin:swap_alt_win"
+hl.device({ name = "galaxy80-2.4g", kb_options = galaxy80_kb_options })
+hl.device({ name = "galaxy80-2.4g-2", kb_options = galaxy80_kb_options })
+
 -- Kinesis 360 has MINUS and EQUAL swapped relative to a standard keyboard.
 hl.unbind("SUPER + code:20")
 hl.unbind("SUPER + code:21")

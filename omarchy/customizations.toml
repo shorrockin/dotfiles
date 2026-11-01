@@ -232,9 +232,13 @@ id = "gustave-input-and-launchers"
 title = "Gustave keyboard remaps and application launchers"
 kind = "hardware"
 scope = "gustave"
-intent = "Compensate for Kinesis key positions and provide machine-specific launch-or-focus shortcuts."
+intent = "Swap Alt and Super only on the Galaxy80, compensate for Kinesis key positions, and provide machine-specific launch-or-focus shortcuts."
 implementation = ["omarchy/hosts/gustave/config/hypr/host.lua"]
-watch = ["omarchy-settings:usr/share/omarchy/default/hypr/bindings/*", "omarchy-settings:usr/share/omarchy/default/hypr/helpers.lua"]
+watch = [
+  "omarchy-settings:usr/share/omarchy/default/hypr/input.lua",
+  "omarchy-settings:usr/share/omarchy/default/hypr/bindings/*",
+  "omarchy-settings:usr/share/omarchy/default/hypr/helpers.lua",
+]
 
 [[customizations]]
 id = "maelle-screensaver-timeout"

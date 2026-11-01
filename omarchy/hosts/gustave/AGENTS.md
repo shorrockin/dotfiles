@@ -19,6 +19,7 @@ live in the shared layer because Maelle uses them too.
 
 ## Hyprland
 
-`config/hypr/host.lua` contains the Kinesis 360 key remaps and Gustave's app
+`config/hypr/host.lua` swaps Alt and Super only on the Galaxy80's keyboard
+interfaces, and also contains the Kinesis 360 key remaps and Gustave's app
 shortcuts. Shared Steam rules and the suspend power button remain in
 `omarchy/config/hypr/overrides.lua`.
