@@ -77,6 +77,7 @@ cmd-ctrl-f = 'fullscreen'
 cmd-shift-b = 'balance-sizes'
 alt-f = 'layout floating tiling'
 cmd-l = 'exec-and-forget ~/.config/scripts/aerospace-dynamic-gaps.py --toggle-workspace'
+cmd-f12 = 'exec-and-forget cd /Users/cs/stripe/m1ddc && ./m1ddc display D96DDEC8-BFFC-4D5C-906A-9B5FC9E8EAC7 set input 17'
 
 # Focus movement
 cmd-left = 'focus left'
