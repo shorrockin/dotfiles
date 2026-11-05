@@ -228,6 +228,19 @@ implementation = ["omarchy/hosts/gustave/config/hypr/monitors.lua"]
 watch = ["omarchy-settings:usr/share/omarchy/config/hypr/monitors.lua", "omarchy-settings:usr/share/omarchy/default/hypr/envs.lua"]
 
 [[customizations]]
+id = "gustave-bambu-studio-flatpak"
+title = "Precompiled Bambu Studio on Gustave"
+kind = "integration"
+scope = "gustave"
+intent = "Install Bambu Studio from Flathub so Omarchy upgrades do not rebuild the application and its dependencies from source."
+implementation = ["omarchy/hosts/gustave/setup.d/30-bambu-studio-flatpak.sh"]
+watch = [
+  "omarchy:usr/share/omarchy/bin/omarchy-pkg-*",
+  "omarchy:usr/share/omarchy/install/omarchy-*.packages",
+  "omarchy:usr/share/omarchy/migrations/*",
+]
+
+[[customizations]]
 id = "gustave-input-and-launchers"
 title = "Gustave keyboard remaps and application launchers"
 kind = "hardware"
