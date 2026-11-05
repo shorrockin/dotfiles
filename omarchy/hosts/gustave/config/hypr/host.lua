@@ -1,9 +1,8 @@
 -- Gustave-only Hyprland settings.
 
--- The Galaxy80 exposes two keyboard interfaces. Swap Alt and Super on both so
--- the physical keyboard uses the preferred modifier order without affecting
--- other keyboards or other machines.
-local galaxy80_kb_options = "compose:caps,shift:both_capslock_cancel,altwin:swap_alt_win"
+-- The Galaxy80 exposes two keyboard interfaces. Make Caps Lock act as Escape
+-- and swap Alt and Super on both without affecting other keyboards or machines.
+local galaxy80_kb_options = "caps:escape,altwin:swap_alt_win"
 hl.device({ name = "galaxy80-2.4g", kb_options = galaxy80_kb_options })
 hl.device({ name = "galaxy80-2.4g-2", kb_options = galaxy80_kb_options })
 
@@ -53,3 +52,7 @@ o.bind("SUPER + ALT + B", "Browser", "omarchy-launch-or-focus brave omarchy-laun
 -- SUPER+ALT+G is stock "Move active window out of group".
 hl.unbind("SUPER + ALT + G")
 o.bind("SUPER + ALT + G", "Ghostty", { launch = "ghostty --gtk-single-instance=true", focus = "ghostty" })
+
+-- This LG stops listening on DisplayPort after it switches away, so this is
+-- intentionally a one-way shortcut; the active computer switches it back.
+o.bind("SUPER + F12", "Switch LG monitor input", "/usr/bin/ddcutil --mfg=GSM --model='LG ULTRAWIDE' --noverify setvcp 0x60 0x0F")
