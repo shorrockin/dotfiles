@@ -38,7 +38,9 @@ o.bind("SUPER + CTRL + SHIFT + code:20", "Expand window down a lot", hl.dsp.wind
 -- Gustave's launch-or-focus shortcuts.
 o.bind("SUPER + ALT + A", "ChatGPT", { launch = "chatgpt", focus = "^Chatgpt$" })
 o.bind("SUPER + ALT + T", "Steam", { launch = "steam", focus = "steam" })
-o.bind("SUPER + ALT + L", "Slack", { launch = "slack", focus = "slack" })
+-- Omarchy 4.5 added a backward layout cycle on Slack's shortcut.
+local bind_slack = o.rebind or o.bind
+bind_slack("SUPER + ALT + L", "Slack", { launch = "slack", focus = "slack" })
 o.bind("SUPER + ALT + W", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = true })
 o.bind("SUPER + ALT + Y", "YouTube", { webapp = "https://youtube.com/", focus = true })
 o.bind("SUPER + ALT + D", "Discord", { webapp = "https://discord.com/channels/@me", focus = true })

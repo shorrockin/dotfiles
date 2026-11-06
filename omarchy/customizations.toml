@@ -64,8 +64,13 @@ title = "Scrolling workspace layout"
 kind = "preference"
 scope = "shared"
 intent = "Use Hyprland's niri-like scrolling layout by default."
-implementation = ["omarchy/config/hypr/overrides.lua"]
-watch = ["omarchy-settings:usr/share/omarchy/default/hypr/looknfeel.lua", "omarchy-settings:usr/share/omarchy/default/hypr/workspace-layouts.lua"]
+implementation = ["omarchy/install.d/40-hypr-overrides.sh", "omarchy/config/hypr/overrides.lua"]
+watch = [
+  "omarchy:usr/bin/omarchy-hyprland-workspace-layout-default",
+  "omarchy-settings:usr/share/omarchy/default/hypr/looknfeel.lua",
+  "omarchy-settings:usr/share/omarchy/default/hypr/workspace-layouts.lua",
+  "omarchy-settings:usr/share/omarchy/default/hypr/workspace-modes.lua",
+]
 
 [[customizations]]
 id = "game-idle-inhibition"
@@ -245,7 +250,7 @@ id = "gustave-input-and-launchers"
 title = "Gustave keyboard remaps and application launchers"
 kind = "hardware"
 scope = "gustave"
-intent = "Map Caps Lock to Escape and swap Alt and Super only on the Galaxy80, compensate for Kinesis key positions, and provide machine-specific launch-or-focus shortcuts."
+intent = "Map Caps Lock to Escape and swap Alt and Super only on the Galaxy80, compensate for Kinesis key positions, and provide machine-specific launch-or-focus shortcuts, including Slack on Super+Alt+L in place of the backward layout cycle."
 implementation = ["omarchy/hosts/gustave/config/hypr/host.lua"]
 watch = [
   "omarchy-settings:usr/share/omarchy/default/hypr/input.lua",

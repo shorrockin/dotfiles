@@ -6,12 +6,10 @@
 -- as Omarchy's own local, untracked config — this is the one file from that
 -- directory that's actually version-controlled.
 
--- Use the niri-like side-scrolling layout by default on every workspace.
-hl.config({
-  general = {
-    layout = "scrolling",
-  },
-})
+-- Older Omarchy releases have no native saved default workspace layout.
+if not o.workspace_mode then
+  hl.config({ general = { layout = "scrolling" } })
+end
 
 -- Controller input (Steam Input) is read directly via evdev/uinput and never
 -- reaches Wayland, so Hyprland's idle timer keeps counting during gameplay

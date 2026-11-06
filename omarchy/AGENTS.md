@@ -12,7 +12,7 @@
   package-path watches to identify upgrade impact.
 - `install.d/`: bootstrap steps, each idempotent, reading `$DOTFILES_DIR`:
   - `00-packages.sh` (including `hypridle` for one-hour idle suspend), `10-shell.sh` (sets fish as default), `20-stow.sh`, `30-tmux-plugins.sh` (tpm), `35-shell-plugins.sh` (Plugin Manager and Spaces, replacing the stock workspace widget)
-  - `40-hypr-overrides.sh` — wires `require("hypr.overrides")` into the live `~/.config/hypr/hyprland.lua`, validates via `hyprctl` if running
+  - `40-hypr-overrides.sh` — wires `require("hypr.overrides")` into the live `~/.config/hypr/hyprland.lua`, sets Omarchy's native scrolling default where supported, and validates via `hyprctl` if running
   - `45-nas-mount.sh`, `46-nautilus-nas-bookmark.sh` — configures the Synology share used by both desktops
   - `47-disable-locking.sh` — keeps both desktop sessions password-free while leaving the screensaver enabled
   - `48-enable-idle-suspend.sh` — enables `hypridle` for suspend after one hour of inactivity
